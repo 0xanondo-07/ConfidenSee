@@ -1,0 +1,1753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ConfidenSee | AI Interview Preparation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<style>
+  /* Global Styles */
+  :root {
+    --primary: #00f0ff;
+    --primary-dark: #00c2ff;
+    --secondary: #7928ca;
+    --secondary-dark: #4a1e80;
+    --dark-bg: #0f0f1f;
+    --darker-bg: #0a0a17;
+    --text-light: #ffffff;
+    --text-gray: #a0a0b0;
+    --glass-light: rgba(255, 255, 255, 0.05);
+    --glass-dark: rgba(0, 0, 0, 0.2);
+    --blur: blur(20px);
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--darker-bg);
+    color: var(--text-light);
+    overflow-x: hidden;
+    line-height: 1.6;
+    margin:0; 
+    
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--darker-bg);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, var(--primary), var(--secondary));
+    border-radius: 10px;
+  }
+
+  /* Navigation */
+  .navbar {
+    position: fixed;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: var(--background);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid #47365e;
+    padding: 1.2rem 0;
+    transition: var(--transition);
+  }
+
+  .navbar.scrolled {
+    background: rgba(15, 15, 31, 0.8);
+    backdrop-filter: var(--blur);
+    padding: 0.8rem 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .logo {
+    display: flex;
+    margin-left: 5px;
+    font-weight: 700;
+  height: 40px;
+    
+    text-decoration: none;
+    font-size: 1.5rem;
+   
+    color: var(--text-light);
+  }
+.logo-slogan {
+  font-size: 12px;
+  color: #888;
+  margin-top: 5px;
+  margin-left: 20px ;
+}
+
+  .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2.5rem;
+    align-items: center;
+  }
+
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: rgba(15, 15, 31, 0.95);
+      backdrop-filter: var(--blur);
+      padding: 1rem 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 1000;
+    }
+
+    .nav-links.active {
+      display: flex;
+    }
+
+    .nav-links li {
+      width: 100%;
+      text-align: center;
+      padding: 0.8rem 0;
+    }
+
+    .mobile-menu-btn {
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 1px;
+      
+    }
+
+    .mobile-menu-btn .menu-line {
+      width: 25px;
+      height: 3px;
+      background: var(--text-light);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    .mobile-menu-btn.open .menu-line:nth-child(1) {
+      transform: rotate(45deg) translate(9px, 5px);
+    }
+
+    .mobile-menu-btn.open .menu-line:nth-child(2) {
+      opacity: 0;
+    }
+
+    .mobile-menu-btn.open .menu-line:nth-child(3) {
+      transform: rotate(-45deg) translate(9px, -5px);
+    }
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--text-light);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: var(--transition);
+    position: relative;
+  }
+
+  .nav-links a:not(.btn-nav):hover {
+    color: var(--primary);
+  }
+
+  .nav-links a:not(.btn-nav)::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: var(--transition);
+  }
+
+  .nav-links a:not(.btn-nav):hover::after {
+    width: 100%;
+  }
+
+  .btn-nav {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.6rem 1.5rem;
+    border-radius: 50px;
+    backdrop-filter: var(--blur);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: var(--transition);
+  }
+
+  .btn-nav:hover {
+    text-shadow: 0 0 20px rgb(0, 238, 255);
+    background: linear-gradient(135deg, rgba(255, 0, 0, 0.63), rgba(121, 40, 202, 0.438));
+     transform: translateY(-3px);
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+  }
+
+  .menu-line {
+    width: 25px;
+    height: 2px;
+    background: var(--text-light);
+    margin: 3px 0;
+    transition: var(--transition);
+  }
+
+  /* Hero Section */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 0 2rem;
+  }
+
+  .hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+
+  .gradient-circle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.5;
+  }
+
+  .circle-1 {
+    width: 500px;
+    height: 500px;
+    background: var(--secondary);
+    top: -250px;
+    left: -250px;
+    animation: pulse 15s infinite alternate;
+  }
+
+  .circle-2 {
+    width: 600px;
+    height: 600px;
+    background: var(--primary);
+    bottom: -300px;
+    right: -300px;
+    animation: pulse 18s infinite alternate-reverse;
+  }
+
+  .circle-3 {
+    width: 400px;
+    height: 400px;
+    background: rgba(121, 40, 202, 0.5);
+    top: 50%;
+    left: 70%;
+    animation: pulse 12s infinite alternate;
+  }
+
+  .grid-dots {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 30px 30px;
+    opacity: 0.3;
+  }
+
+  .hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 6rem 0 4rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(0, 240, 255, 0.1);
+    color: var(--primary);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    backdrop-filter: var(--blur);
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    animation: fadeIn 1s ease-out;
+  }
+
+  .hero-badge i {
+    margin-left: 8px;
+    font-size: 0.7rem;
+  }
+
+  .hero-title {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 1s ease-out;
+  }
+
+  .title-line {
+    display: block;
+  }
+
+  .hero-description {
+    font-size: 1.2rem;
+    color: var(--text-gray);
+    max-width: 600px;
+    margin: 0 auto 2.5rem;
+    animation: fadeUp 1s ease-out 0.2s forwards;
+    opacity: 0;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    animation: fadeUp 1s ease-out 0.4s forwards;
+    opacity: 0;
+  }
+
+  /* Glass Button with Neon Glow */
+  .btn-hero {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-light);
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    overflow: hidden;
+    backdrop-filter: var(--blur);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+    transition: var(--transition);
+    z-index: 1;
+  }
+
+  .btn-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(121, 40, 202, 0.2));
+    z-index: -1;
+    transition: var(--transition);
+  }
+
+  .btn-hero:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.4), 0 0 60px rgba(0, 240, 255, 0.2);
+  }
+
+  .btn-hero:hover::before {
+    opacity: 0.8;
+  }
+
+  .btn-hover-effect {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    opacity: 0;
+    transition: var(--transition);
+    z-index: -1;
+  }
+
+  .btn-hero:hover .btn-hover-effect {
+    opacity: 0.2;
+  }
+
+  .btn-glow {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: var(--primary);
+    border-radius: 50%;
+    filter: blur(15px);
+    animation: pulse 2s infinite alternate;
+    z-index: -2;
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    color: var(--text-light);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 1rem 1.5rem;
+    transition: var(--transition);
+  }
+
+  .btn-secondary i {
+    margin-right: 8px;
+    color: var(--primary);
+    font-size: 1.2rem;
+  }
+
+  .btn-secondary:hover {
+    color: var(--primary);
+  }
+
+  /* Ripple effect */
+  .ripple {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple 0.6s linear;
+  }
+
+  .hero-visual {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+  }
+
+  .floating-card {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: var(--blur);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .card-content {
+    text-align: center;
+  }
+
+  .card-content i {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .card-content h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .card-1 {
+    top: 25%;
+    left: 10%;
+  }
+
+  .card-2 {
+    top: 60%;
+    left: 15%;
+  }
+
+  .card-3 {
+    top: 40%;
+    right: 10%;
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: var(--text-gray);
+    font-size: 0.9rem;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--primary), transparent);
+    margin: 0 auto 0.5rem;
+  }
+
+  /* Sections */
+  .section {
+    padding: 6rem 2rem;
+    position: relative;
+  }
+
+  .section-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 4rem;
+  }
+
+  .section-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(13deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .section-header p {
+    color: var(--text-gray);
+    font-size: 1.1rem;
+  }
+
+  /* Feature Cards */
+  .feature-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: var(--blur);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .card.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    border-color: rgba(0, 240, 255, 0.2);
+  }
+
+  .card-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    font-size: 1.8rem;
+  }
+
+  .card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+
+  .card p {
+    color: var(--text-gray);
+  }
+
+  .card-hover {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: linear-gradient(135deg, rgba(0, 240, 255, 0.1), rgba(121, 40, 202, 0.1));
+    opacity: 0;
+    transition: var(--transition);
+    z-index: -1;
+  }
+
+  .card:hover .card-hover {
+    opacity: 1;
+  }
+
+  /* Pricing Section */
+  .pricing {
+    background: var(--dark-bg);
+  }
+
+  .pricing-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .pricing-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: var(--blur);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .pricing-card.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .pricing-card.featured {
+    border-color: rgba(0, 240, 255, 0.3);
+    transform: scale(1.05);
+    z-index: 2;
+  }
+
+  .pricing-card.featured:hover {
+    transform: scale(1.08) translateY(-10px);
+  }
+
+  .pricing-card:hover {
+    transform: translateY(-10px);
+    border-color: rgba(0, 240, 255, 0.2);
+  }
+.mobile-menu-btn {
+  display: none;
+}
+  .popular-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.5rem 1.5rem;
+    border-bottom-left-radius: 15px;
+    border-top-right-radius: 18px;
+  }
+
+  .pricing-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .pricing-header h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .price-desc {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+  }
+
+  .features-list {
+    list-style: none;
+    margin-bottom: 2rem;
+  }
+
+  .features-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .features-list i {
+    margin-right: 0.8rem;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+  }
+
+  .features-list i.fa-check {
+    background: rgba(0, 240, 255, 0.1);
+    color: var(--primary);
+  }
+
+  .features-list i.fa-times {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-gray);
+  }
+
+  .btn-pricing {
+    display: block;
+    text-align: center;
+    padding: 1rem;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: var(--transition);
+  }
+
+  .btn-pricing:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 240, 255, 0.3);
+  }
+
+  /* Footer */
+  footer {
+    background: var(--darker-bg);
+    padding: 4rem 2rem 2rem;
+  }
+
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 3rem;
+  }
+
+  .footer-brand p {
+    color: var(--text-gray);
+    margin: 1rem 0 1.5rem;
+    max-width: 300px;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-light);
+    text-decoration: none;
+    transition: var(--transition);
+  }
+
+  .social-links a:hover {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    transform: translateY(-3px);
+  }
+
+  .footer-links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .link-group h4 {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+  }
+
+  .link-group h4::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+  }
+
+  .link-group a {
+    display: block;
+    color: var(--text-gray);
+    text-decoration: none;
+    margin-bottom: 0.8rem;
+    transition: var(--transition);
+  }
+
+  .link-group a:hover {
+    color: var(--primary);
+    transform: translateX(5px);
+  }
+
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 3rem auto 0;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center;
+    color: var(--text-gray);
+    font-size: 0.9rem;
+  }
+
+  /* Animations */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-15px);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pulse {
+    0% {
+      opacity: 0.5;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0.8;
+      transform: scale(1.1);
+    }
+  }
+
+  @keyframes ripple {
+    to {
+      transform: scale(2.5);
+      opacity: 0;
+    }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 992px) {
+    .hero-title {
+      font-size: 2.8rem;
+    }
+    
+    .footer-content {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    .footer-links {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none;
+    }
+    
+    .mobile-menu-btn {
+      display: flex;
+    }
+    
+    .hero-title {
+      font-size: 2.3rem;
+    }
+    
+    .hero-actions {
+      flex-direction: column;
+    }
+    
+    .floating-card {
+      display: none;
+    }
+    
+    .feature-cards,
+    .pricing-cards {
+      grid-template-columns: 1fr;
+    }
+    
+    .pricing-card.featured {
+      transform: scale(1);
+    }
+    
+    .pricing-card.featured:hover {
+      transform: translateY(-10px);
+    }
+  }
+
+  @media (max-width: 576px) {
+    .hero-title {
+      font-size: 2rem;
+    }
+    
+    .section-header h2 {
+      font-size: 2rem;
+    }
+    
+    .footer-links {
+      grid-template-columns: 1fr;
+    }
+  }
+ 
+  /* Rate Section Styles */
+  .rate-section {
+    padding: 4rem 2rem;
+    background: var(--dark-bg);
+    text-align: center;
+  }
+
+  .rate-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .rate-item {
+   
+    position: relative;
+    
+  }
+
+  .rate-value {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .rate-label {
+    color: var(--text-gray);
+    font-size: 1.1rem;
+  }
+
+  /* Testimonials Section */
+  .testimonials-section {
+    padding: 6rem 2rem;
+    background: var(--darker-bg);
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .testimonial-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: var(--blur);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .testimonial-card.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .testimonial-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    border-color: rgba(0, 240, 255, 0.2);
+  }
+
+  .stars {
+    color: #FFD700;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+
+  .testimonial-text {
+    color: var(--text-light);
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+  }
+
+  .author-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    font-weight: 600;
+    font-size: 1.2rem;
+  }
+
+  .author-info h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .author-info p {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+  }
+  .card {
+  perspective: 1000px;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 200px; /* adjust */
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+}
+
+.card:hover .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+.card-front {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.card-back {
+   background: linear-gradient(135deg, var(--primary), var(--secondary));
+  transform: rotateY(180deg);
+}
+.card-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+  .wrap{width:min(1100px,92%); padding:56px 20px; position:relative}
+
+  /* scanlines & flicker overlay (VHS vibe) */
+  .vhs-overlay::before,
+  .vhs-overlay::after{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:2;
+  }
+  .vhs-overlay::before{
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.04) 0px,
+      rgba(255,255,255,0.04) 1px,
+      rgba(0,0,0,0.04) 2px,
+      rgba(0,0,0,0.04) 3px
+    );
+    mix-blend-mode: overlay;
+    opacity:.35; animation: drift 9s linear infinite;
+  }
+  .vhs-overlay::after{
+    background: radial-gradient(80% 50% at 50% 0%,
+      rgba(255,255,255,.10), rgba(0,0,0,.0) 60%)
+      ,linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.06));
+    animation: flicker 2.2s steps(3,end) infinite;
+    opacity:.55;
+  }
+  @keyframes drift { to { transform: translateY(3px); } }
+  @keyframes flicker {
+    0%,19%,23%,100% { opacity:.55 }
+    20% { opacity:.35 }
+    22% { opacity:.75 }
+  }
+
+  /* metrics grid */
+  .metrics1 {
+  display: grid;
+  grid-template-columns: auto auto auto; /* 3 auto-sized columns */
+  gap: 22px;
+  justify-content: center;  /* center the whole row */
+  margin: 0 auto;
+  text-align: center;
+}
+  .card1{
+    position:relative; border-radius:18px; padding:28px 26px;
+    background: linear-gradient(180deg, #121b28, #0e1520);
+    box-shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);
+    overflow:hidden; isolation:isolate;
+    transition: transform .25s ease, box-shadow .25s ease;
+   max-width: 280px;         /* keeps consistent card width */
+  margin: 0 auto;           /* ensures each card is centered */
+  justify-content: center;
+  }
+  .card1:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(0,0,0,.45), 0 0 0 1px rgba(57,198,255,.15) inset;
+  }
+  .title1{font-size:14px; letter-spacing:.12em; color:var(--soft); text-transform:uppercase}
+  .value1{font-size:48px; font-weight:800; line-height:1.05; margin:4px 0 8px}
+  .sub1{font-size:15px; color:#b6c4d6}
+
+  /* glitch effect */
+  .glitch1{
+    position:relative; display:inline-block;
+    filter: contrast(1.05) saturate(1.1);
+    text-shadow: 0 0 0 rgba(255,255,255,.9);
+  }
+  .glitch1::before,
+  .glitch1::after{
+    content: attr(data-text);
+    position:absolute; left:0; top:0; width:100%; height:100%;
+    overflow:hidden; pointer-events:none; mix-blend-mode:screen;
+  }
+  .glitch1::before{ color:#ff2a6d; transform: translate(1.5px, 0); clip-path: inset(0 0 60% 0); opacity:.75 }
+  .glitch1::after { color:#2af5ff; transform: translate(-1.5px, 0); clip-path: inset(40% 0 0 0); opacity:.75 }
+
+  @keyframes jitter {
+    0%   { transform: translate(0,0) }
+    20%  { transform: translate(-0.6px, 0.4px) }
+    40%  { transform: translate(0.8px, -0.6px) }
+    60%  { transform: translate(-0.4px, 0.8px) }
+    80%  { transform: translate(0.6px, -0.4px) }
+    100% { transform: translate(0,0) }
+  }
+  @keyframes slice {
+    0%   { clip-path: inset(0 0 75% 0) }
+    50%  { clip-path: inset(30% 0 20% 0) }
+    100% { clip-path: inset(0 0 75% 0) }
+  }
+  .glitch1, .glitch1::before, .glitch1::after { animation: jitter 1.2s infinite steps(2,end) }
+  .glitch1::before { animation: jitter .9s infinite steps(2,end), slice 1.6s infinite linear }
+  .glitch1::after  { animation: jitter 1.1s infinite steps(2,end), slice 1.8s infinite reverse linear }
+
+  .card1:hover .glitch1{ animation-duration:.6s }
+  .card1:hover .glitch1::before{ transform: translate(2.5px,0) }
+  .card1:hover .glitch1::after { transform: translate(-2.5px,0) }
+
+  .grain{
+    position:fixed; inset:-20vmax; z-index:1; pointer-events:none; opacity:.20; mix-blend-mode:soft-light;
+  }
+  @media (max-width:900px){ .metrics1{ grid-template-columns:1fr; } .value1{ font-size:42px } }
+</style>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <div class="logo-icon">
+           <img src="img/logo.png" alt="Logo" class="logo">
+        </div>
+        <span>ConfidenSee</span>
+      </div>
+
+      <!-- Nav Links -->
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        
+        <li><a href="reg.html" >Sign In</a></li>
+        <li><a href="reg.html" class="btn-nav">Get Started</a></li>
+      </ul>
+
+      <!-- Mobile Menu Button -->
+      <div class="mobile-menu-btn">
+        <div class="menu-line"></div>
+        <div class="menu-line"></div>
+        <div class="menu-line"></div>
+      </div>
+      
+    </div>
+    
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-background">
+      <div class="gradient-circle circle-1"></div>
+      <div class="gradient-circle circle-2"></div>
+      <div class="gradient-circle circle-3"></div>
+      <div class="grid-dots"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span>AI-Powered Interview Platform</span>
+      </div>
+      <h1 class="hero-title">
+        <span class="title-line">Master Your Next Interview</span>
+      </h1>
+      <p class="hero-description">Practice with AI-generated questions, get real-time feedback, and track your progress.<br>ConfidenSee helps you build confidence for your dream job interview.</p>
+      <div class="hero-actions">
+        <a href="reg.html" class="btn-hero">
+          <span>Start Practicing Free</span>
+          <div class="btn-hover-effect"></div>
+          <div class="btn-glow"></div>
+        </a>
+        
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="floating-card card-1">
+        <div class="card-content">
+          <i class="fas fa-microphone"></i>
+          <h4>Voice Analysis</h4>
+        </div>
+      </div>
+      <div class="floating-card card-2">
+        <div class="card-content">
+          <i class="fas fa-chart-line"></i>
+          <h4>Performance Metrics</h4>
+        </div>
+      </div>
+      <div class="floating-card card-3">
+        <div class="card-content">
+          <i class="fas fa-robot"></i>
+          <h4>AI Feedback</h4>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <div class="scroll-line"></div>
+      <p>Scroll to explore</p>
+    </div>
+  </section>
+
+  <!-- Rate Section (Improved) -->
+ <section id="rate" class="rate-section">
+   <div class="wrap vhs-overlay">
+    <h1 style="margin:0 0 18px;font-size:28px;font-weight:800;letter-spacing:.02em">
+      Performance <span class="glitch1" data-text="Metrics">Metrics</span>
+    </h1>
+
+    <div class="metrics1">
+      <div class="card1">
+        <div class="title1">Questions Generated</div>
+        <div class="value1 glitch1" data-text="10,000+">10,000+</div>
+        <div class="sub1">Auto-crafted interview questions</div>
+      </div>
+
+      <div class="card1">
+        <div class="title1">Success Rate</div>
+        <div class="value1 glitch1" data-text="95%">95%</div>
+        <div class="sub1">User-reported improvement</div>
+      </div>
+
+      <div class="card1">
+        <div class="title1">Happy Users</div>
+        <div class="value1 glitch1" data-text="5,000+">5,000+</div>
+        <div class="sub1">and counting…</div>
+      </div>
+    </div>
+  </div>
+
+  <svg class="grain" width="120%" height="120%">
+    <filter id="noiseFilter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="3">
+        <animate attributeName="baseFrequency" dur="3s" values="0.7;0.9;0.8;0.75;0.7" repeatCount="indefinite"/>
+      </feTurbulence>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues="0 0.6"/>
+      </feComponentTransfer>
+    </filter>
+    <rect x="-10%" y="-10%" width="120%" height="120%" filter="url(#noiseFilter)"></rect>
+  </svg>
+
+</section>
+  <!-- Features Section -->
+ <section id="features" class="section features">
+    <div class="section-header">
+      <h2>Everything You Need to Succeed</h2>
+      <p>Our comprehensive platform provides all the tools you need to excel in your next interview</p>
+    </div>
+    <div class="feature-cards">
+<div class="card">
+  <div class="card-inner">
+    <div class="card-front">
+      <div class="card-icon">
+        <i class="fas fa-brain"></i>
+      </div>
+      <h3>AI-Powered Questions</h3>
+    </div>
+    <div class="card-back">
+      <p>Intelligent question generation tailored to your industry and experience level</p>
+    </div>
+  </div>
+</div>
+      <div class="card">
+  <div class="card-inner">
+    <div class="card-front">
+      <div class="card-icon">
+        <i class="fas fa-brain"></i>
+      </div>
+      <h3>AI-Powered Questions</h3>
+    </div>
+    <div class="card-back">
+      <p>Intelligent question generation tailored to your industry and experience level</p>
+    </div>
+  </div>
+</div>
+      <div class="card">
+  <div class="card-inner">
+    <div class="card-front">
+      <div class="card-icon">
+        <i class="fas fa-brain"></i>
+      </div>
+      <h3>AI-Powered Questions</h3>
+    </div>
+    <div class="card-back">
+      <p>Intelligent question generation tailored to your industry and experience level</p>
+    </div>
+  </div>
+</div>
+      <div class="card">
+  <div class="card-inner">
+    <div class="card-front">
+      <div class="card-icon">
+        <i class="fas fa-brain"></i>
+      </div>
+      <h3>AI-Powered Questions</h3>
+    </div>
+    <div class="card-back">
+      <p>Intelligent question generation tailored to your industry and experience level</p>
+    </div>
+  </div>
+</div>
+     <div class="card">
+  <div class="card-inner">
+    <div class="card-front">
+      <div class="card-icon">
+        <i class="fas fa-brain"></i>
+      </div>
+      <h3>AI-Powered Questions</h3>
+    </div>
+    <div class="card-back">
+      <p>Intelligent question generation tailored to your industry and experience level</p>
+    </div>
+  </div>
+</div>
+     <div class="card">
+  <div class="card-inner">
+    <div class="card-front">
+      <div class="card-icon">
+        <i class="fas fa-brain"></i>
+      </div>
+      <h3>AI-Powered Questions</h3>
+    </div>
+    <div class="card-back">
+      <p>Intelligent question generation tailored to your industry and experience level</p>
+    </div>
+  </div>
+</div>
+    </div>
+  </section>
+
+
+  <!-- Testimonials Section (Added) -->
+  <section id="testimonials" class="testimonials-section">
+    <div class="section-header">
+      <h2>What Our Users Say</h2>
+      <p>Hear from professionals who landed their dream jobs with ConfidenSee</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="stars">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+        </div>
+        <p class="testimonial-text">"ConfidenSee completely transformed my interview preparation. The AI feedback was incredibly accurate and helped me identify my weak spots. I landed my dream job at Google thanks to this platform!"</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">U1</div>
+          <div class="author-info">
+            <h4>User 1</h4>
+            <p>Software Engineer at Google</p>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+        </div>
+        <p class="testimonial-text">"The personalized questions and real-time feedback were game-changers. I went from nervous and unprepared to confident and ready. I aced 3 interviews in a row and got multiple offers!"</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">U2</div>
+          <div class="author-info">
+            <h4>User 2</h4>
+            <p>Product Manager at Amazon</p>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+        </div>
+        <p class="testimonial-text">"As someone who struggled with interview anxiety, ConfidenSee gave me the practice and confidence I needed. The performance analytics helped me track my progress. Highly recommend to anyone job hunting!"</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">U3</div>
+          <div class="author-info">
+            <h4>User 3</h4>
+            <p>Data Scientist at Netflix</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+   <section id="pricing" class="section pricing">
+    <div class="section-header">
+      <h2>Choose Your Plan</h2>
+      <p>Flexible options designed for every stage of your career journey</p>
+    </div>
+    <div class="pricing-cards">
+      <div class="pricing-card">
+        <div class="pricing-header">
+          <h3>Basic Pack</h3>
+          <div class="price">৳200</div>
+          <p class="price-desc">Perfect for getting started</p>
+        </div>
+        <ul class="features-list">
+          <li><i class="fas fa-check"></i> 10 hours of interview practice</li>
+          <li><i class="fas fa-check"></i> AI generated questions</li>
+          <li><i class="fas fa-check"></i> Basic AI feedback and scoring</li>
+          <li><i class="fas fa-check"></i> Voice + text hybrid mode</li>
+          <li><i class="fas fa-check"></i> Basic performance tracking</li>
+          <li><i class="fas fa-check"></i> Use anytime within 30 days</li>
+          <li><i class="fas fa-check"></i> Email support</li>
+        </ul>
+        <a href="#" class="btn-pricing">Get Started</a>
+        <div class="card-hover"></div>
+      </div>
+      <div class="pricing-card featured">
+        <div class="popular-badge">Most Popular</div>
+        <div class="pricing-header">
+          <h3>Standard Pack</h3>
+          <div class="price">৳400</div>
+          <p class="price-desc">Ideal for serious candidates</p>
+        </div>
+        <ul class="features-list">
+          <li><i class="fas fa-check"></i> 20 hours of interview practice</li>
+          <li><i class="fas fa-check"></i> AI generated questions</li>
+          <li><i class="fas fa-check"></i> Advanced AI feedback with insights</li>
+          <li><i class="fas fa-check"></i> Voice + text hybrid mode</li>
+          <li><i class="fas fa-check"></i> Detailed performance analytics</li>
+          <li><i class="fas fa-check"></i> Progress tracking & recommendations</li>
+          <li><i class="fas fa-check"></i> Use anytime within 30 days</li>
+          <li><i class="fas fa-check"></i> Priority email support</li>
+          <li><i class="fas fa-check"></i> Offline simulation mode</li>
+        </ul>
+        <a href="#" class="btn-pricing">Get Started</a>
+        <div class="card-hover"></div>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-header">
+          <h3>Premium Pack</h3>
+          <div class="price">৳600</div>
+          <p class="price-desc">For comprehensive preparation</p>
+        </div>
+        <ul class="features-list">
+          <li><i class="fas fa-check"></i> 30 hours of interview practice</li>
+          <li><i class="fas fa-check"></i> AI generated questions</li>
+          <li><i class="fas fa-check"></i> Advanced AI with personalized learning</li>
+          <li><i class="fas fa-check"></i> Voice + text hybrid mode</li>
+          <li><i class="fas fa-check"></i> Comprehensive analytics dashboard</li>
+          <li><i class="fas fa-check"></i> Custom question creation</li>
+          <li><i class="fas fa-check"></i> Use anytime within 30 days</li>
+          <li><i class="fas fa-check"></i> Priority support + live chat</li>
+          <li><i class="fas fa-check"></i> Offline simulation mode</li>
+          <li><i class="fas fa-check"></i> Interview scheduling assistant</li>
+          <li><i class="fas fa-check"></i> Export performance reports</li>
+        </ul>
+        <a href="#" class="btn-pricing">Get Started</a>
+        <div class="card-hover"></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <div class="logo">
+          
+          <span>ConfidenSee</span>
+        </div>
+        <p>Master your interview skills with AI-powered practice and feedback.</p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <div class="link-group">
+          <h4>Product</h4>
+          <a href="#">Features</a>
+          <a href="#">Pricing</a>
+          <a href="#">Use Cases</a>
+          <a href="#">Testimonials</a>
+        </div>
+        <div class="link-group">
+          <h4>Resources</h4>
+          <a href="#">Blog</a>
+          <a href="#">Interview Tips</a>
+          <a href="#">Help Center</a>
+          <a href="#">Tutorials</a>
+        </div>
+        <div class="link-group">
+          <h4>Company</h4>
+          <a href="#">About Us</a>
+          <a href="#">Careers</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; ConfidenSee. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Mobile menu toggle
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const navLinks = document.querySelector('.nav-links');
+
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileMenuBtn.classList.toggle('open');
+        navLinks.classList.toggle('active');
+    });
+
+    // Navbar scroll effect
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    // Floating animation for hero elements
+    const floatingCards = document.querySelectorAll('.floating-card');
+    floatingCards.forEach((card, index) => {
+        card.style.animation = `float 6s ease-in-out ${index * 0.5}s infinite`;
+    });
+
+    // Intersection Observer for scroll animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in');
+            }
+        });
+    }, observerOptions);
+
+    // Observe all relevant elements
+    document.querySelectorAll('.section, .card, .pricing-card, .testimonial-card').forEach(el => {
+        observer.observe(el);
+    });
+
+    // Parallax effect for hero background
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const parallaxElements = document.querySelectorAll('.gradient-circle');
+        parallaxElements.forEach(el => {
+            const speed = parseFloat(el.getAttribute('data-speed')) || 0.5;
+            el.style.transform = `translateY(${scrolled * speed}px)`;
+        });
+    });
+
+    // Ripple effect for buttons
+    const buttons = document.querySelectorAll('.btn-hero, .btn-pricing');
+    buttons.forEach(btn => {
+        ['mouseenter', 'mousedown', 'click'].forEach(evt => {
+            btn.addEventListener(evt, createRipple);
+        });
+    });
+
+    function createRipple(e) {
+        const btn = e.currentTarget;
+        const circle = document.createElement('span');
+        circle.classList.add('ripple');
+
+        const rect = btn.getBoundingClientRect();
+        const diameter = Math.max(btn.clientWidth, btn.clientHeight);
+        const radius = diameter / 2;
+
+        let x = e.clientX - rect.left - radius;
+        let y = e.clientY - rect.top - radius;
+
+        // For click event, use slightly different behavior
+        if (e.type === 'click') {
+            x = e.clientX - rect.left;
+            y = e.clientY - rect.top;
+        }
+
+        circle.style.width = circle.style.height = `${diameter}px`;
+        circle.style.left = `${x}px`;
+        circle.style.top = `${y}px`;
+
+        btn.appendChild(circle);
+
+        circle.addEventListener('animationend', () => {
+            circle.remove();
+        });
+    }
+});
+const counters = document.querySelectorAll('.counter');
+counters.forEach(counter => {
+  const update = () => {
+    const target = +counter.getAttribute('data-target');
+    const count = +counter.innerText;
+    const speed = 200; // animation speed
+
+    if(count < target) {
+      counter.innerText = count + Math.ceil(target / speed);
+      setTimeout(update, 20);
+    } else {
+      counter.innerText = target + (counter.dataset.target.includes("%") ? "%" : "+");
+    }
+  }
+  update();
+});
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('click', () => {
+    card.querySelector('.card-inner').classList.toggle('flipped');
+  });
+});
+// Optional: tiny random “glitch burst” to spike intensity occasionally
+  const bursts = () => {
+    const els = document.querySelectorAll('.glitch');
+    const el = els[Math.floor(Math.random()*els.length)];
+    el.style.animationDuration = '.35s';
+    setTimeout(()=>{ el.style.animationDuration = '1.2s'; }, 300);
+  };
+  setInterval(bursts, 2500);
+
+  // (Optional) Counter-up feel without heavy JS libraries
+  document.querySelectorAll('.card .value').forEach(v=>{
+    const text = v.textContent.trim();
+    const target = parseInt(text.replace(/\D/g,''),10);
+    if(Number.isFinite(target)){
+      let n = 0;
+      const step = Math.ceil(target/120);
+      const tick = () => {
+        n = Math.min(target, n + step);
+        v.textContent = text.includes('%') ? n+'%' : (n.toLocaleString()) + (text.includes('+')?'+':'');
+        if(n<target) requestAnimationFrame(tick);
+        else v.setAttribute('data-text', v.textContent);
+      };
+      tick();
+    }
+  });
+   document.querySelectorAll('.card1 .value1').forEach(v=>{
+    const text = v.textContent.trim();
+    const target = parseInt(text.replace(/\D/g,''),10);
+    if(Number.isFinite(target)){
+      let n = 0;
+      const step = Math.ceil(target/120);
+      const tick = () => {
+        n = Math.min(target, n + step);
+        v.textContent = text.includes('%') ? n+'%' : (n.toLocaleString()) + (text.includes('+')?'+':'');
+        if(n<target) requestAnimationFrame(tick);
+        else v.setAttribute('data-text', v.textContent);
+      };
+      tick();
+    }
+  });
+</script>
+
+</body>
+</html>

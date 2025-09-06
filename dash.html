@@ -1,0 +1,2789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | ConfidenSee</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Global Styles */
+    :root {
+      --primary: #00f0ff;
+      --primary-dark: #00c2ff;
+      --secondary: #7928ca;
+      --secondary-dark: #4a1e80;
+      --dark-bg: #0f0f1f;
+      --darker-bg: #0a0a17;
+      --text-light: #ffffff;
+      --text-gray: #a0a0b0;
+      --glass-light: rgba(255, 255, 255, 0.05);
+      --glass-dark: rgba(0, 0, 0, 0.2);
+      --blur: blur(20px);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--darker-bg);
+      color: var(--text-light);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--darker-bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(to bottom, var(--primary), var(--secondary));
+      border-radius: 10px;
+    }
+
+    /* Dashboard Container */
+    .dashboard-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: 280px;
+      background: rgba(15, 15, 31, 0.8);
+      backdrop-filter: var(--blur);
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      transition: var(--transition);
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--primary);
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sidebar-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--text-gray);
+    }
+
+    .user-profile {
+      padding: 24px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .avatar {
+      position: relative;
+    }
+
+    .avatar img {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .status-indicator {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 14px;
+      height: 14px;
+      background: var(--primary);
+      border: 2px solid var(--dark-bg);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--primary);
+    }
+
+    .user-info h3 {
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .user-info p {
+      font-size: 14px;
+      color: var(--text-gray);
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 20px 0;
+    }
+
+    .nav-item {
+      list-style: none;
+      margin-bottom: 4px;
+    }
+
+    .nav-item a {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      text-decoration: none;
+      color: var(--text-light);
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .nav-item a i {
+      margin-right: 12px;
+      font-size: 18px;
+      color: var(--text-gray);
+      transition: var(--transition);
+    }
+
+    .nav-item.active a,
+    .nav-item a:hover {
+      background: rgba(0, 240, 255, 0.1);
+      color: var(--primary);
+    }
+
+    .nav-item.active a i,
+    .nav-item a:hover i {
+      color: var(--primary);
+    }
+
+    .upgrade-card {
+      margin: 20px;
+      padding: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 12px;
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .upgrade-card h4 {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .upgrade-card p {
+      font-size: 14px;
+      opacity: 0.9;
+      margin-bottom: 16px;
+    }
+
+    .upgrade-btn {
+      width: 100%;
+      padding: 10px;
+      background: white;
+      color: var(--primary);
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .upgrade-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Main Content Styles */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background: var(--dark-bg);
+    }
+
+    .dashboard-header {
+      background: rgba(15, 15, 31, 0.8);
+      backdrop-filter: var(--blur);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 10;
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--text-gray);
+    }
+
+    .search-bar {
+      flex: 1;
+      position: relative;
+      max-width: 400px;
+    }
+
+    .search-bar i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-gray);
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 12px 16px 12px 44px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      font-size: 14px;
+      transition: var(--transition);
+      color: var(--text-light);
+    }
+
+    .search-bar input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.15);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .notification-btn,
+    .profile-btn {
+      position: relative;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-gray);
+      transition: var(--transition);
+    }
+
+    .notification-btn:hover,
+    .profile-btn:hover {
+      color: var(--primary);
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      width: 18px;
+      height: 18px;
+      background: var(--primary);
+      color: white;
+      font-size: 10px;
+      font-weight: 600;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .profile-btn img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 99;
+    }
+
+    .dashboard-content {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+    }
+
+    .content-section {
+      display: none;
+    }
+
+    .content-section.active {
+      display: block;
+    }
+
+    /* Welcome Section */
+    .welcome-section {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: var(--blur);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .welcome-content h1 {
+      font-size: 24px;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .welcome-content p {
+      color: var(--text-gray);
+    }
+
+    .cta-button {
+      padding: 12px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(121, 40, 202, 0.2));
+      z-index: -1;
+      transition: var(--transition);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 240, 255, 0.3);
+    }
+
+    .cta-button:hover::before {
+      opacity: 0.8;
+    }
+
+    /* Stats Section */
+    .stats-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: var(--blur);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: var(--transition);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      border-color: rgba(0, 240, 255, 0.2);
+    }
+
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(0, 240, 255, 0.1);
+      color: var(--primary);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .stat-info h3 {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .stat-info p {
+      font-size: 14px;
+      color: var(--text-gray);
+    }
+
+    .stat-trend {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .stat-trend.up {
+      color: var(--primary);
+    }
+
+    .stat-trend.down {
+      color: #ff4757;
+    }
+
+    /* Sessions Section */
+    .sessions-section,
+    .analytics-section,
+    .interviews-section {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: var(--blur);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .section-header h2 {
+      font-size: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .view-all {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14px;
+      transition: var(--transition);
+    }
+
+    .view-all:hover {
+      text-decoration: underline;
+    }
+
+    .sessions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .session-card {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      padding: 20px;
+      transition: var(--transition);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .session-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      border-color: rgba(0, 240, 255, 0.2);
+    }
+
+    .session-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .session-header h3 {
+      font-size: 16px;
+    }
+
+    .session-score {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    .session-details p {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--text-gray);
+      margin-bottom: 8px;
+    }
+
+    .session-progress {
+      margin: 16px 0;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 4px;
+    }
+
+    .session-action-btn {
+      width: 100%;
+      padding: 10px;
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .session-action-btn:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* Analytics Section */
+    .analytics-section {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+    }
+
+    .analytics-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: var(--blur);
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .chart-container {
+      margin-top: 20px;
+    }
+
+    .chart-placeholder {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 16px;
+    }
+
+    .chart-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      height: 140px;
+      margin-bottom: 16px;
+    }
+
+    .bar {
+      flex: 1;
+      background: linear-gradient(to top, var(--primary), var(--secondary));
+      border-radius: 4px 4px 0 0;
+      transition: var(--transition);
+    }
+
+    .bar:hover {
+      opacity: 0.8;
+    }
+
+    .chart-labels {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .chart-labels span {
+      font-size: 12px;
+      color: var(--text-gray);
+    }
+
+    .skills-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .skill-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .skill-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .skill-info h4 {
+      font-size: 14px;
+    }
+
+    .skill-info span {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    /* Interviews Section */
+    .interviews-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .interview-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      transition: var(--transition);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .interview-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      border-color: rgba(0, 240, 255, 0.2);
+    }
+
+    .date-badge {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .date-badge .day {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .date-badge .month {
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .interview-details {
+      flex: 1;
+    }
+
+    .interview-details h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .interview-details p {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--text-gray);
+      margin-bottom: 4px;
+    }
+
+    .interview-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .action-btn {
+      padding: 8px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: transparent;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .action-btn.prepare {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border-color: transparent;
+    }
+
+    .action-btn.prepare:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 240, 255, 0.3);
+    }
+
+    .action-btn.details:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Practice Sessions Section */
+    .practice-filters {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .filter-group label {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .filter-group select {
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      font-size: 14px;
+      color: var(--text-light);
+    }
+
+    .search-filter {
+      position: relative;
+      align-self: flex-end;
+    }
+
+    .search-filter i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-gray);
+    }
+
+    .search-filter input {
+      padding: 10px 12px 10px 40px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      font-size: 14px;
+      width: 250px;
+      color: var(--text-light);
+    }
+
+    .sessions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .session-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: var(--transition);
+    }
+
+    .session-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      border-color: rgba(0, 240, 255, 0.2);
+    }
+
+    .session-type {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      min-width: 60px;
+    }
+
+    .session-type i {
+      font-size: 24px;
+      color: var(--primary);
+    }
+
+    .session-type span {
+      font-size: 12px;
+      color: var(--text-gray);
+    }
+
+    .session-details {
+      flex: 1;
+    }
+
+    .session-details h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .session-meta {
+      display: flex;
+      gap: 16px;
+    }
+
+    .session-meta span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 14px;
+      color: var(--text-gray);
+    }
+
+    .session-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-outline {
+      padding: 8px 16px;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-light);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-icon {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: var(--transition);
+      color: var(--text-light);
+    }
+
+    .btn-icon:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .pagination-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: var(--transition);
+      color: var(--text-light);
+    }
+
+    .pagination-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .pagination-page {
+      font-size: 14px;
+      color: var(--text-gray);
+    }
+
+    /* Analytics Section Specific Styles */
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .analytics-card.large {
+      grid-column: 1 / -1;
+    }
+
+    .analytics-card.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .card-header h3 {
+      font-size: 18px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .line-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      height: 140px;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .chart-line {
+      flex: 1;
+      background: linear-gradient(to top, var(--primary), var(--secondary));
+      border-radius: 4px 4px 0 0;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .chart-line:hover {
+      opacity: 0.8;
+    }
+
+    .pie-chart {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: conic-gradient(
+        var(--primary) 0% 60%,
+        var(--secondary) 60% 85%,
+        #ffa502 85% 95%,
+        #ff4757 95% 100%
+      );
+      position: relative;
+      margin: 0 auto;
+    }
+
+    .pie-center {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      background: var(--dark-bg);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .pie-labels {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .pie-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    .color-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .stats-overview {
+      display: flex;
+      justify-content: space-around;
+      text-align: center;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: var(--text-gray);
+    }
+
+    .improvement-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .improvement-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .improvement-label {
+      font-size: 14px;
+    }
+
+    .improvement-progress {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .improvement-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .skills-comparison {
+      display: flex;
+      gap: 40px;
+    }
+
+    .skills-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-width: 180px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    .line-color {
+      width: 16px;
+      height: 4px;
+      border-radius: 2px;
+    }
+
+    .comparison-chart {
+      flex: 1;
+      position: relative;
+      height: 200px;
+    }
+
+    .chart-grid {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .grid-line {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .chart-lines {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 30px;
+      display: flex;
+      align-items: flex-end;
+      gap: 15%;
+      padding: 0 5%;
+    }
+
+    .comparison-line {
+      width: 10px;
+      border-radius: 4px 4px 0 0;
+      transition: var(--transition);
+    }
+
+    .comparison-line:hover {
+      opacity: 0.8;
+    }
+
+    .chart-axis {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-around;
+      font-size: 12px;
+      color: var(--text-gray);
+    }
+
+    /* Resources Section */
+    .resource-filters {
+      display: flex;
+      gap: 8px;
+    }
+
+    .filter-btn {
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      color: var(--text-light);
+    }
+
+    .filter-btn.active {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border-color: transparent;
+    }
+
+    .filter-btn:not(.active):hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .resource-card {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: var(--transition);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .resource-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      border-color: rgba(0, 240, 255, 0.2);
+    }
+
+    .resource-image {
+      height: 120px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      color: white;
+    }
+
+    .resource-content {
+      padding: 20px;
+      flex: 1;
+    }
+
+    .resource-category {
+      display: inline-block;
+      padding: 4px 8px;
+      background: rgba(0, 240, 255, 0.1);
+      color: var(--primary);
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .resource-content h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .resource-content p {
+      font-size: 14px;
+      color: var(--text-gray);
+      margin-bottom: 16px;
+    }
+
+    .resource-meta {
+      display: flex;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--text-gray);
+    }
+
+    .resource-action-btn {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .resource-action-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 240, 255, 0.3);
+    }
+
+    /* Settings Section */
+    .settings-container {
+      display: flex;
+      gap: 24px;
+    }
+
+    .settings-sidebar {
+      width: 240px;
+      flex-shrink: 0;
+    }
+
+    .settings-menu {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 16px;
+      padding: 16px 0;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .settings-item {
+      padding: 12px 20px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .settings-item:hover {
+      background: rgba(0, 240, 255, 0.1);
+      color: var(--primary);
+    }
+
+    .settings-item.active {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+    }
+
+    .settings-content {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .settings-section {
+      display: none;
+    }
+
+    .settings-section.active {
+      display: block;
+    }
+
+    .settings-section h3 {
+      font-size: 18px;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      font-size: 14px;
+      color: var(--text-light);
+      transition: var(--transition);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.15);
+    }
+
+    .form-check {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .form-check input {
+      width: 18px;
+      height: 18px;
+    }
+
+    .form-check label {
+      margin-bottom: 0;
+    }
+
+    .settings-btn {
+      padding: 12px 24px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .settings-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 240, 255, 0.3);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideInUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .animated {
+      animation: fadeIn 0.5s ease-out, slideInUp 0.5s ease-out;
+    }
+
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 1024px) {
+      .sidebar {
+        position: fixed;
+        left: -280px;
+        height: 100vh;
+        transition: var(--transition);
+      }
+      
+      .sidebar.active {
+        left: 0;
+      }
+      
+      .overlay.active {
+        display: block;
+      }
+      
+      .mobile-menu-toggle {
+        display: block;
+      }
+      
+      .analytics-section {
+        grid-template-columns: 1fr;
+      }
+      
+      .analytics-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .welcome-section {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .sessions-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .settings-container {
+        flex-direction: column;
+      }
+      
+      .settings-sidebar {
+        width: 100%;
+      }
+      
+      .search-filter input {
+        width: 100%;
+      }
+      
+      .session-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .session-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+      
+      .interview-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .interview-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+      
+      .stats-section {
+        grid-template-columns: 1fr;
+      }
+      
+      .header-actions {
+        gap: 8px;
+      }
+      
+      .dashboard-header {
+        padding: 16px;
+      }
+      
+      .search-bar {
+        max-width: 200px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .dashboard-content {
+        padding: 16px;
+      }
+      
+      .search-bar {
+        display: none;
+      }
+      
+      .practice-filters {
+        flex-direction: column;
+      }
+      
+      .session-meta {
+        flex-direction: column;
+        gap: 8px;
+      }
+      
+      .resources-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <div class="logo-icon"><i class="fas fa-lock"></i></div>
+          <span>ConfidenSee</span>
+        </div>
+        <button class="sidebar-toggle">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <div class="user-profile">
+        <div class="avatar">
+          <img src="https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg" alt="User Avatar">
+          <div class="status-indicator"></div>
+        </div>
+        <div class="user-info">
+          <h3>User</h3>
+          <p>Premium Member</p>
+        </div>
+      </div>
+      
+      <ul class="sidebar-nav">
+        <li class="nav-item active" data-target="dashboard">
+          <a href="#"><i class="fas fa-home"></i> Dashboard</a>
+        </li>
+        <li class="nav-item" data-target="practice">
+          <a href="#"><i class="fas fa-microphone"></i> Practice Sessions</a>
+        </li>
+        <li class="nav-item" data-target="analytics">
+          <a href="#"><i class="fas fa-chart-line"></i> Analytics</a>
+        </li>
+        <li class="nav-item" data-target="interviews">
+          <a href="#"><i class="fas fa-calendar-alt"></i> Interviews</a>
+        </li>
+        <li class="nav-item" data-target="resources">
+          <a href="#"><i class="fas fa-book"></i> Resources</a>
+        </li>
+        <li class="nav-item" data-target="settings">
+          <a href="#"><i class="fas fa-cog"></i> Settings</a>
+        </li>
+      </ul>
+      
+      
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="dashboard-header">
+        <button class="mobile-menu-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="search-bar">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search...">
+        </div>
+        <div class="header-actions">
+          <button class="notification-btn">
+            <i class="fas fa-bell"></i>
+            <span class="notification-badge">3</span>
+          </button>
+          <button class="profile-btn">
+            <img src="https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg" alt="Profile">
+          </button>
+        </div>
+      </div>
+      
+      <div class="dashboard-content">
+        <!-- Dashboard Section -->
+        <div class="content-section active" id="dashboard">
+          <div class="welcome-section animated">
+            <div class="welcome-content">
+              <h1>Welcome back, User!</h1>
+              <p>You've completed 12 practice sessions this week. Keep up the great work!</p>
+            </div>
+            <button class="cta-button">
+              <i class="fas fa-plus"></i> New Practice Session
+            </button>
+          </div>
+          
+          <div class="stats-section">
+            <div class="stat-card animated" style="animation-delay: 0.1s;">
+              <div class="stat-icon">
+                <i class="fas fa-microphone"></i>
+              </div>
+              <div class="stat-info">
+                <h3>24</h3>
+                <p>Total Sessions</p>
+              </div>
+              <div class="stat-trend up">
+                <i class="fas fa-arrow-up"></i> 12%
+              </div>
+            </div>
+            
+            <div class="stat-card animated" style="animation-delay: 0.2s;">
+              <div class="stat-icon">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <div class="stat-info">
+                <h3>78%</h3>
+                <p>Average Score</p>
+              </div>
+              <div class="stat-trend up">
+                <i class="fas fa-arrow-up"></i> 5%
+              </div>
+            </div>
+            
+            <div class="stat-card animated" style="animation-delay: 0.3s;">
+              <div class="stat-icon">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div class="stat-info">
+                <h3>12h</h3>
+                <p>Time Practiced</p>
+              </div>
+              <div class="stat-trend up">
+                <i class="fas fa-arrow-up"></i> 8%
+              </div>
+            </div>
+            
+            <div class="stat-card animated" style="animation-delay: 0.4s;">
+              <div class="stat-icon">
+                <i class="fas fa-trophy"></i>
+              </div>
+              <div class="stat-info">
+                <h3>3/5</h3>
+                <p>Skills Mastered</p>
+              </div>
+              <div class="stat-trend up">
+                <i class="fas fa-arrow-up"></i> 2%
+              </div>
+            </div>
+          </div>
+          
+          <div class="sessions-section animated" style="animation-delay: 0.5s;">
+            <div class="section-header">
+              <h2>Recent Practice Sessions</h2>
+              <a href="#" class="view-all">View All</a>
+            </div>
+            
+            <div class="sessions-grid">
+              <div class="session-card">
+                <div class="session-header">
+                  <h3>Technical Interview</h3>
+                  <div class="session-score">82%</div>
+                </div>
+                <div class="session-details">
+                  <p><i class="fas fa-clock"></i> 25 minutes</p>
+                  <p><i class="fas fa-calendar"></i> 2 days ago</p>
+                </div>
+                <div class="session-progress">
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: 82%;"></div>
+                  </div>
+                </div>
+                <button class="session-action-btn">Review Session</button>
+              </div>
+              
+              <div class="session-card">
+                <div class="session-header">
+                  <h3>Behavioral Interview</h3>
+                  <div class="session-score">76%</div>
+                </div>
+                <div class="session-details">
+                  <p><i class="fas fa-clock"></i> 18 minutes</p>
+                  <p><i class="fas fa-calendar"></i> 3 days ago</p>
+                </div>
+                <div class="session-progress">
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: 76%;"></div>
+                  </div>
+                </div>
+                <button class="session-action-btn">Review Session</button>
+              </div>
+              
+              <div class="session-card">
+                <div class="session-header">
+                  <h3>Product Manager</h3>
+                  <div class="session-score">91%</div>
+                </div>
+                <div class="session-details">
+                  <p><i class="fas fa-clock"></i> 32 minutes</p>
+                  <p><i class="fas fa-calendar"></i> 4 days ago</p>
+                </div>
+                <div class="session-progress">
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: 91%;"></div>
+                  </div>
+                </div>
+                <button class="session-action-btn">Review Session</button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="analytics-section animated" style="animation-delay: 0.6s;">
+            <div class="analytics-card">
+              <div class="section-header">
+                <h2>Performance Trends</h2>
+              </div>
+              <div class="chart-container">
+                <div class="chart-placeholder">
+                  <div class="chart-bars">
+                    <div class="bar" style="height: 40%;"></div>
+                    <div class="bar" style="height: 60%;"></div>
+                    <div class="bar" style="height: 75%;"></div>
+                    <div class="bar" style="height: 65%;"></div>
+                    <div class="bar" style="height: 80%;"></div>
+                    <div class="bar" style="height: 90%;"></div>
+                    <div class="bar" style="height: 85%;"></div>
+                  </div>
+                  <div class="chart-labels">
+                    <span>Mon</span>
+                    <span>Tue</span>
+                    <span>Wed</span>
+                    <span>Thu</span>
+                    <span>Fri</span>
+                    <span>Sat</span>
+                    <span>Sun</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="analytics-card">
+              <div class="section-header">
+                <h2>Skill Distribution</h2>
+              </div>
+              <div class="skills-list">
+                <div class="skill-item">
+                  <div class="skill-info">
+                    <h4>Technical Knowledge</h4>
+                    <span>85%</span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: 85%;"></div>
+                  </div>
+                </div>
+                
+                <div class="skill-item">
+                  <div class="skill-info">
+                    <h4>Communication</h4>
+                    <span>78%</span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: 78%;"></div>
+                  </div>
+                </div>
+                
+                <div class="skill-item">
+                  <div class="skill-info">
+                    <h4>Problem Solving</h4>
+                    <span>92%</span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: 92%;"></div>
+                  </div>
+                </div>
+                
+                <div class="skill-item">
+                  <div class="skill-info">
+                    <h4>Confidence</h4>
+                    <span>70%</span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: 70%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="interviews-section animated" style="animation-delay: 0.7s;">
+            <div class="section-header">
+              <h2>Upcoming Interviews</h2>
+              <a href="#" class="view-all">View All</a>
+            </div>
+            
+            <div class="interviews-list">
+              <div class="interview-item">
+                <div class="date-badge">
+                  <div class="day">15</div>
+                  <div class="month">Sep</div>
+                </div>
+                <div class="interview-details">
+                  <h3>Senior Developer at TechCorp</h3>
+                  <p><i class="fas fa-clock"></i> 10:00 AM - 11:30 AM</p>
+                  <p><i class="fas fa-video"></i> Video Call</p>
+                </div>
+                <div class="interview-actions">
+                  <button class="action-btn prepare">Prepare</button>
+                  <button class="action-btn details">Details</button>
+                </div>
+              </div>
+              
+              <div class="interview-item">
+                <div class="date-badge">
+                  <div class="day">22</div>
+                  <div class="month">Sep</div>
+                </div>
+                <div class="interview-details">
+                  <h3>Product Manager at InnovateCo</h3>
+                  <p><i class="fas fa-clock"></i> 2:00 PM - 3:00 PM</p>
+                  <p><i class="fas fa-building"></i> On-site</p>
+                </div>
+                <div class="interview-actions">
+                  <button class="action-btn prepare">Prepare</button>
+                  <button class="action-btn details">Details</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+           <div class="content-section" id="practice">
+          <div class="section-header">
+            <h2>Practice Sessions</h2>
+            <button class="cta-button">
+              <i class="fas fa-plus"></i> New Practice Session
+            </button>
+          </div>
+
+          <div class="practice-filters">
+            <div class="filter-group">
+              <label>Filter by:</label>
+              <select>
+                <option>All Types</option>
+                <option>Technical</option>
+                <option>Behavioral</option>
+                <option>Product Management</option>
+                <option>Leadership</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label>Sort by:</label>
+              <select>
+                <option>Most Recent</option>
+                <option>Highest Score</option>
+                <option>Longest Duration</option>
+              </select>
+            </div>
+            <div class="search-filter">
+              <i class="fas fa-search"></i>
+              <input type="text" placeholder="Search sessions...">
+            </div>
+          </div>
+
+          <div class="sessions-list">
+            <div class="session-item animated">
+              <div class="session-type">
+                <i class="fas fa-code"></i>
+                <span>Technical</span>
+              </div>
+              <div class="session-details">
+                <h3>Frontend Developer Questions</h3>
+                <div class="session-meta">
+                  <span><i class="fas fa-clock"></i> 45 min</span>
+                  <span><i class="fas fa-calendar"></i> Jun 12, 2023</span>
+                  <span><i class="fas fa-chart-bar"></i> 92%</span>
+                </div>
+              </div>
+              <div class="session-actions">
+                <button class="btn-outline"><i class="fas fa-play"></i> Resume</button>
+                <button class="btn-outline"><i class="fas fa-chart-line"></i> Results</button>
+                <button class="btn-icon"><i class="fas fa-ellipsis-v"></i></button>
+              </div>
+            </div>
+
+            <div class="session-item animated">
+              <div class="session-type">
+                <i class="fas fa-users"></i>
+                <span>Behavioral</span>
+              </div>
+              <div class="session-details">
+                <h3>Leadership & Teamwork</h3>
+                <div class="session-meta">
+                  <span><i class="fas fa-clock"></i> 32 min</span>
+                  <span><i class="fas fa-calendar"></i> Jun 10, 2023</span>
+                  <span><i class="fas fa-chart-bar"></i> 85%</span>
+                </div>
+              </div>
+              <div class="session-actions">
+                <button class="btn-outline"><i class="fas fa-play"></i> Resume</button>
+                <button class="btn-outline"><i class="fas fa-chart-line"></i> Results</button>
+                <button class="btn-icon"><i class="fas fa-ellipsis-v"></i></button>
+              </div>
+            </div>
+
+            <div class="session-item animated">
+              <div class="session-type">
+                <i class="fas fa-project-diagram"></i>
+                <span>Product Management</span>
+              </div>
+              <div class="session-details">
+                <h3>Product Strategy Questions</h3>
+                <div class="session-meta">
+                  <span><i class="fas fa-clock"></i> 51 min</span>
+                  <span><i class="fas fa-calendar"></i> Jun 8, 2023</span>
+                  <span><i class="fas fa-chart-bar"></i> 78%</span>
+                </div>
+              </div>
+              <div class="session-actions">
+                <button class="btn-outline"><i class="fas fa-play"></i> Resume</button>
+                <button class="btn-outline"><i class="fas fa-chart-line"></i> Results</button>
+                <button class="btn-icon"><i class="fas fa-ellipsis-v"></i></button>
+              </div>
+            </div>
+
+            <div class="session-item animated">
+              <div class="session-type">
+                <i class="fas fa-brain"></i>
+                <span>Problem Solving</span>
+              </div>
+              <div class="session-details">
+                <h3>Algorithm Challenges</h3>
+                <div class="session-meta">
+                  <span><i class="fas fa-clock"></i> 38 min</span>
+                  <span><i class="fas fa-calendar"></i> Jun 5, 2023</span>
+                  <span><i class="fas fa-chart-bar"></i> 88%</span>
+                </div>
+              </div>
+              <div class="session-actions">
+                <button class="btn-outline"><i class="fas fa-play"></i> Resume</button>
+                <button class="btn-outline"><i class="fas fa-chart-line"></i> Results</button>
+                <button class="btn-icon"><i class="fas fa-ellipsis-v"></i></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="pagination">
+            <button class="pagination-btn"><i class="fas fa-chevron-left"></i></button>
+            <span class="pagination-page">Page 1 of 3</span>
+            <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
+          </div>
+        </div>
+        
+        <div class="content-section" id="analytics">
+          <div class="section-header">
+            <h2>Performance Analytics</h2>
+            <div class="time-filter">
+              <button class="filter-btn active">Week</button>
+              <button class="filter-btn">Month</button>
+              <button class="filter-btn">Quarter</button>
+              <button class="filter-btn">Year</button>
+            </div>
+          </div>
+
+          <div class="analytics-grid">
+            <div class="analytics-card large animated">
+              <div class="card-header">
+                <h3>Performance Overview</h3>
+                <button class="btn-outline"><i class="fas fa-download"></i> Export</button>
+              </div>
+              <div class="chart-container">
+                <div class="chart-placeholder">
+                  <div class="line-chart">
+                    <div class="chart-line" style="height: 30%"></div>
+                    <div class="chart-line" style="height: 50%"></div>
+                    <div class="chart-line" style="height: 70%"></div>
+                    <div class="chart-line" style="height: 60%"></div>
+                    <div class="chart-line" style="height: 80%"></div>
+                    <div class="chart-line" style="height: 90%"></div>
+                    <div class="chart-line" style="height: 85%"></div>
+                  </div>
+                  <div class="chart-labels">
+                    <span>Week 1</span>
+                    <span>Week 2</span>
+                    <span>Week 3</span>
+                    <span>Week 4</span>
+                    <span>Week 5</span>
+                    <span>Week 6</span>
+                    <span>Week 7</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="analytics-card animated">
+              <div class="card-header">
+                <h3>Score Distribution</h3>
+              </div>
+              <div class="chart-container">
+                <div class="pie-chart">
+                  <div class="pie-segment" style="--offset: 0; --value: 60;"></div>
+                  <div class="pie-segment" style="--offset: 60; --value: 25;"></div>
+                  <div class="pie-segment" style="--offset: 85; --value: 10;"></div>
+                  <div class="pie-segment" style="--offset: 95; --value: 5;"></div>
+                  <div class="pie-center"></div>
+                </div>
+                <div class="pie-labels">
+                  <div class="pie-label">
+                    <span class="color-dot" style="background: var(--primary)"></span>
+                    <span>80-100%</span>
+                  </div>
+                  <div class="pie-label">
+                    <span class="color-dot" style="background: var(--secondary)"></span>
+                    <span>60-79%</span>
+                  </div>
+                  <div class="pie-label">
+                    <span class="color-dot" style="background: #ffa502"></span>
+                    <span>40-59%</span>
+                  </div>
+                  <div class="pie-label">
+                    <span class="color-dot" style="background: #ff4757"></span>
+                    <span>0-39%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="analytics-card animated">
+              <div class="card-header">
+                <h3>Practice Time</h3>
+              </div>
+              <div class="stats-overview">
+                <div class="stat-item">
+                  <span class="stat-value">12h 45m</span>
+                  <span class="stat-label">Total Time</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-value">24m</span>
+                  <span class="stat-label">Avg/Session</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-value">24</span>
+                  <span class="stat-label">Sessions</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="analytics-card animated">
+              <div class="card-header">
+                <h3>Improvement Areas</h3>
+              </div>
+              <div class="improvement-list">
+                <div class="improvement-item">
+                  <span class="improvement-label">Communication Clarity</span>
+                  <div class="improvement-progress">
+                    <div class="progress-bar">
+                      <div class="progress-fill" style="width: 65%"></div>
+                    </div>
+                    <span class="improvement-value">65%</span>
+                  </div>
+                </div>
+                <div class="improvement-item">
+                  <span class="improvement-label">Answer Structure</span>
+                  <div class="improvement-progress">
+                    <div class="progress-bar">
+                      <div class="progress-fill" style="width: 72%"></div>
+                    </div>
+                    <span class="improvement-value">72%</span>
+                  </div>
+                </div>
+                <div class="improvement-item">
+                  <span class="improvement-label">Technical Depth</span>
+                  <div class="improvement-progress">
+                    <div class="progress-bar">
+                      <div class="progress-fill" style="width: 88%"></div>
+                    </div>
+                    <span class="improvement-value">88%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="analytics-card full-width animated">
+            <div class="card-header">
+              <h3>Skill Progress Over Time</h3>
+            </div>
+            <div class="skills-comparison">
+              <div class="skills-legend">
+                <div class="legend-item">
+                  <span class="line-color" style="background: var(--primary)"></span>
+                  <span>Communication</span>
+                </div>
+                <div class="legend-item">
+                  <span class="line-color" style="background: var(--secondary)"></span>
+                  <span>Technical Knowledge</span>
+                </div>
+                <div class="legend-item">
+                  <span class="line-color" style="background: #ffa502"></span>
+                  <span>Problem Solving</span>
+                </div>
+              </div>
+              <div class="comparison-chart">
+                <div class="chart-grid">
+                  <div class="grid-line"></div>
+                  <div class="grid-line"></div>
+                  <div class="grid-line"></div>
+                  <div class="grid-line"></div>
+                  <div class="grid-line"></div>
+                </div>
+                <div class="chart-lines">
+                  <div class="comparison-line" style="height: 30%; left: 10%; background: var(--primary)"></div>
+                  <div class="comparison-line" style="height: 40%; left: 25%; background: var(--primary)"></div>
+                  <div class="comparison-line" style="height: 60%; left: 40%; background: var(--primary)"></div>
+                  <div class="comparison-line" style="height: 65%; left: 55%; background: var(--primary)"></div>
+                  <div class="comparison-line" style="height: 75%; left: 70%; background: var(--primary)"></div>
+                  <div class="comparison-line" style="height: 88%; left: 85%; background: var(--primary)"></div>
+
+                  <div class="comparison-line" style="height: 50%; left: 10%; background: var(--secondary)"></div>
+                  <div class="comparison-line" style="height: 65%; left: 25%; background: var(--secondary)"></div>
+                  <div class="comparison-line" style="height: 70%; left: 40%; background: var(--secondary)"></div>
+                  <div class="comparison-line" style="height: 82%; left: 55%; background: var(--secondary)"></div>
+                  <div class="comparison-line" style="height: 88%; left: 70%; background: var(--secondary)"></div>
+                  <div class="comparison-line" style="height: 92%; left: 85%; background: var(--secondary)"></div>
+
+                  <div class="comparison-line" style="height: 40%; left: 10%; background: #ffa502"></div>
+                  <div class="comparison-line" style="height: 45%; left: 25%; background: #ffa502"></div>
+                  <div class="comparison-line" style="height: 55%; left: 40%; background: #ffa502"></div>
+                  <div class="comparison-line" style="height: 65%; left: 55%; background: #ffa502"></div>
+                  <div class="comparison-line" style="height: 70%; left: 70%; background: #ffa502"></div>
+                  <div class="comparison-line" style="height: 81%; left: 85%; background: #ffa502"></div>
+                </div>
+                <div class="chart-axis">
+                  <span>Jan</span>
+                  <span>Feb</span>
+                  <span>Mar</span>
+                  <span>Apr</span>
+                  <span>May</span>
+                  <span>Jun</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="content-section" id="interviews">
+          <div class="section-header">
+            <h2>Interview Management</h2>
+            <button class="cta-button">
+              <i class="fas fa-plus"></i> Schedule Interview
+            </button>
+          </div>
+
+          <div class="practice-filters">
+            <div class="filter-group">
+              <label>Filter by:</label>
+              <select>
+                <option>All Interviews</option>
+                <option>Upcoming</option>
+                <option>Completed</option>
+                <option>Canceled</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label>Sort by:</label>
+              <select>
+                <option>Date (Newest First)</option>
+                <option>Date (Oldest First)</option>
+                <option>Company Name</option>
+                <option>Position</option>
+              </select>
+            </div>
+            <div class="search-filter">
+              <i class="fas fa-search"></i>
+              <input type="text" placeholder="Search interviews...">
+            </div>
+          </div>
+
+          <div class="interviews-list">
+            <div class="interview-item animated">
+              <div class="date-badge">
+                <span class="day">15</span>
+                <span class="month">Sep</span>
+              </div>
+              <div class="interview-details">
+                <h3>Senior Developer @ TechCorp</h3>
+                <p><i class="fas fa-clock"></i> 10:00 AM - 11:30 AM</p>
+                <p><i class="fas fa-video"></i> Video Call</p>
+                <p><i class="fas fa-map-marker-alt"></i> Meeting Link: meet.techcorp.com/interview</p>
+              </div>
+              <div class="interview-actions">
+                <button class="action-btn prepare">Prepare</button>
+                <button class="action-btn details">Details</button>
+                <button class="btn-icon"><i class="fas fa-ellipsis-v"></i></button>
+              </div>
+            </div>
+            
+            <div class="interview-item animated">
+              <div class="date-badge">
+                <span class="day">18</span>
+                <span class="month">Sep</span>
+              </div>
+              <div class="interview-details">
+                <h3>Product Manager @ StartupXYZ</h3>
+                <p><i class="fas fa-clock"></i> 2:00 PM - 3:00 PM</p>
+                <p><i class="fas fa-building"></i> On-site</p>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Innovation St, Tech City</p>
+              </div>
+              <div class="interview-actions">
+                <button class="action-btn prepare">Prepare</button>
+                <button class="action-btn details">Details</button>
+                <button class="btn-icon"><i class="fas fa-ellipsis-v"></i></button>
+              </div>
+            </div>
+            
+            <div class="interview-item animated">
+              <div class="date-badge past">
+                <span class="day">05</span>
+                <span class="month">Sep</span>
+              </div>
+              <div class="interview-details">
+                <h3>Data Scientist @ DataWorks</h3>
+                <p><i class="fas fa-clock"></i> 9:00 AM - 10:30 AM</p>
+                <p><i class="fas fa-video"></i> Video Call</p>
+                <p><i class="fas fa-check-circle" style="color: var(--primary)"></i> Completed - Offer Received</p>
+              </div>
+              <div class="interview-actions">
+                <button class="action-btn details">Review</button>
+                <button class="btn-icon"><i class="fas fa-ellipsis-v"></i></button>
+              </div>
+            </div>
+            
+            <div class="interview-item animated">
+              <div class="date-badge">
+                <span class="day">25</span>
+                <span class="month">Sep</span>
+              </div>
+              <div class="interview-details">
+                <h3>UX Designer @ CreativeMinds</h3>
+                <p><i class="fas fa-clock"></i> 1:30 PM - 2:30 PM</p>
+                <p><i class="fas fa-video"></i> Video Call</p>
+                <p><i class="fas fa-map-marker-alt"></i> Meeting Link: creative-minds.zoom.us/j/12345</p>
+              </div>
+              <div class="interview-actions">
+                <button class="action-btn prepare">Prepare</button>
+                <button class="action-btn details">Details</button>
+                <button class="btn-icon"><i class="fas fa-ellipsis-v"></i></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="pagination">
+            <button class="pagination-btn"><i class="fas fa-chevron-left"></i></button>
+            <span class="pagination-page">Page 1 of 2</span>
+            <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
+          </div>
+        </div>
+        
+        <div class="content-section" id="resources">
+          <div class="section-header">
+            <h2>Learning Resources</h2>
+            <div class="resource-filters">
+              <button class="filter-btn active">All</button>
+              <button class="filter-btn">Articles</button>
+              <button class="filter-btn">Videos</button>
+              <button class="filter-btn">Templates</button>
+            </div>
+          </div>
+
+          <div class="resources-grid">
+            <div class="resource-card animated">
+              <div class="resource-image">
+                <i class="fas fa-newspaper"></i>
+              </div>
+              <div class="resource-content">
+                <span class="resource-category">Article</span>
+                <h3>10 Common Interview Mistakes to Avoid</h3>
+                <p>Learn about the most common pitfalls in interviews and how to avoid them to increase your chances of success.</p>
+                <div class="resource-meta">
+                  <span><i class="fas fa-clock"></i> 10 min read</span>
+                  <span><i class="fas fa-star"></i> 4.8</span>
+                </div>
+              </div>
+              <button class="resource-action-btn">Read</button>
+            </div>
+
+            <div class="resource-card animated">
+              <div class="resource-image">
+                <i class="fas fa-video"></i>
+              </div>
+              <div class="resource-content">
+                <span class="resource-category">Video</span>
+                <h3>Mastering Behavioral Questions</h3>
+                <p>A comprehensive guide to answering behavioral questions using the STAR method with practical examples.</p>
+                <div class="resource-meta">
+                  <span><i class="fas fa-clock"></i> 15 min</span>
+                  <span><i class="fas fa-star"></i> 4.9</span>
+                </div>
+              </div>
+              <button class="resource-action-btn">Watch</button>
+            </div>
+
+            <div class="resource-card animated">
+              <div class="resource-image">
+                <i class="fas fa-file-alt"></i>
+              </div>
+              <div class="resource-content">
+                <span class="resource-category">Template</span>
+                <h3>Interview Preparation Checklist</h3>
+                <p>A comprehensive checklist to ensure you're fully prepared for your next interview, from research to follow-up.</p>
+                <div class="resource-meta">
+                  <span><i class="fas fa-clock"></i> 5 min read</span>
+                  <span><i class="fas fa-star"></i> 4.7</span>
+                </div>
+              </div>
+              <button class="resource-action-btn">Download</button>
+            </div>
+
+            <div class="resource-card animated">
+              <div class="resource-image">
+                <i class="fas fa-newspaper"></i>
+              </div>
+              <div class="resource-content">
+                <span class="resource-category">Article</span>
+                <h3>Technical Interview Strategies</h3>
+                <p>Effective strategies for tackling technical interviews, including how to approach coding problems and system design.</p>
+                <div class="resource-meta">
+                  <span><i class="fas fa-clock"></i> 12 min read</span>
+                  <span><i class="fas fa-star"></i> 4.8</span>
+                </div>
+              </div>
+              <button class="resource-action-btn">Read</button>
+            </div>
+
+            <div class="resource-card animated">
+              <div class="resource-image">
+                <i class="fas fa-video"></i>
+              </div>
+              <div class="resource-content">
+                <span class="resource-category">Video</span>
+                <h3>Salary Negotiation Techniques</h3>
+                <p>Learn how to confidently negotiate your salary and benefits package to get the compensation you deserve.</p>
+                <div class="resource-meta">
+                  <span><i class="fas fa-clock"></i> 18 min</span>
+                  <span><i class="fas fa-star"></i> 4.9</span>
+                </div>
+              </div>
+              <button class="resource-action-btn">Watch</button>
+            </div>
+
+            <div class="resource-card animated">
+              <div class="resource-image">
+                <i class="fas fa-file-alt"></i>
+              </div>
+              <div class="resource-content">
+                <span class="resource-category">Template</span>
+                <h3>Follow-up Email Templates</h3>
+                <p>Professional email templates for following up after interviews, tailored to different scenarios and situations.</p>
+                <div class="resource-meta">
+                  <span><i class="fas fa-clock"></i> 3 min read</span>
+                  <span><i class="fas fa-star"></i> 4.6</span>
+                </div>
+              </div>
+              <button class="resource-action-btn">Download</button>
+            </div>
+          </div>
+
+          <div class="pagination">
+            <button class="pagination-btn"><i class="fas fa-chevron-left"></i></button>
+            <span class="pagination-page">Page 1 of 2</span>
+            <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
+          </div>
+        </div>
+        
+        <div class="content-section" id="settings">
+          <div class="section-header">
+            <h2>Account Settings</h2>
+          </div>
+
+          <div class="settings-container">
+            <div class="settings-sidebar">
+              <div class="settings-menu">
+                <div class="settings-item active" data-tab="profile">Profile</div>
+                <div class="settings-item" data-tab="preferences">Preferences</div>
+                <div class="settings-item" data-tab="notifications">Notifications</div>
+                <div class="settings-item" data-tab="billing">Billing</div>
+                <div class="settings-item" data-tab="security">Security</div>
+              </div>
+            </div>
+
+            <div class="settings-content">
+              <div class="settings-section active" id="profile">
+                <h3>Profile Information</h3>
+                <form class="settings-form">
+                  <div class="form-group">
+                    <label>First Name</label>
+                    <input type="text" class="form-control" value="User">
+                  </div>
+                  <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" class="form-control" value="N/A">
+                  </div>
+                  <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" class="form-control" value="user@example.com">
+                  </div>
+                  <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" class="form-control" value="+880 1234567890">
+                  </div>
+                  <div class="form-group">
+                    <label>Bio</label>
+                    <textarea class="form-control" rows="4">Experienced software developer with 5+ years in the industry, specializing in frontend technologies and user experience design.</textarea>
+                  </div>
+                  <div class="form-group">
+                    <button type="submit" class="settings-btn">Save Changes</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="settings-section" id="preferences">
+                <h3>Preferences</h3>
+                <form class="settings-form">
+                  <div class="form-group">
+                    <label>Language</label>
+                    <select class="form-control">
+                      <option>English</option>
+                      <option>Spanish</option>
+                      <option>French</option>
+                      <option>German</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Time Zone</label>
+                    <select class="form-control">
+                      <option>(GMT-08:00) Pacific Time</option>
+                      <option>(GMT-07:00) Mountain Time</option>
+                      <option>(GMT-06:00) Central Time</option>
+                      <option>(GMT-05:00) Eastern Time</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Theme</label>
+                    <div class="form-check">
+                      <input type="radio" id="theme-light" name="theme" checked>
+                      <label for="theme-light">Light</label>
+                    </div>
+                    <div class="form-check">
+                      <input type="radio" id="theme-dark" name="theme">
+                      <label for="theme-dark">Dark</label>
+                    </div>
+                    <div class="form-check">
+                      <input type="radio" id="theme-system" name="theme">
+                      <label for="theme-system">System Default</label>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-check">
+                      <input type="checkbox" id="product-updates" checked>
+                      <label for="product-updates">Send me product updates and tips</label>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-check">
+                      <input type="checkbox" id="analytics">
+                      <label for="analytics">Allow analytics collection</label>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <button type="submit" class="settings-btn">Save Preferences</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="settings-section" id="notifications">
+                <h3>Notification Settings</h3>
+                <form class="settings-form">
+                  <div class="form-group">
+                    <h4>Email Notifications</h4>
+                    <div class="form-check">
+                      <input type="checkbox" id="email-reminders" checked>
+                      <label for="email-reminders">Practice reminders</label>
+                    </div>
+                    <div class="form-check">
+                      <input type="checkbox" id="email-interview" checked>
+                      <label for="email-interview">Interview scheduled</label>
+                    </div>
+                    <div class="form-check">
+                      <input type="checkbox" id="email-progress">
+                      <label for="email-progress">Weekly progress report</label>
+                    </div>
+                    <div class="form-check">
+                      <input type="checkbox" id="email-updates" checked>
+                      <label for="email-updates">New features and updates</label>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <h4>Push Notifications</h4>
+                    <div class="form-check">
+                      <input type="checkbox" id="push-reminders" checked>
+                      <label for="push-reminders">Practice reminders</label>
+                    </div>
+                    <div class="form-check">
+                      <input type="checkbox" id="push-interview" checked>
+                      <label for="push-interview">Interview scheduled</label>
+                    </div>
+                    <div class="form-check">
+                      <input type="checkbox" id="push-achievements">
+                      <label for="push-achievements">Goal achievements</label>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <button type="submit" class="settings-btn">Save Settings</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="settings-section" id="billing">
+                <h3>Billing Information</h3>
+                <div class="analytics-card" style="margin-bottom: 20px;">
+                  <div class="card-header">
+                    <h3>Current Plan</h3>
+                    <span class="session-score">Premium</span>
+                  </div>
+                  <div class="session-details">
+                    <p>Your plan renews on <strong>October 15, 2023</strong></p>
+                    <p>$19.99/month</p>
+                  </div>
+                  <div class="session-actions">
+                    <button class="btn-outline">Change Plan</button>
+                    <button class="btn-outline">Cancel Subscription</button>
+                  </div>
+                </div>
+
+                <div class="analytics-card" style="margin-bottom: 20px;">
+                  <div class="card-header">
+                    <h3>Payment Method</h3>
+                  </div>
+                  <div class="session-details">
+                    <p><i class="fas fa-credit-card"></i> **** **** **** 1234</p>
+                    <p>Expires 05/2024</p>
+                  </div>
+                  <div class="session-actions">
+                    <button class="btn-outline">Update Payment Method</button>
+                  </div>
+                </div>
+
+                <h3>Billing History</h3>
+                <div class="sessions-list">
+                  <div class="session-item">
+                    <div class="session-details">
+                      <h3>Premium Subscription</h3>
+                      <div class="session-meta">
+                        <span><i class="fas fa-calendar"></i> Sep 15, 2023</span>
+                        <span><i class="fas fa-dollar-sign"></i> $19.99</span>
+                        <span><i class="fas fa-receipt"></i> Invoice #INV-001</span>
+                      </div>
+                    </div>
+                    <div class="session-actions">
+                      <button class="btn-outline">Download</button>
+                    </div>
+                  </div>
+                  
+                  <div class="session-item">
+                    <div class="session-details">
+                      <h3>Premium Subscription</h3>
+                      <div class="session-meta">
+                        <span><i class="fas fa-calendar"></i> Aug 15, 2023</span>
+                        <span><i class="fas fa-dollar-sign"></i> $19.99</span>
+                        <span><i class="fas fa-receipt"></i> Invoice #INV-002</span>
+                      </div>
+                    </div>
+                    <div class="session-actions">
+                      <button class="btn-outline">Download</button>
+                    </div>
+                  </div>
+                  
+                  <div class="session-item">
+                    <div class="session-details">
+                      <h3>Premium Subscription</h3>
+                      <div class="session-meta">
+                        <span><i class="fas fa-calendar"></i> Jul 15, 2023</span>
+                        <span><i class="fas fa-dollar-sign"></i> $19.99</span>
+                        <span><i class="fas fa-receipt"></i> Invoice #INV-003</span>
+                      </div>
+                    </div>
+                    <div class="session-actions">
+                      <button class="btn-outline">Download</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="settings-section" id="security">
+                <h3>Security Settings</h3>
+                <form class="settings-form">
+                  <div class="form-group">
+                    <label>Current Password</label>
+                    <input type="password" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label>New Password</label>
+                    <input type="password" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label>Confirm New Password</label>
+                    <input type="password" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <button type="submit" class="settings-btn">Update Password</button>
+                  </div>
+                </form>
+                
+                <div class="analytics-card" style="margin-top: 30px;">
+                  <div class="card-header">
+                    <h3>Two-Factor Authentication</h3>
+                    <span class="session-score" style="background: #ff4757;">Disabled</span>
+                  </div>
+                  <div class="session-details">
+                    <p>Add an extra layer of security to your account by enabling two-factor authentication.</p>
+                  </div>
+                  <div class="session-actions">
+                    <button class="cta-button">Enable 2FA</button>
+                  </div>
+                </div>
+                
+                <h3 style="margin-top: 30px;">Active Sessions</h3>
+                <div class="sessions-list">
+                  <div class="session-item">
+                    <div class="session-type">
+                      <i class="fas fa-desktop"></i>
+                    </div>
+                    <div class="session-details">
+                      <h3>Chrome on Windows</h3>
+                      <div class="session-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> New York, NY</span>
+                        <span><i class="fas fa-clock"></i> Current session</span>
+                      </div>
+                    </div>
+                    <div class="session-actions">
+                      <button class="btn-outline">Revoke</button>
+                    </div>
+                  </div>
+                  
+                  <div class="session-item">
+                    <div class="session-type">
+                      <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="session-details">
+                      <h3>Safari on iPhone</h3>
+                      <div class="session-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> Boston, MA</span>
+                        <span><i class="fas fa-clock"></i> Active 2 days ago</span>
+                      </div>
+                    </div>
+                    <div class="session-actions">
+                      <button class="btn-outline">Revoke</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  <div class="overlay"></div>
+
+  <script>
+    // Toggle sidebar on mobile
+    document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+      document.querySelector('.sidebar').classList.add('active');
+      document.querySelector('.overlay').classList.add('active');
+    });
+    
+    document.querySelector('.sidebar-toggle').addEventListener('click', function() {
+      document.querySelector('.sidebar').classList.remove('active');
+      document.querySelector('.overlay').classList.remove('active');
+    });
+    
+    document.querySelector('.overlay').addEventListener('click', function() {
+      document.querySelector('.sidebar').classList.remove('active');
+      this.classList.remove('active');
+    });
+    
+    // Navigation between sections
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', function() {
+        const target = this.getAttribute('data-target');
+        
+        // Update active nav item
+        document.querySelectorAll('.nav-item').forEach(navItem => {
+          navItem.classList.remove('active');
+        });
+        this.classList.add('active');
+        
+        // Show target section
+        document.querySelectorAll('.content-section').forEach(section => {
+          section.classList.remove('active');
+        });
+        document.getElementById(target).classList.add('active');
+        
+        // Close sidebar on mobile after selection
+        if (window.innerWidth <= 1024) {
+          document.querySelector('.sidebar').classList.remove('active');
+          document.querySelector('.overlay').classList.remove('active');
+        }
+      });
+    });
+    
+    // Animate elements on scroll
+    function animateOnScroll() {
+      const elements = document.querySelectorAll('.animated');
+      
+      elements.forEach(element => {
+        const position = element.getBoundingClientRect();
+        
+        // If element is in viewport
+        if(position.top < window.innerHeight && position.bottom >= 0) {
+          element.style.opacity = 1;
+          element.style.transform = 'translateY(0)';
+        }
+      });
+    }
+    
+    // Initial call and on scroll
+    animateOnScroll();
+    window.addEventListener('scroll', animateOnScroll);
+  </script>
+</body>
+</html>
