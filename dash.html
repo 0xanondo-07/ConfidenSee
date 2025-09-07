@@ -151,6 +151,7 @@
     .sidebar-nav {
       flex: 1;
       padding: 20px 0;
+      overflow-y: auto;
     }
 
     .nav-item {
@@ -1327,48 +1328,48 @@
       flex-shrink: 0;
     }
 
-    .settings-menu {
+    .settings-nav {
       background: rgba(255, 255, 255, 0.03);
       border-radius: 16px;
-      padding: 16px 0;
+      overflow: hidden;
       border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    .settings-item {
-      padding: 12px 20px;
+    .settings-nav-item {
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       cursor: pointer;
       transition: var(--transition);
-      font-size: 14px;
-      font-weight: 500;
     }
 
-    .settings-item:hover {
+    .settings-nav-item:last-child {
+      border-bottom: none;
+    }
+
+    .settings-nav-item:hover {
       background: rgba(0, 240, 255, 0.1);
       color: var(--primary);
     }
 
-    .settings-item.active {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
+    .settings-nav-item.active {
+      background: rgba(0, 240, 255, 0.1);
+      color: var(--primary);
+      font-weight: 600;
     }
 
     .settings-content {
       flex: 1;
+    }
+
+    .settings-card {
       background: rgba(255, 255, 255, 0.03);
       border-radius: 16px;
       padding: 24px;
+      margin-bottom: 24px;
       border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    .settings-section {
-      display: none;
-    }
-
-    .settings-section.active {
-      display: block;
-    }
-
-    .settings-section h3 {
+    .settings-card h3 {
       font-size: 18px;
       margin-bottom: 20px;
       background: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -1387,7 +1388,9 @@
       margin-bottom: 8px;
     }
 
-    .form-control {
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
       width: 100%;
       padding: 12px 16px;
       background: rgba(255, 255, 255, 0.05);
@@ -1398,28 +1401,29 @@
       transition: var(--transition);
     }
 
-    .form-control:focus {
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
       outline: none;
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.15);
     }
 
-    .form-check {
+    .form-group textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .form-row {
       display: flex;
-      align-items: center;
-      gap: 10px;
+      gap: 16px;
     }
 
-    .form-check input {
-      width: 18px;
-      height: 18px;
+    .form-row .form-group {
+      flex: 1;
     }
 
-    .form-check label {
-      margin-bottom: 0;
-    }
-
-    .settings-btn {
+    .save-btn {
       padding: 12px 24px;
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: white;
@@ -1430,63 +1434,185 @@
       transition: var(--transition);
     }
 
-    .settings-btn:hover {
+    .save-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 5px 15px rgba(0, 240, 255, 0.3);
     }
 
-    /* Animations */
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 24px;
     }
 
-    @keyframes slideInUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
     }
 
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(255, 255, 255, 0.1);
+      transition: var(--transition);
+      border-radius: 34px;
     }
 
-    .animated {
-      animation: fadeIn 0.5s ease-out, slideInUp 0.5s ease-out;
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: var(--transition);
+      border-radius: 50%;
     }
 
-    .pulse {
-      animation: pulse 2s infinite;
+    input:checked + .slider {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+
+    .toggle-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .toggle-label span {
+      font-size: 14px;
+    }
+
+    .plan-card {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: var(--transition);
+      margin-bottom: 16px;
+    }
+
+    .plan-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      border-color: rgba(0, 240, 255, 0.2);
+    }
+
+    .plan-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .plan-header h4 {
+      font-size: 18px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .plan-price {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .plan-features {
+      margin-bottom: 20px;
+    }
+
+    .plan-feature {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .plan-feature i {
+      color: var(--primary);
+    }
+
+    .plan-action {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .plan-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 240, 255, 0.3);
+    }
+
+    .plan-action.outline {
+      background: transparent;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+    }
+
+    .plan-action.outline:hover {
+      background: var(--primary);
+      color: white;
     }
 
     /* Responsive Styles */
-    @media (max-width: 1024px) {
-      .sidebar {
-        position: fixed;
-        left: -280px;
-        height: 100vh;
-        transition: var(--transition);
-      }
-      
-      .sidebar.active {
-        left: 0;
-      }
-      
-      .overlay.active {
-        display: block;
-      }
-      
-      .mobile-menu-toggle {
-        display: block;
-      }
-      
+    @media (max-width: 1200px) {
       .analytics-section {
         grid-template-columns: 1fr;
       }
-      
+    }
+
+    @media (max-width: 992px) {
+      .sidebar {
+        position: fixed;
+        left: -280px;
+        height: 100%;
+      }
+
+      .sidebar.active {
+        left: 0;
+      }
+
+      .sidebar-toggle {
+        display: block;
+      }
+
+      .mobile-menu-toggle {
+        display: block;
+      }
+
+      .overlay.active {
+        display: block;
+      }
+
       .analytics-grid {
         grid-template-columns: 1fr;
+      }
+
+      .settings-container {
+        flex-direction: column;
+      }
+
+      .settings-sidebar {
+        width: 100%;
       }
     }
 
@@ -1495,80 +1621,63 @@
         flex-direction: column;
         align-items: flex-start;
       }
-      
+
+      .stats-section {
+        grid-template-columns: 1fr;
+      }
+
       .sessions-grid {
         grid-template-columns: 1fr;
       }
-      
-      .settings-container {
-        flex-direction: column;
+
+      .analytics-card {
+        padding: 16px;
       }
-      
-      .settings-sidebar {
-        width: 100%;
-      }
-      
-      .search-filter input {
-        width: 100%;
-      }
-      
-      .session-item {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      
-      .session-actions {
-        width: 100%;
-        justify-content: space-between;
-      }
-      
+
       .interview-item {
         flex-direction: column;
         align-items: flex-start;
       }
-      
+
       .interview-actions {
         width: 100%;
         justify-content: space-between;
       }
-      
-      .stats-section {
-        grid-template-columns: 1fr;
-      }
-      
-      .header-actions {
-        gap: 8px;
-      }
-      
-      .dashboard-header {
-        padding: 16px;
-      }
-      
-      .search-bar {
-        max-width: 200px;
-      }
-    }
 
-    @media (max-width: 480px) {
-      .dashboard-content {
-        padding: 16px;
+      .action-btn {
+        flex: 1;
+        text-align: center;
       }
-      
-      .search-bar {
-        display: none;
-      }
-      
+
       .practice-filters {
         flex-direction: column;
       }
-      
-      .session-meta {
-        flex-direction: column;
-        gap: 8px;
+
+      .search-filter {
+        width: 100%;
       }
-      
+
+      .search-filter input {
+        width: 100%;
+      }
+
+      .session-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .session-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+
       .resources-grid {
         grid-template-columns: 1fr;
+      }
+
+      .form-row {
+        flex-direction: column;
+        gap: 0;
       }
     }
     .logo {
@@ -1590,19 +1699,17 @@
     <div class="sidebar">
       <div class="sidebar-header">
         <div class="logo">
-          <div class="logo-izcon">
-          <img src="img/logo.png" alt="Logo" class="logo">
-        </div>
+          <div class="logo-iacon"><img src="img/logo.png" alt="Logo" class="logo"></div>
           <span>ConfidenSee</span>
         </div>
         <button class="sidebar-toggle">
           <i class="fas fa-times"></i>
         </button>
       </div>
-      
+
       <div class="user-profile">
         <div class="avatar">
-          <img src="https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg" alt="User Avatar">
+          <img src="https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg" alt="User">
           <div class="status-indicator"></div>
         </div>
         <div class="user-info">
@@ -1610,31 +1717,37 @@
           <p>Premium Member</p>
         </div>
       </div>
-      
+
       <ul class="sidebar-nav">
-        <li class="nav-item active" data-target="dashboard">
+        <li class="nav-item active" data-page="dashboard">
           <a href="#"><i class="fas fa-home"></i> Dashboard</a>
         </li>
-        <li class="nav-item" data-target="practice">
-          <a href="#"><i class="fas fa-microphone"></i> Practice Sessions</a>
+        <li class="nav-item" data-page="question-packs">
+          <a href="#"><i class="fas fa-folder"></i> Question Packs</a>
         </li>
-        <li class="nav-item" data-target="analytics">
-          <a href="#"><i class="fas fa-chart-line"></i> Analytics</a>
+        <li class="nav-item" data-page="performance">
+          <a href="#"><i class="fas fa-chart-line"></i> Performance</a>
         </li>
-        <li class="nav-item" data-target="interviews">
-          <a href="#"><i class="fas fa-calendar-alt"></i> Interviews</a>
+        <li class="nav-item" data-page="pricing">
+          <a href="#"><i class="fas fa-tag"></i> Pricing</a>
         </li>
-        <li class="nav-item" data-target="resources">
-          <a href="#"><i class="fas fa-book"></i> Resources</a>
+        <li class="nav-item" data-page="ai-setup">
+          <a href="#"><i class="fas fa-robot"></i> AI Setup</a>
         </li>
-        <li class="nav-item" data-target="settings">
-          <a href="#"><i class="fas fa-cog"></i> Settings</a>
+        <li class="nav-item" data-page="profile">
+          <a href="#"><i class="fas fa-user"></i> Profile</a>
+        </li>
+        <li class="nav-item" data-page="ai-training">
+          <a href="#"><i class="fas fa-graduation-cap"></i> AI Training</a>
+        </li>
+        <li class="nav-item" data-page="language">
+          <a href="#"><i class="fas fa-globe"></i> Language</a>
         </li>
       </ul>
-      
+
       
     </div>
-    
+
     <!-- Main Content -->
     <div class="main-content">
       <div class="dashboard-header">
@@ -1655,85 +1768,81 @@
           </button>
         </div>
       </div>
-      
+
       <div class="dashboard-content">
-        <!-- Dashboard Section -->
+        <!-- Dashboard Page -->
         <div class="content-section active" id="dashboard">
-          <div class="welcome-section animated">
+          <div class="welcome-section">
             <div class="welcome-content">
               <h1>Welcome back, User!</h1>
-              <p>You've completed 12 practice sessions this week. Keep up the great work!</p>
+              <p>You've completed 12 practice sessions this week. Keep up the good work!</p>
             </div>
             <button class="cta-button">
               <i class="fas fa-plus"></i> New Practice Session
             </button>
           </div>
-          
+
           <div class="stats-section">
-            <div class="stat-card animated" style="animation-delay: 0.1s;">
+            <div class="stat-card">
               <div class="stat-icon">
-                <i class="fas fa-microphone"></i>
+                <i class="fas fa-check-circle"></i>
               </div>
               <div class="stat-info">
-                <h3>24</h3>
-                <p>Total Sessions</p>
-              </div>
-              <div class="stat-trend up">
-                <i class="fas fa-arrow-up"></i> 12%
-              </div>
-            </div>
-            
-            <div class="stat-card animated" style="animation-delay: 0.2s;">
-              <div class="stat-icon">
-                <i class="fas fa-chart-line"></i>
-              </div>
-              <div class="stat-info">
-                <h3>78%</h3>
-                <p>Average Score</p>
+                <h3>87%</h3>
+                <p>Completion Rate</p>
               </div>
               <div class="stat-trend up">
                 <i class="fas fa-arrow-up"></i> 5%
               </div>
             </div>
-            
-            <div class="stat-card animated" style="animation-delay: 0.3s;">
+            <div class="stat-card">
               <div class="stat-icon">
                 <i class="fas fa-clock"></i>
               </div>
               <div class="stat-info">
-                <h3>12h</h3>
-                <p>Time Practiced</p>
+                <h3>24</h3>
+                <p>Hours Practiced</p>
               </div>
               <div class="stat-trend up">
                 <i class="fas fa-arrow-up"></i> 8%
               </div>
             </div>
-            
-            <div class="stat-card animated" style="animation-delay: 0.4s;">
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-star"></i>
+              </div>
+              <div class="stat-info">
+                <h3>4.8</h3>
+                <p>Average Rating</p>
+              </div>
+              <div class="stat-trend up">
+                <i class="fas fa-arrow-up"></i> 0.3
+              </div>
+            </div>
+            <div class="stat-card">
               <div class="stat-icon">
                 <i class="fas fa-trophy"></i>
               </div>
               <div class="stat-info">
-                <h3>3/5</h3>
+                <h3>15</h3>
                 <p>Skills Mastered</p>
               </div>
               <div class="stat-trend up">
-                <i class="fas fa-arrow-up"></i> 2%
+                <i class="fas fa-arrow-up"></i> 2
               </div>
             </div>
           </div>
-          
-          <div class="sessions-section animated" style="animation-delay: 0.5s;">
+
+          <div class="sessions-section">
             <div class="section-header">
               <h2>Recent Practice Sessions</h2>
               <a href="#" class="view-all">View All</a>
             </div>
-            
             <div class="sessions-grid">
               <div class="session-card">
                 <div class="session-header">
                   <h3>Technical Interview</h3>
-                  <div class="session-score">82%</div>
+                  <div class="session-score">92%</div>
                 </div>
                 <div class="session-details">
                   <p><i class="fas fa-clock"></i> 25 minutes</p>
@@ -1741,16 +1850,15 @@
                 </div>
                 <div class="session-progress">
                   <div class="progress-bar">
-                    <div class="progress-fill" style="width: 82%;"></div>
+                    <div class="progress-fill" style="width: 92%"></div>
                   </div>
                 </div>
                 <button class="session-action-btn">Review Session</button>
               </div>
-              
               <div class="session-card">
                 <div class="session-header">
-                  <h3>Behavioral Interview</h3>
-                  <div class="session-score">76%</div>
+                  <h3>Behavioral Questions</h3>
+                  <div class="session-score">85%</div>
                 </div>
                 <div class="session-details">
                   <p><i class="fas fa-clock"></i> 18 minutes</p>
@@ -1758,46 +1866,46 @@
                 </div>
                 <div class="session-progress">
                   <div class="progress-bar">
-                    <div class="progress-fill" style="width: 76%;"></div>
+                    <div class="progress-fill" style="width: 85%"></div>
                   </div>
                 </div>
                 <button class="session-action-btn">Review Session</button>
               </div>
-              
               <div class="session-card">
                 <div class="session-header">
-                  <h3>Product Manager</h3>
-                  <div class="session-score">91%</div>
+                  <h3>System Design</h3>
+                  <div class="session-score">78%</div>
                 </div>
                 <div class="session-details">
                   <p><i class="fas fa-clock"></i> 32 minutes</p>
-                  <p><i class="fas fa-calendar"></i> 4 days ago</p>
+                  <p><i class="fas fa-calendar"></i> 5 days ago</p>
                 </div>
                 <div class="session-progress">
                   <div class="progress-bar">
-                    <div class="progress-fill" style="width: 91%;"></div>
+                    <div class="progress-fill" style="width: 78%"></div>
                   </div>
                 </div>
                 <button class="session-action-btn">Review Session</button>
               </div>
             </div>
           </div>
-          
-          <div class="analytics-section animated" style="animation-delay: 0.6s;">
+
+          <div class="analytics-section">
             <div class="analytics-card">
               <div class="section-header">
-                <h2>Performance Trends</h2>
+                <h2>Performance Analytics</h2>
+                <a href="#" class="view-all">See Details</a>
               </div>
               <div class="chart-container">
                 <div class="chart-placeholder">
                   <div class="chart-bars">
-                    <div class="bar" style="height: 40%;"></div>
-                    <div class="bar" style="height: 60%;"></div>
-                    <div class="bar" style="height: 75%;"></div>
-                    <div class="bar" style="height: 65%;"></div>
-                    <div class="bar" style="height: 80%;"></div>
-                    <div class="bar" style="height: 90%;"></div>
-                    <div class="bar" style="height: 85%;"></div>
+                    <div class="bar" style="height: 70%"></div>
+                    <div class="bar" style="height: 85%"></div>
+                    <div class="bar" style="height: 65%"></div>
+                    <div class="bar" style="height: 90%"></div>
+                    <div class="bar" style="height: 75%"></div>
+                    <div class="bar" style="height: 95%"></div>
+                    <div class="bar" style="height: 80%"></div>
                   </div>
                   <div class="chart-labels">
                     <span>Mon</span>
@@ -1811,61 +1919,57 @@
                 </div>
               </div>
             </div>
-            
             <div class="analytics-card">
               <div class="section-header">
-                <h2>Skill Distribution</h2>
+                <h2>Skills Breakdown</h2>
+                <a href="#" class="view-all">See All</a>
               </div>
               <div class="skills-list">
                 <div class="skill-item">
                   <div class="skill-info">
                     <h4>Technical Knowledge</h4>
-                    <span>85%</span>
+                    <span>88%</span>
                   </div>
                   <div class="progress-bar">
-                    <div class="progress-fill" style="width: 85%;"></div>
+                    <div class="progress-fill" style="width: 88%"></div>
                   </div>
                 </div>
-                
                 <div class="skill-item">
                   <div class="skill-info">
                     <h4>Communication</h4>
-                    <span>78%</span>
-                  </div>
-                  <div class="progress-bar">
-                    <div class="progress-fill" style="width: 78%;"></div>
-                  </div>
-                </div>
-                
-                <div class="skill-item">
-                  <div class="skill-info">
-                    <h4>Problem Solving</h4>
                     <span>92%</span>
                   </div>
                   <div class="progress-bar">
-                    <div class="progress-fill" style="width: 92%;"></div>
+                    <div class="progress-fill" style="width: 92%"></div>
                   </div>
                 </div>
-                
+                <div class="skill-item">
+                  <div class="skill-info">
+                    <h4>Problem Solving</h4>
+                    <span>85%</span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: 85%"></div>
+                  </div>
+                </div>
                 <div class="skill-item">
                   <div class="skill-info">
                     <h4>Confidence</h4>
-                    <span>70%</span>
+                    <span>79%</span>
                   </div>
                   <div class="progress-bar">
-                    <div class="progress-fill" style="width: 70%;"></div>
+                    <div class="progress-fill" style="width: 79%"></div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          
-          <div class="interviews-section animated" style="animation-delay: 0.7s;">
+
+          <div class="interviews-section">
             <div class="section-header">
               <h2>Upcoming Interviews</h2>
               <a href="#" class="view-all">View All</a>
             </div>
-            
             <div class="interviews-list">
               <div class="interview-item">
                 <div class="date-badge">
@@ -1882,7 +1986,6 @@
                   <button class="action-btn details">Details</button>
                 </div>
               </div>
-              
               <div class="interview-item">
                 <div class="date-badge">
                   <div class="day">22</div>
@@ -1890,7 +1993,7 @@
                 </div>
                 <div class="interview-details">
                   <h3>Product Manager at InnovateCo</h3>
-                  <p><i class="fas fa-clock"></i> 2:00 PM - 3:00 PM</p>
+                  <p><i class="fas fa-clock"></i> 2:00 PM - 3:30 PM</p>
                   <p><i class="fas fa-building"></i> On-site</p>
                 </div>
                 <div class="interview-actions">
@@ -1901,902 +2004,972 @@
             </div>
           </div>
         </div>
-        
-           <div class="content-section" id="practice">
-          <div class="section-header">
-            <h2>Practice Sessions</h2>
+
+        <!-- Question Packs Page -->
+        <div class="content-section" id="question-packs">
+          <div class="welcome-section">
+            <div class="welcome-content">
+              <h1>Question Packs</h1>
+              <p>Browse and practice with our curated question packs</p>
+            </div>
             <button class="cta-button">
-              <i class="fas fa-plus"></i> New Practice Session
+              <i class="fas fa-download"></i> Download All
             </button>
           </div>
 
           <div class="practice-filters">
             <div class="filter-group">
-              <label>Filter by:</label>
+              <label>Category</label>
               <select>
-                <option>All Types</option>
+                <option>All Categories</option>
                 <option>Technical</option>
                 <option>Behavioral</option>
-                <option>Product Management</option>
+                <option>System Design</option>
                 <option>Leadership</option>
               </select>
             </div>
             <div class="filter-group">
-              <label>Sort by:</label>
+              <label>Difficulty</label>
               <select>
-                <option>Most Recent</option>
-                <option>Highest Score</option>
-                <option>Longest Duration</option>
+                <option>All Levels</option>
+                <option>Beginner</option>
+                <option>Intermediate</option>
+                <option>Advanced</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label>Sort By</label>
+              <select>
+                <option>Most Popular</option>
+                <option>Newest</option>
+                <option>Highest Rated</option>
               </select>
             </div>
             <div class="search-filter">
               <i class="fas fa-search"></i>
-              <input type="text" placeholder="Search sessions...">
+              <input type="text" placeholder="Search question packs...">
             </div>
           </div>
 
           <div class="sessions-list">
-            <div class="session-item animated">
+            <div class="session-item">
               <div class="session-type">
                 <i class="fas fa-code"></i>
                 <span>Technical</span>
               </div>
               <div class="session-details">
-                <h3>Frontend Developer Questions</h3>
+                <h3>Data Structures & Algorithms</h3>
                 <div class="session-meta">
-                  <span><i class="fas fa-clock"></i> 45 min</span>
-                  <span><i class="fas fa-calendar"></i> Jun 12, 2023</span>
-                  <span><i class="fas fa-chart-bar"></i> 92%</span>
+                  <span><i class="fas fa-question-circle"></i> 120 questions</span>
+                  <span><i class="fas fa-clock"></i> 5 hours</span>
+                  <span><i class="fas fa-star"></i> 4.8 (245 reviews)</span>
                 </div>
               </div>
               <div class="session-actions">
-                <button class="btn-outline"><i class="fas fa-play"></i> Resume</button>
-                <button class="btn-outline"><i class="fas fa-chart-line"></i> Results</button>
-                <button class="btn-icon"><i class="fas fa-ellipsis-v"></i></button>
+                <button class="btn-outline">
+                  <i class="fas fa-eye"></i> Preview
+                </button>
+                <button class="btn-icon">
+                  <i class="fas fa-download"></i>
+                </button>
+                <button class="btn-icon">
+                  <i class="fas fa-play"></i>
+                </button>
               </div>
             </div>
-
-            <div class="session-item animated">
+            <div class="session-item">
               <div class="session-type">
                 <i class="fas fa-users"></i>
                 <span>Behavioral</span>
               </div>
               <div class="session-details">
-                <h3>Leadership & Teamwork</h3>
+                <h3>Leadership & Team Management</h3>
                 <div class="session-meta">
-                  <span><i class="fas fa-clock"></i> 32 min</span>
-                  <span><i class="fas fa-calendar"></i> Jun 10, 2023</span>
-                  <span><i class="fas fa-chart-bar"></i> 85%</span>
+                  <span><i class="fas fa-question-circle"></i> 85 questions</span>
+                  <span><i class="fas fa-clock"></i> 3.5 hours</span>
+                  <span><i class="fas fa-star"></i> 4.7 (180 reviews)</span>
                 </div>
               </div>
               <div class="session-actions">
-                <button class="btn-outline"><i class="fas fa-play"></i> Resume</button>
-                <button class="btn-outline"><i class="fas fa-chart-line"></i> Results</button>
-                <button class="btn-icon"><i class="fas fa-ellipsis-v"></i></button>
+                <button class="btn-outline">
+                  <i class="fas fa-eye"></i> Preview
+                </button>
+                <button class="btn-icon">
+                  <i class="fas fa-download"></i>
+                </button>
+                <button class="btn-icon">
+                  <i class="fas fa-play"></i>
+                </button>
               </div>
             </div>
-
-            <div class="session-item animated">
+            <div class="session-item">
               <div class="session-type">
-                <i class="fas fa-project-diagram"></i>
-                <span>Product Management</span>
+                <i class="fas fa-sitemap"></i>
+                <span>System Design</span>
               </div>
               <div class="session-details">
-                <h3>Product Strategy Questions</h3>
+                <h3>Scalable Architecture Patterns</h3>
                 <div class="session-meta">
-                  <span><i class="fas fa-clock"></i> 51 min</span>
-                  <span><i class="fas fa-calendar"></i> Jun 8, 2023</span>
-                  <span><i class="fas fa-chart-bar"></i> 78%</span>
+                  <span><i class="fas fa-question-circle"></i> 65 questions</span>
+                  <span><i class="fas fa-clock"></i> 4 hours</span>
+                  <span><i class="fas fa-star"></i> 4.9 (210 reviews)</span>
                 </div>
               </div>
               <div class="session-actions">
-                <button class="btn-outline"><i class="fas fa-play"></i> Resume</button>
-                <button class="btn-outline"><i class="fas fa-chart-line"></i> Results</button>
-                <button class="btn-icon"><i class="fas fa-ellipsis-v"></i></button>
+                <button class="btn-outline">
+                  <i class="fas fa-eye"></i> Preview
+                </button>
+                <button class="btn-icon">
+                  <i class="fas fa-download"></i>
+                </button>
+                <button class="btn-icon">
+                  <i class="fas fa-play"></i>
+                </button>
               </div>
             </div>
-
-            <div class="session-item animated">
+            <div class="session-item">
               <div class="session-type">
-                <i class="fas fa-brain"></i>
-                <span>Problem Solving</span>
+                <i class="fas fa-chart-bar"></i>
+                <span>Business</span>
               </div>
               <div class="session-details">
-                <h3>Algorithm Challenges</h3>
+                <h3>Product Strategy & Analytics</h3>
                 <div class="session-meta">
-                  <span><i class="fas fa-clock"></i> 38 min</span>
-                  <span><i class="fas fa-calendar"></i> Jun 5, 2023</span>
-                  <span><i class="fas fa-chart-bar"></i> 88%</span>
+                  <span><i class="fas fa-question-circle"></i> 75 questions</span>
+                  <span><i class="fas fa-clock"></i> 3 hours</span>
+                  <span><i class="fas fa-star"></i> 4.6 (165 reviews)</span>
                 </div>
               </div>
               <div class="session-actions">
-                <button class="btn-outline"><i class="fas fa-play"></i> Resume</button>
-                <button class="btn-outline"><i class="fas fa-chart-line"></i> Results</button>
-                <button class="btn-icon"><i class="fas fa-ellipsis-v"></i></button>
+                <button class="btn-outline">
+                  <i class="fas fa-eye"></i> Preview
+                </button>
+                <button class="btn-icon">
+                  <i class="fas fa-download"></i>
+                </button>
+                <button class="btn-icon">
+                  <i class="fas fa-play"></i>
+                </button>
               </div>
             </div>
           </div>
 
           <div class="pagination">
-            <button class="pagination-btn"><i class="fas fa-chevron-left"></i></button>
-            <span class="pagination-page">Page 1 of 3</span>
-            <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
+            <button class="pagination-btn">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <span class="pagination-page">Page 1 of 4</span>
+            <button class="pagination-btn">
+              <i class="fas fa-chevron-right"></i>
+            </button>
           </div>
         </div>
-        
-        <div class="content-section" id="analytics">
-          <div class="section-header">
-            <h2>Performance Analytics</h2>
-            <div class="time-filter">
-              <button class="filter-btn active">Week</button>
-              <button class="filter-btn">Month</button>
-              <button class="filter-btn">Quarter</button>
-              <button class="filter-btn">Year</button>
+
+        <!-- Performance Page -->
+        <div class="content-section" id="performance">
+          <div class="welcome-section">
+            <div class="welcome-content">
+              <h1>Performance Analytics</h1>
+              <p>Track your progress and identify areas for improvement</p>
             </div>
+            <button class="cta-button">
+              <i class="fas fa-download"></i> Export Report
+            </button>
           </div>
 
           <div class="analytics-grid">
-            <div class="analytics-card large animated">
+            <div class="analytics-card">
               <div class="card-header">
-                <h3>Performance Overview</h3>
-                <button class="btn-outline"><i class="fas fa-download"></i> Export</button>
+                <h3>Weekly Performance</h3>
+                <a href="#" class="view-all">See Details</a>
               </div>
               <div class="chart-container">
                 <div class="chart-placeholder">
                   <div class="line-chart">
-                    <div class="chart-line" style="height: 30%"></div>
-                    <div class="chart-line" style="height: 50%"></div>
-                    <div class="chart-line" style="height: 70%"></div>
                     <div class="chart-line" style="height: 60%"></div>
+                    <div class="chart-line" style="height: 75%"></div>
+                    <div class="chart-line" style="height: 65%"></div>
+                    <div class="chart-line" style="height: 85%"></div>
                     <div class="chart-line" style="height: 80%"></div>
                     <div class="chart-line" style="height: 90%"></div>
-                    <div class="chart-line" style="height: 85%"></div>
+                    <div class="chart-line" style="height: 95%"></div>
                   </div>
                   <div class="chart-labels">
-                    <span>Week 1</span>
-                    <span>Week 2</span>
-                    <span>Week 3</span>
-                    <span>Week 4</span>
-                    <span>Week 5</span>
-                    <span>Week 6</span>
-                    <span>Week 7</span>
+                    <span>Mon</span>
+                    <span>Tue</span>
+                    <span>Wed</span>
+                    <span>Thu</span>
+                    <span>Fri</span>
+                    <span>Sat</span>
+                    <span>Sun</span>
                   </div>
                 </div>
               </div>
             </div>
-
-            <div class="analytics-card animated">
+            <div class="analytics-card">
               <div class="card-header">
-                <h3>Score Distribution</h3>
+                <h3>Skill Distribution</h3>
+                <a href="#" class="view-all">See Details</a>
               </div>
-              <div class="chart-container">
+              <div class="chart-container" style="display: flex; align-items: center; justify-content: center;">
                 <div class="pie-chart">
-                  <div class="pie-segment" style="--offset: 0; --value: 60;"></div>
-                  <div class="pie-segment" style="--offset: 60; --value: 25;"></div>
-                  <div class="pie-segment" style="--offset: 85; --value: 10;"></div>
-                  <div class="pie-segment" style="--offset: 95; --value: 5;"></div>
                   <div class="pie-center"></div>
                 </div>
                 <div class="pie-labels">
                   <div class="pie-label">
-                    <span class="color-dot" style="background: var(--primary)"></span>
-                    <span>80-100%</span>
+                    <div class="color-dot" style="background: var(--primary);"></div>
+                    <span>Technical: 60%</span>
                   </div>
                   <div class="pie-label">
-                    <span class="color-dot" style="background: var(--secondary)"></span>
-                    <span>60-79%</span>
+                    <div class="color-dot" style="background: var(--secondary);"></div>
+                    <span>Communication: 25%</span>
                   </div>
                   <div class="pie-label">
-                    <span class="color-dot" style="background: #ffa502"></span>
-                    <span>40-59%</span>
+                    <div class="color-dot" style="background: #ffa502;"></div>
+                    <span>Problem Solving: 10%</span>
                   </div>
                   <div class="pie-label">
-                    <span class="color-dot" style="background: #ff4757"></span>
-                    <span>0-39%</span>
+                    <div class="color-dot" style="background: #ff4757;"></div>
+                    <span>Other: 5%</span>
                   </div>
                 </div>
               </div>
             </div>
-
-            <div class="analytics-card animated">
+            <div class="analytics-card large">
               <div class="card-header">
-                <h3>Practice Time</h3>
+                <h3>Performance Overview</h3>
+                <a href="#" class="view-all">See Details</a>
               </div>
               <div class="stats-overview">
                 <div class="stat-item">
-                  <span class="stat-value">12h 45m</span>
-                  <span class="stat-label">Total Time</span>
+                  <div class="stat-value">87%</div>
+                  <div class="stat-label">Avg. Score</div>
                 </div>
                 <div class="stat-item">
-                  <span class="stat-value">24m</span>
-                  <span class="stat-label">Avg/Session</span>
+                  <div class="stat-value">24h</div>
+                  <div class="stat-label">Total Practice</div>
                 </div>
                 <div class="stat-item">
-                  <span class="stat-value">24</span>
-                  <span class="stat-label">Sessions</span>
+                  <div class="stat-value">15</div>
+                  <div class="stat-label">Skills Mastered</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-value">92%</div>
+                  <div class="stat-label">Completion</div>
                 </div>
               </div>
             </div>
-
-            <div class="analytics-card animated">
+            <div class="analytics-card full-width">
               <div class="card-header">
-                <h3>Improvement Areas</h3>
+                <h3>Skills Improvement</h3>
+                <a href="#" class="view-all">See Details</a>
               </div>
               <div class="improvement-list">
                 <div class="improvement-item">
-                  <span class="improvement-label">Communication Clarity</span>
+                  <div class="improvement-label">Technical Knowledge</div>
                   <div class="improvement-progress">
-                    <div class="progress-bar">
-                      <div class="progress-fill" style="width: 65%"></div>
-                    </div>
-                    <span class="improvement-value">65%</span>
-                  </div>
-                </div>
-                <div class="improvement-item">
-                  <span class="improvement-label">Answer Structure</span>
-                  <div class="improvement-progress">
-                    <div class="progress-bar">
-                      <div class="progress-fill" style="width: 72%"></div>
-                    </div>
-                    <span class="improvement-value">72%</span>
-                  </div>
-                </div>
-                <div class="improvement-item">
-                  <span class="improvement-label">Technical Depth</span>
-                  <div class="improvement-progress">
-                    <div class="progress-bar">
+                    <div class="progress-bar" style="flex: 1;">
                       <div class="progress-fill" style="width: 88%"></div>
                     </div>
-                    <span class="improvement-value">88%</span>
+                    <div class="improvement-value">+12%</div>
+                  </div>
+                </div>
+                <div class="improvement-item">
+                  <div class="improvement-label">Communication Skills</div>
+                  <div class="improvement-progress">
+                    <div class="progress-bar" style="flex: 1;">
+                      <div class="progress-fill" style="width: 92%"></div>
+                    </div>
+                    <div class="improvement-value">+8%</div>
+                  </div>
+                </div>
+                <div class="improvement-item">
+                  <div class="improvement-label">Problem Solving</div>
+                  <div class="improvement-progress">
+                    <div class="progress-bar" style="flex: 1;">
+                      <div class="progress-fill" style="width: 85%"></div>
+                    </div>
+                    <div class="improvement-value">+15%</div>
+                  </div>
+                </div>
+                <div class="improvement-item">
+                  <div class="improvement-label">Confidence Level</div>
+                  <div class="improvement-progress">
+                    <div class="progress-bar" style="flex: 1;">
+                      <div class="progress-fill" style="width: 79%"></div>
+                    </div>
+                    <div class="improvement-value">+19%</div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-
-          <div class="analytics-card full-width animated">
-            <div class="card-header">
-              <h3>Skill Progress Over Time</h3>
-            </div>
-            <div class="skills-comparison">
-              <div class="skills-legend">
-                <div class="legend-item">
-                  <span class="line-color" style="background: var(--primary)"></span>
-                  <span>Communication</span>
-                </div>
-                <div class="legend-item">
-                  <span class="line-color" style="background: var(--secondary)"></span>
-                  <span>Technical Knowledge</span>
-                </div>
-                <div class="legend-item">
-                  <span class="line-color" style="background: #ffa502"></span>
-                  <span>Problem Solving</span>
-                </div>
+            <div class="analytics-card full-width">
+              <div class="card-header">
+                <h3>Skills Comparison</h3>
+                <a href="#" class="view-all">See Details</a>
               </div>
-              <div class="comparison-chart">
-                <div class="chart-grid">
-                  <div class="grid-line"></div>
-                  <div class="grid-line"></div>
-                  <div class="grid-line"></div>
-                  <div class="grid-line"></div>
-                  <div class="grid-line"></div>
+              <div class="skills-comparison">
+                <div class="skills-legend">
+                  <div class="legend-item">
+                    <div class="line-color" style="background: var(--primary);"></div>
+                    <span>Your Skills</span>
+                  </div>
+                  <div class="legend-item">
+                    <div class="line-color" style="background: var(--secondary);"></div>
+                    <span>Industry Average</span>
+                  </div>
                 </div>
-                <div class="chart-lines">
-                  <div class="comparison-line" style="height: 30%; left: 10%; background: var(--primary)"></div>
-                  <div class="comparison-line" style="height: 40%; left: 25%; background: var(--primary)"></div>
-                  <div class="comparison-line" style="height: 60%; left: 40%; background: var(--primary)"></div>
-                  <div class="comparison-line" style="height: 65%; left: 55%; background: var(--primary)"></div>
-                  <div class="comparison-line" style="height: 75%; left: 70%; background: var(--primary)"></div>
-                  <div class="comparison-line" style="height: 88%; left: 85%; background: var(--primary)"></div>
-
-                  <div class="comparison-line" style="height: 50%; left: 10%; background: var(--secondary)"></div>
-                  <div class="comparison-line" style="height: 65%; left: 25%; background: var(--secondary)"></div>
-                  <div class="comparison-line" style="height: 70%; left: 40%; background: var(--secondary)"></div>
-                  <div class="comparison-line" style="height: 82%; left: 55%; background: var(--secondary)"></div>
-                  <div class="comparison-line" style="height: 88%; left: 70%; background: var(--secondary)"></div>
-                  <div class="comparison-line" style="height: 92%; left: 85%; background: var(--secondary)"></div>
-
-                  <div class="comparison-line" style="height: 40%; left: 10%; background: #ffa502"></div>
-                  <div class="comparison-line" style="height: 45%; left: 25%; background: #ffa502"></div>
-                  <div class="comparison-line" style="height: 55%; left: 40%; background: #ffa502"></div>
-                  <div class="comparison-line" style="height: 65%; left: 55%; background: #ffa502"></div>
-                  <div class="comparison-line" style="height: 70%; left: 70%; background: #ffa502"></div>
-                  <div class="comparison-line" style="height: 81%; left: 85%; background: #ffa502"></div>
-                </div>
-                <div class="chart-axis">
-                  <span>Jan</span>
-                  <span>Feb</span>
-                  <span>Mar</span>
-                  <span>Apr</span>
-                  <span>May</span>
-                  <span>Jun</span>
+                <div class="comparison-chart">
+                  <div class="chart-grid">
+                    <div class="grid-line"></div>
+                    <div class="grid-line"></div>
+                    <div class="grid-line"></div>
+                    <div class="grid-line"></div>
+                    <div class="grid-line"></div>
+                  </div>
+                  <div class="chart-lines">
+                    <div class="comparison-line" style="height: 88%; background: var(--primary);"></div>
+                    <div class="comparison-line" style="height: 75%; background: var(--secondary);"></div>
+                    <div class="comparison-line" style="height: 92%; background: var(--primary);"></div>
+                    <div class="comparison-line" style="height: 80%; background: var(--secondary);"></div>
+                    <div class="comparison-line" style="height: 85%; background: var(--primary);"></div>
+                    <div class="comparison-line" style="height: 70%; background: var(--secondary);"></div>
+                    <div class="comparison-line" style="height: 79%; background: var(--primary);"></div>
+                    <div class="comparison-line" style="height: 65%; background: var(--secondary);"></div>
+                  </div>
+                  <div class="chart-axis">
+                    <span>Technical</span>
+                    <span>Communication</span>
+                    <span>Problem Solving</span>
+                    <span>Confidence</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        
-        <div class="content-section" id="interviews">
-          <div class="section-header">
-            <h2>Interview Management</h2>
+
+        <!-- Pricing Page -->
+        <div class="content-section" id="pricing">
+          <div class="welcome-section">
+            <div class="welcome-content">
+              <h1>Choose Your Plan</h1>
+              <p>Select the plan that works best for your interview preparation needs</p>
+            </div>
+            <div class="toggle-label">
+              <span>Monthly</span>
+              <label class="toggle-switch">
+                <input type="checkbox" checked>
+                <span class="slider"></span>
+              </label>
+              <span>Annual (Save 20%)</span>
+            </div>
+          </div>
+
+          <div class="stats-section">
+            <div class="plan-card">
+              <div class="plan-header">
+                <h4>Basic Pack</h4>
+                <div class="plan-price">৳200<span>/month</span></div>
+              </div>
+              <div class="plan-features">
+                <div class="plan-feature">
+                  <i class="fas fa-check"></i>
+                  <span>5 Practice Sessions per month</span>
+                </div>
+                <div class="plan-feature">
+                  <i class="fas fa-check"></i>
+                  <span>Basic Question Packs</span>
+                </div>
+                <div class="plan-feature">
+                  <i class="fas fa-check"></i>
+                  <span>Performance Analytics</span>
+                </div>
+                <div class="plan-feature">
+                  <i class="fas fa-times"></i>
+                  <span>AI Feedback</span>
+                </div>
+                <div class="plan-feature">
+                  <i class="fas fa-times"></i>
+                  <span>Custom Question Sets</span>
+                </div>
+              </div>
+              <button class="plan-action outline">Current Plan</button>
+            </div>
+            <div class="plan-card">
+              <div class="plan-header">
+                <h4>Standard Pack</h4>
+                <div class="plan-price">৳400<span>/month</span></div>
+              </div>
+              <div class="plan-features">
+                <div class="plan-feature">
+                  <i class="fas fa-check"></i>
+                  <span>Unlimited Practice Sessions</span>
+                </div>
+                <div class="plan-feature">
+                  <i class="fas fa-check"></i>
+                  <span>All Question Packs</span>
+                </div>
+                <div class="plan-feature">
+                  <i class="fas fa-check"></i>
+                  <span>Advanced Analytics</span>
+                </div>
+                <div class="plan-feature">
+                  <i class="fas fa-check"></i>
+                  <span>AI Feedback & Suggestions</span>
+                </div>
+                <div class="plan-feature">
+                  <i class="fas fa-check"></i>
+                  <span>Custom Question Sets</span>
+                </div>
+              </div>
+              <button class="plan-action">Upgrade to Pro</button>
+            </div>
+            <div class="plan-card">
+              <div class="plan-header">
+                <h4>Premium Pack</h4>
+                <div class="plan-price">৳600<span>/month</span></div>
+              </div>
+              <div class="plan-features">
+                <div class="plan-feature">
+                  <i class="fas fa-check"></i>
+                  <span>Everything in Pro</span>
+                </div>
+                <div class="plan-feature">
+                  <i class="fas fa-check"></i>
+                  <span>Team Management</span>
+                </div>
+                <div class="plan-feature">
+                  <i class="fas fa-check"></i>
+                  <span>Custom Content Creation</span>
+                </div>
+                <div class="plan-feature">
+                  <i class="fas fa-check"></i>
+                  <span>Priority Support</span>
+                </div>
+                <div class="plan-feature">
+                  <i class="fas fa-check"></i>
+                  <span>Dedicated Account Manager</span>
+                </div>
+
+              </div>
+              <button class="plan-action outline">Contact Sales</button>
+            </div>
+          </div>
+
+          <div class="sessions-section">
+            <div class="section-header">
+              <h2>Frequently Asked Questions</h2>
+            </div>
+            <div class="sessions-grid">
+              <div class="session-card">
+                <h3>Can I change plans anytime?</h3>
+                <p>Yes, you can upgrade or downgrade your plan at any time. Changes will be reflected in your next billing cycle.</p>
+              </div>
+              <div class="session-card">
+                <h3>Is there a free trial?</h3>
+                <p>Yes, we offer a 7-day free trial for the Pro plan. No credit card required to start your trial.</p>
+              </div>
+              <div class="session-card">
+                <h3>What payment methods do you accept?</h3>
+                <p>We accept all major credit cards, PayPal, and bank transfers for annual plans.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Setup Page -->
+        <div class="content-section" id="ai-setup">
+          <div class="welcome-section">
+            <div class="welcome-content">
+              <h1>AI Interviewer Setup</h1>
+              <p>Customize your AI interviewer to match your target role and company</p>
+            </div>
             <button class="cta-button">
-              <i class="fas fa-plus"></i> Schedule Interview
+              <i class="fas fa-play"></i> Start Practice
             </button>
           </div>
 
-          <div class="practice-filters">
-            <div class="filter-group">
-              <label>Filter by:</label>
+          <div class="settings-card">
+            <h3>Interview Profile</h3>
+            <div class="form-group">
+              <label>Target Job Title</label>
               <select>
-                <option>All Interviews</option>
-                <option>Upcoming</option>
-                <option>Completed</option>
-                <option>Canceled</option>
+                <option>Software Engineer</option>
+                <option>Product Manager</option>
+                <option>Data Scientist</option>
+                <option>UX Designer</option>
+                <option>DevOps Engineer</option>
               </select>
             </div>
-            <div class="filter-group">
-              <label>Sort by:</label>
+            <div class="form-group">
+              <label>Experience Level</label>
               <select>
-                <option>Date (Newest First)</option>
-                <option>Date (Oldest First)</option>
-                <option>Company Name</option>
-                <option>Position</option>
+                <option>Entry Level</option>
+                <option>Mid Level</option>
+                <option>Senior Level</option>
+                <option>Lead/Principal</option>
               </select>
             </div>
-            <div class="search-filter">
-              <i class="fas fa-search"></i>
-              <input type="text" placeholder="Search interviews...">
+            <div class="form-group">
+              <label>Company Type</label>
+              <select>
+                <option>Tech Company (FAANG)</option>
+                <option>Startup</option>
+                <option>Enterprise</option>
+                <option>Agency</option>
+              </select>
             </div>
+            <div class="form-group">
+              <label>Interview Type</label>
+              <select>
+                <option>Technical Screening</option>
+                <option>System Design</option>
+                <option>Behavioral/Cultural</option>
+                <option>Management/Leadership</option>
+              </select>
+            </div>
+            <button class="save-btn">Save Profile</button>
           </div>
 
-          <div class="interviews-list">
-            <div class="interview-item animated">
-              <div class="date-badge">
-                <span class="day">15</span>
-                <span class="month">Sep</span>
-              </div>
-              <div class="interview-details">
-                <h3>Senior Developer @ TechCorp</h3>
-                <p><i class="fas fa-clock"></i> 10:00 AM - 11:30 AM</p>
-                <p><i class="fas fa-video"></i> Video Call</p>
-                <p><i class="fas fa-map-marker-alt"></i> Meeting Link: meet.techcorp.com/interview</p>
-              </div>
-              <div class="interview-actions">
-                <button class="action-btn prepare">Prepare</button>
-                <button class="action-btn details">Details</button>
-                <button class="btn-icon"><i class="fas fa-ellipsis-v"></i></button>
-              </div>
+          <div class="settings-card">
+            <h3>AI Interviewer Personality</h3>
+            <div class="form-group">
+              <label>Interviewer Style</label>
+              <select>
+                <option>Friendly & Supportive</option>
+                <option>Formal & Professional</option>
+                <option>Challenging & Rigorous</option>
+                <option>Mixed (Adaptive)</option>
+              </select>
             </div>
-            
-            <div class="interview-item animated">
-              <div class="date-badge">
-                <span class="day">18</span>
-                <span class="month">Sep</span>
-              </div>
-              <div class="interview-details">
-                <h3>Product Manager @ StartupXYZ</h3>
-                <p><i class="fas fa-clock"></i> 2:00 PM - 3:00 PM</p>
-                <p><i class="fas fa-building"></i> On-site</p>
-                <p><i class="fas fa-map-marker-alt"></i> 123 Innovation St, Tech City</p>
-              </div>
-              <div class="interview-actions">
-                <button class="action-btn prepare">Prepare</button>
-                <button class="action-btn details">Details</button>
-                <button class="btn-icon"><i class="fas fa-ellipsis-v"></i></button>
-              </div>
+            <div class="form-group">
+              <label>Feedback Detail Level</label>
+              <select>
+                <option>High (Detailed feedback)</option>
+                <option>Medium (Balanced feedback)</option>
+                <option>Low (Key points only)</option>
+              </select>
             </div>
-            
-            <div class="interview-item animated">
-              <div class="date-badge past">
-                <span class="day">05</span>
-                <span class="month">Sep</span>
-              </div>
-              <div class="interview-details">
-                <h3>Data Scientist @ DataWorks</h3>
-                <p><i class="fas fa-clock"></i> 9:00 AM - 10:30 AM</p>
-                <p><i class="fas fa-video"></i> Video Call</p>
-                <p><i class="fas fa-check-circle" style="color: var(--primary)"></i> Completed - Offer Received</p>
-              </div>
-              <div class="interview-actions">
-                <button class="action-btn details">Review</button>
-                <button class="btn-icon"><i class="fas fa-ellipsis-v"></i></button>
-              </div>
+            <div class="form-group">
+              <label>Follow-up Questions</label>
+              <select>
+                <option>Automatic (Based on your answers)</option>
+                <option>Manual (You choose when to drill deeper)</option>
+                <option>Mixed (AI suggests follow-ups)</option>
+              </select>
             </div>
-            
-            <div class="interview-item animated">
-              <div class="date-badge">
-                <span class="day">25</span>
-                <span class="month">Sep</span>
-              </div>
-              <div class="interview-details">
-                <h3>UX Designer @ CreativeMinds</h3>
-                <p><i class="fas fa-clock"></i> 1:30 PM - 2:30 PM</p>
-                <p><i class="fas fa-video"></i> Video Call</p>
-                <p><i class="fas fa-map-marker-alt"></i> Meeting Link: creative-minds.zoom.us/j/12345</p>
-              </div>
-              <div class="interview-actions">
-                <button class="action-btn prepare">Prepare</button>
-                <button class="action-btn details">Details</button>
-                <button class="btn-icon"><i class="fas fa-ellipsis-v"></i></button>
-              </div>
-            </div>
+            <button class="save-btn">Save Preferences</button>
           </div>
 
-          <div class="pagination">
-            <button class="pagination-btn"><i class="fas fa-chevron-left"></i></button>
-            <span class="pagination-page">Page 1 of 2</span>
-            <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
+          <div class="settings-card">
+            <h3>Custom Questions</h3>
+            <div class="form-group">
+              <label>Add Custom Questions</label>
+              <textarea placeholder="Enter questions you'd like to practice, one per line..."></textarea>
+            </div>
+            <div class="form-group">
+              <label>Upload Questions File</label>
+              <input type="file" accept=".txt,.csv,.docx">
+            </div>
+            <button class="save-btn">Upload Questions</button>
           </div>
         </div>
-        
-        <div class="content-section" id="resources">
-          <div class="section-header">
-            <h2>Learning Resources</h2>
-            <div class="resource-filters">
-              <button class="filter-btn active">All</button>
-              <button class="filter-btn">Articles</button>
-              <button class="filter-btn">Videos</button>
-              <button class="filter-btn">Templates</button>
-            </div>
-          </div>
 
-          <div class="resources-grid">
-            <div class="resource-card animated">
-              <div class="resource-image">
-                <i class="fas fa-newspaper"></i>
-              </div>
-              <div class="resource-content">
-                <span class="resource-category">Article</span>
-                <h3>10 Common Interview Mistakes to Avoid</h3>
-                <p>Learn about the most common pitfalls in interviews and how to avoid them to increase your chances of success.</p>
-                <div class="resource-meta">
-                  <span><i class="fas fa-clock"></i> 10 min read</span>
-                  <span><i class="fas fa-star"></i> 4.8</span>
-                </div>
-              </div>
-              <button class="resource-action-btn">Read</button>
+        <!-- Profile Page -->
+        <div class="content-section" id="profile">
+          <div class="welcome-section">
+            <div class="welcome-content">
+              <h1>Profile Settings</h1>
+              <p>Manage your account settings and preferences</p>
             </div>
-
-            <div class="resource-card animated">
-              <div class="resource-image">
-                <i class="fas fa-video"></i>
-              </div>
-              <div class="resource-content">
-                <span class="resource-category">Video</span>
-                <h3>Mastering Behavioral Questions</h3>
-                <p>A comprehensive guide to answering behavioral questions using the STAR method with practical examples.</p>
-                <div class="resource-meta">
-                  <span><i class="fas fa-clock"></i> 15 min</span>
-                  <span><i class="fas fa-star"></i> 4.9</span>
-                </div>
-              </div>
-              <button class="resource-action-btn">Watch</button>
-            </div>
-
-            <div class="resource-card animated">
-              <div class="resource-image">
-                <i class="fas fa-file-alt"></i>
-              </div>
-              <div class="resource-content">
-                <span class="resource-category">Template</span>
-                <h3>Interview Preparation Checklist</h3>
-                <p>A comprehensive checklist to ensure you're fully prepared for your next interview, from research to follow-up.</p>
-                <div class="resource-meta">
-                  <span><i class="fas fa-clock"></i> 5 min read</span>
-                  <span><i class="fas fa-star"></i> 4.7</span>
-                </div>
-              </div>
-              <button class="resource-action-btn">Download</button>
-            </div>
-
-            <div class="resource-card animated">
-              <div class="resource-image">
-                <i class="fas fa-newspaper"></i>
-              </div>
-              <div class="resource-content">
-                <span class="resource-category">Article</span>
-                <h3>Technical Interview Strategies</h3>
-                <p>Effective strategies for tackling technical interviews, including how to approach coding problems and system design.</p>
-                <div class="resource-meta">
-                  <span><i class="fas fa-clock"></i> 12 min read</span>
-                  <span><i class="fas fa-star"></i> 4.8</span>
-                </div>
-              </div>
-              <button class="resource-action-btn">Read</button>
-            </div>
-
-            <div class="resource-card animated">
-              <div class="resource-image">
-                <i class="fas fa-video"></i>
-              </div>
-              <div class="resource-content">
-                <span class="resource-category">Video</span>
-                <h3>Salary Negotiation Techniques</h3>
-                <p>Learn how to confidently negotiate your salary and benefits package to get the compensation you deserve.</p>
-                <div class="resource-meta">
-                  <span><i class="fas fa-clock"></i> 18 min</span>
-                  <span><i class="fas fa-star"></i> 4.9</span>
-                </div>
-              </div>
-              <button class="resource-action-btn">Watch</button>
-            </div>
-
-            <div class="resource-card animated">
-              <div class="resource-image">
-                <i class="fas fa-file-alt"></i>
-              </div>
-              <div class="resource-content">
-                <span class="resource-category">Template</span>
-                <h3>Follow-up Email Templates</h3>
-                <p>Professional email templates for following up after interviews, tailored to different scenarios and situations.</p>
-                <div class="resource-meta">
-                  <span><i class="fas fa-clock"></i> 3 min read</span>
-                  <span><i class="fas fa-star"></i> 4.6</span>
-                </div>
-              </div>
-              <button class="resource-action-btn">Download</button>
-            </div>
-          </div>
-
-          <div class="pagination">
-            <button class="pagination-btn"><i class="fas fa-chevron-left"></i></button>
-            <span class="pagination-page">Page 1 of 2</span>
-            <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
-          </div>
-        </div>
-        
-        <div class="content-section" id="settings">
-          <div class="section-header">
-            <h2>Account Settings</h2>
+            <button class="cta-button">
+              <i class="fas fa-save"></i> Save Changes
+            </button>
           </div>
 
           <div class="settings-container">
             <div class="settings-sidebar">
-              <div class="settings-menu">
-                <div class="settings-item active" data-tab="profile">Profile</div>
-                <div class="settings-item" data-tab="preferences">Preferences</div>
-                <div class="settings-item" data-tab="notifications">Notifications</div>
-                <div class="settings-item" data-tab="billing">Billing</div>
-                <div class="settings-item" data-tab="security">Security</div>
+              <div class="settings-nav">
+                <div class="settings-nav-item active">Personal Information</div>
+                <div class="settings-nav-item">Account Security</div>
+                <div class="settings-nav-item">Notification Preferences</div>
+                <div class="settings-nav-item">Billing Information</div>
+                <div class="settings-nav-item">Privacy Settings</div>
               </div>
             </div>
-
             <div class="settings-content">
-              <div class="settings-section active" id="profile">
-                <h3>Profile Information</h3>
-                <form class="settings-form">
+              <div class="settings-card">
+                <h3>Personal Information</h3>
+                <div class="form-row">
                   <div class="form-group">
                     <label>First Name</label>
-                    <input type="text" class="form-control" value="User">
+                    <input type="text" value="User">
                   </div>
                   <div class="form-group">
                     <label>Last Name</label>
-                    <input type="text" class="form-control" value="N/A">
+                    <input type="text" value="N/A">
                   </div>
-                  <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" class="form-control" value="user@example.com">
-                  </div>
-                  <div class="form-group">
-                    <label>Phone Number</label>
-                    <input type="tel" class="form-control" value="+880 1234567890">
-                  </div>
-                  <div class="form-group">
-                    <label>Bio</label>
-                    <textarea class="form-control" rows="4">Experienced software developer with 5+ years in the industry, specializing in frontend technologies and user experience design.</textarea>
-                  </div>
-                  <div class="form-group">
-                    <button type="submit" class="settings-btn">Save Changes</button>
-                  </div>
-                </form>
+                </div>
+                <div class="form-group">
+                  <label>Email Address</label>
+                  <input type="email" value="user@example.com">
+                </div>
+                <div class="form-group">
+                  <label>Phone Number</label>
+                  <input type="tel" value="+8801234567890">
+                </div>
+                <div class="form-group">
+                  <label>Bio/Introduction</label>
+                  <textarea>Senior software engineer with 5+ years of experience in full-stack development. Passionate about building scalable applications and mentoring junior developers.</textarea>
+                </div>
+                <button class="save-btn">Update Information</button>
               </div>
 
-              <div class="settings-section" id="preferences">
-                <h3>Preferences</h3>
-                <form class="settings-form">
-                  <div class="form-group">
-                    <label>Language</label>
-                    <select class="form-control">
-                      <option>English</option>
-                      <option>Spanish</option>
-                      <option>French</option>
-                      <option>German</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label>Time Zone</label>
-                    <select class="form-control">
-                      <option>(GMT-08:00) Pacific Time</option>
-                      <option>(GMT-07:00) Mountain Time</option>
-                      <option>(GMT-06:00) Central Time</option>
-                      <option>(GMT-05:00) Eastern Time</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label>Theme</label>
-                    <div class="form-check">
-                      <input type="radio" id="theme-light" name="theme" checked>
-                      <label for="theme-light">Light</label>
-                    </div>
-                    <div class="form-check">
-                      <input type="radio" id="theme-dark" name="theme">
-                      <label for="theme-dark">Dark</label>
-                    </div>
-                    <div class="form-check">
-                      <input type="radio" id="theme-system" name="theme">
-                      <label for="theme-system">System Default</label>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="form-check">
-                      <input type="checkbox" id="product-updates" checked>
-                      <label for="product-updates">Send me product updates and tips</label>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="form-check">
-                      <input type="checkbox" id="analytics">
-                      <label for="analytics">Allow analytics collection</label>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <button type="submit" class="settings-btn">Save Preferences</button>
-                  </div>
-                </form>
-              </div>
-
-              <div class="settings-section" id="notifications">
-                <h3>Notification Settings</h3>
-                <form class="settings-form">
-                  <div class="form-group">
-                    <h4>Email Notifications</h4>
-                    <div class="form-check">
-                      <input type="checkbox" id="email-reminders" checked>
-                      <label for="email-reminders">Practice reminders</label>
-                    </div>
-                    <div class="form-check">
-                      <input type="checkbox" id="email-interview" checked>
-                      <label for="email-interview">Interview scheduled</label>
-                    </div>
-                    <div class="form-check">
-                      <input type="checkbox" id="email-progress">
-                      <label for="email-progress">Weekly progress report</label>
-                    </div>
-                    <div class="form-check">
-                      <input type="checkbox" id="email-updates" checked>
-                      <label for="email-updates">New features and updates</label>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <h4>Push Notifications</h4>
-                    <div class="form-check">
-                      <input type="checkbox" id="push-reminders" checked>
-                      <label for="push-reminders">Practice reminders</label>
-                    </div>
-                    <div class="form-check">
-                      <input type="checkbox" id="push-interview" checked>
-                      <label for="push-interview">Interview scheduled</label>
-                    </div>
-                    <div class="form-check">
-                      <input type="checkbox" id="push-achievements">
-                      <label for="push-achievements">Goal achievements</label>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <button type="submit" class="settings-btn">Save Settings</button>
-                  </div>
-                </form>
-              </div>
-
-              <div class="settings-section" id="billing">
-                <h3>Billing Information</h3>
-                <div class="analytics-card" style="margin-bottom: 20px;">
-                  <div class="card-header">
-                    <h3>Current Plan</h3>
-                    <span class="session-score">Premium</span>
-                  </div>
-                  <div class="session-details">
-                    <p>Your plan renews on <strong>October 15, 2023</strong></p>
-                    <p>$19.99/month</p>
-                  </div>
-                  <div class="session-actions">
-                    <button class="btn-outline">Change Plan</button>
-                    <button class="btn-outline">Cancel Subscription</button>
-                  </div>
+              <div class="settings-card">
+                <h3>Career Information</h3>
+                <div class="form-group">
+                  <label>Current Position</label>
+                  <input type="text" value="Senior Software Engineer">
                 </div>
-
-                <div class="analytics-card" style="margin-bottom: 20px;">
-                  <div class="card-header">
-                    <h3>Payment Method</h3>
-                  </div>
-                  <div class="session-details">
-                    <p><i class="fas fa-credit-card"></i> **** **** **** 1234</p>
-                    <p>Expires 05/2024</p>
-                  </div>
-                  <div class="session-actions">
-                    <button class="btn-outline">Update Payment Method</button>
-                  </div>
+                <div class="form-group">
+                  <label>Company</label>
+                  <input type="text" value="Tech Innovations Inc.">
                 </div>
-
-                <h3>Billing History</h3>
-                <div class="sessions-list">
-                  <div class="session-item">
-                    <div class="session-details">
-                      <h3>Premium Subscription</h3>
-                      <div class="session-meta">
-                        <span><i class="fas fa-calendar"></i> Sep 15, 2023</span>
-                        <span><i class="fas fa-dollar-sign"></i> $19.99</span>
-                        <span><i class="fas fa-receipt"></i> Invoice #INV-001</span>
-                      </div>
-                    </div>
-                    <div class="session-actions">
-                      <button class="btn-outline">Download</button>
-                    </div>
-                  </div>
-                  
-                  <div class="session-item">
-                    <div class="session-details">
-                      <h3>Premium Subscription</h3>
-                      <div class="session-meta">
-                        <span><i class="fas fa-calendar"></i> Aug 15, 2023</span>
-                        <span><i class="fas fa-dollar-sign"></i> $19.99</span>
-                        <span><i class="fas fa-receipt"></i> Invoice #INV-002</span>
-                      </div>
-                    </div>
-                    <div class="session-actions">
-                      <button class="btn-outline">Download</button>
-                    </div>
-                  </div>
-                  
-                  <div class="session-item">
-                    <div class="session-details">
-                      <h3>Premium Subscription</h3>
-                      <div class="session-meta">
-                        <span><i class="fas fa-calendar"></i> Jul 15, 2023</span>
-                        <span><i class="fas fa-dollar-sign"></i> $19.99</span>
-                        <span><i class="fas fa-receipt"></i> Invoice #INV-003</span>
-                      </div>
-                    </div>
-                    <div class="session-actions">
-                      <button class="btn-outline">Download</button>
-                    </div>
-                  </div>
+                <div class="form-group">
+                  <label>Years of Experience</label>
+                  <select>
+                    <option>0-2 years</option>
+                    <option>3-5 years</option>
+                    <option selected>5-10 years</option>
+                    <option>10+ years</option>
+                  </select>
                 </div>
-              </div>
-
-              <div class="settings-section" id="security">
-                <h3>Security Settings</h3>
-                <form class="settings-form">
-                  <div class="form-group">
-                    <label>Current Password</label>
-                    <input type="password" class="form-control">
-                  </div>
-                  <div class="form-group">
-                    <label>New Password</label>
-                    <input type="password" class="form-control">
-                  </div>
-                  <div class="form-group">
-                    <label>Confirm New Password</label>
-                    <input type="password" class="form-control">
-                  </div>
-                  <div class="form-group">
-                    <button type="submit" class="settings-btn">Update Password</button>
-                  </div>
-                </form>
-                
-                <div class="analytics-card" style="margin-top: 30px;">
-                  <div class="card-header">
-                    <h3>Two-Factor Authentication</h3>
-                    <span class="session-score" style="background: #ff4757;">Disabled</span>
-                  </div>
-                  <div class="session-details">
-                    <p>Add an extra layer of security to your account by enabling two-factor authentication.</p>
-                  </div>
-                  <div class="session-actions">
-                    <button class="cta-button">Enable 2FA</button>
-                  </div>
+                <div class="form-group">
+                  <label>Skills & Expertise</label>
+                  <textarea placeholder="List your skills (comma separated)">JavaScript, React, Node.js, Python, AWS, Docker, Kubernetes</textarea>
                 </div>
-                
-                <h3 style="margin-top: 30px;">Active Sessions</h3>
-                <div class="sessions-list">
-                  <div class="session-item">
-                    <div class="session-type">
-                      <i class="fas fa-desktop"></i>
-                    </div>
-                    <div class="session-details">
-                      <h3>Chrome on Windows</h3>
-                      <div class="session-meta">
-                        <span><i class="fas fa-map-marker-alt"></i> New York, NY</span>
-                        <span><i class="fas fa-clock"></i> Current session</span>
-                      </div>
-                    </div>
-                    <div class="session-actions">
-                      <button class="btn-outline">Revoke</button>
-                    </div>
-                  </div>
-                  
-                  <div class="session-item">
-                    <div class="session-type">
-                      <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <div class="session-details">
-                      <h3>Safari on iPhone</h3>
-                      <div class="session-meta">
-                        <span><i class="fas fa-map-marker-alt"></i> Boston, MA</span>
-                        <span><i class="fas fa-clock"></i> Active 2 days ago</span>
-                      </div>
-                    </div>
-                    <div class="session-actions">
-                      <button class="btn-outline">Revoke</button>
-                    </div>
-                  </div>
-                </div>
+                <button class="save-btn">Update Career Info</button>
               </div>
             </div>
           </div>
         </div>
+
+        <!-- AI Training Page -->
+        <div class="content-section" id="ai-training">
+          <div class="welcome-section">
+            <div class="welcome-content">
+              <h1>AI Training</h1>
+              <p>Train the AI to better understand your responses and provide more accurate feedback</p>
+            </div>
+            <button class="cta-button">
+              <i class="fas fa-brain"></i> Train AI
+            </button>
+          </div>
+
+          <div class="settings-card">
+            <h3>Voice Recognition Training</h3>
+            <p>Read the following sentences to help our AI better understand your speech patterns and accent.</p>
+            <div class="form-group">
+              <label>Training Text</label>
+              <textarea readonly>Hello, my name is Alex Morgan. I am a software engineer with experience in JavaScript and Python. I enjoy solving complex problems and building scalable applications. I'm currently preparing for technical interviews to advance my career.</textarea>
+            </div>
+            <div class="form-group">
+              <label>Record Your Voice</label>
+              <div style="display: flex; gap: 16px; align-items: center;">
+                <button class="btn-outline">
+                  <i class="fas fa-microphone"></i> Start Recording
+                </button>
+                <span>0% trained</span>
+              </div>
+            </div>
+            <button class="save-btn">Save Recording</button>
+          </div>
+
+          <div class="settings-card">
+            <h3>Response Style Training</h3>
+            <p>Answer these common questions to help the AI understand your communication style.</p>
+            <div class="form-group">
+              <label>Question 1: Tell me about yourself</label>
+              <textarea placeholder="Type your answer here..."></textarea>
+            </div>
+            <div class="form-group">
+              <label>Question 2: What is your greatest strength?</label>
+              <textarea placeholder="Type your answer here..."></textarea>
+            </div>
+            <div class="form-group">
+              <label>Question 3: Describe a challenging project you worked on</label>
+              <textarea placeholder="Type your answer here..."></textarea>
+            </div>
+            <button class="save-btn">Submit Answers</button>
+          </div>
+
+          <div class="settings-card">
+            <h3>Feedback Preferences</h3>
+            <div class="form-group">
+              <label>Feedback Focus Areas</label>
+              <select multiple style="height: 120px;">
+                <option selected>Technical accuracy</option>
+                <option selected>Communication clarity</option>
+                <option selected>Answer structure</option>
+                <option>Confidence level</option>
+                <option>Pacing and timing</option>
+                <option>Vocabulary usage</option>
+                <option>Body language (if video)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Feedback Tone</label>
+              <select>
+                <option>Constructive and supportive</option>
+                <option>Direct and critical</option>
+                <option>Detailed and analytical</option>
+                <option>Brief and to the point</option>
+              </select>
+            </div>
+            <button class="save-btn">Save Preferences</button>
+          </div>
+        </div>
+
+        <!-- Language Page -->
+        <div class="content-section" id="language">
+          <div class="welcome-section">
+            <div class="welcome-content">
+              <h1>Language Settings</h1>
+              <p>Customize language and regional preferences</p>
+            </div>
+            <button class="cta-button">
+              <i class="fas fa-save"></i> Save Preferences
+            </button>
+          </div>
+
+          <div class="settings-card">
+            <h3>Language & Region</h3>
+            <div class="form-group">
+              <label>Interface Language</label>
+              <select>
+                <option selected>English (US)</option>
+                <option>English (UK)</option>
+                <option>Spanish</option>
+                <option>French</option>
+                <option>German</option>
+                <option>Chinese (Simplified)</option>
+                <option>Japanese</option>
+                <option>Korean</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Date Format</label>
+              <select>
+                <option selected>MM/DD/YYYY</option>
+                <option>DD/MM/YYYY</option>
+                <option>YYYY-MM-DD</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Time Format</label>
+              <select>
+                <option selected>12-hour clock</option>
+                <option>24-hour clock</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Time Zone</label>
+              <select>
+                <option selected>(GMT-08:00) Pacific Time</option>
+                <option>(GMT-07:00) Mountain Time</option>
+                <option>(GMT-06:00) Central Time</option>
+                <option>(GMT-05:00) Eastern Time</option>
+              </select>
+            </div>
+            <button class="save-btn">Save Language Settings</button>
+          </div>
+
+          <div class="settings-card">
+            <h3>Speech Recognition</h3>
+            <div class="form-group">
+              <label>Speech Language</label>
+              <select>
+                <option selected>English (US)</option>
+                <option>English (UK)</option>
+                <option>English (Australia)</option>
+                <option>Spanish</option>
+                <option>French</option>
+                <option>German</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Accent Preference</label>
+              <select>
+                <option selected>Automatic detection</option>
+                <option>US English</option>
+                <option>British English</option>
+                <option>Australian English</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Speech Speed</label>
+              <select>
+                <option>Slower</option>
+                <option selected>Normal</option>
+                <option>Faster</option>
+              </select>
+            </div>
+            <button class="save-btn">Save Speech Settings</button>
+          </div>
+
+          <div class="settings-card">
+            <h3>Translation Preferences</h3>
+            <div class="form-group">
+              <label>Enable Real-time Translation</label>
+              <label class="toggle-switch">
+                <input type="checkbox">
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="form-group">
+              <label>Default Translation Language</label>
+              <select>
+                <option selected>Spanish</option>
+                <option>French</option>
+                <option>German</option>
+                <option>Chinese (Simplified)</option>
+                <option>Japanese</option>
+                <option>Korean</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Show Original Text</label>
+              <label class="toggle-switch">
+                <input type="checkbox" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+            <button class="save-btn">Save Translation Settings</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="overlay"></div>
 
   <script>
-    // Toggle sidebar on mobile
-    document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
-      document.querySelector('.sidebar').classList.add('active');
-      document.querySelector('.overlay').classList.add('active');
-    });
-    
-    document.querySelector('.sidebar-toggle').addEventListener('click', function() {
-      document.querySelector('.sidebar').classList.remove('active');
-      document.querySelector('.overlay').classList.remove('active');
-    });
-    
-    document.querySelector('.overlay').addEventListener('click', function() {
-      document.querySelector('.sidebar').classList.remove('active');
-      this.classList.remove('active');
-    });
-    
-    // Navigation between sections
-    document.querySelectorAll('.nav-item').forEach(item => {
-      item.addEventListener('click', function() {
-        const target = this.getAttribute('data-target');
-        
-        // Update active nav item
-        document.querySelectorAll('.nav-item').forEach(navItem => {
-          navItem.classList.remove('active');
+    document.addEventListener('DOMContentLoaded', function() {
+      // Navigation functionality
+      const navItems = document.querySelectorAll('.nav-item');
+      const contentSections = document.querySelectorAll('.content-section');
+      const overlay = document.querySelector('.overlay');
+      const sidebar = document.querySelector('.sidebar');
+      const sidebarToggle = document.querySelector('.sidebar-toggle');
+      const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+
+      // Switch between pages
+      navItems.forEach(item => {
+        item.addEventListener('click', function() {
+          const pageId = this.getAttribute('data-page');
+          
+          // Update active nav item
+          navItems.forEach(navItem => navItem.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Show corresponding content section
+          contentSections.forEach(section => {
+            section.classList.remove('active');
+            if (section.id === pageId) {
+              section.classList.add('active');
+            }
+          });
+
+          // Close sidebar on mobile after selection
+          if (window.innerWidth < 992) {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+          }
         });
-        this.classList.add('active');
-        
-        // Show target section
-        document.querySelectorAll('.content-section').forEach(section => {
-          section.classList.remove('active');
+      });
+
+      // Mobile sidebar toggle
+      mobileMenuToggle.addEventListener('click', function() {
+        sidebar.classList.add('active');
+        overlay.classList.add('active');
+      });
+
+      // Close sidebar
+      sidebarToggle.addEventListener('click', function() {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+      });
+
+      overlay.addEventListener('click', function() {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+      });
+
+      // Settings navigation
+      const settingsNavItems = document.querySelectorAll('.settings-nav-item');
+      settingsNavItems.forEach(item => {
+        item.addEventListener('click', function() {
+          settingsNavItems.forEach(navItem => navItem.classList.remove('active'));
+          this.classList.add('active');
         });
-        document.getElementById(target).classList.add('active');
-        
-        // Close sidebar on mobile after selection
-        if (window.innerWidth <= 1024) {
-          document.querySelector('.sidebar').classList.remove('active');
-          document.querySelector('.overlay').classList.remove('active');
+      });
+
+      // Simulate progress bars animation
+      const progressBars = document.querySelectorAll('.progress-fill');
+      progressBars.forEach(bar => {
+        const width = bar.style.width;
+        bar.style.width = '0';
+        setTimeout(() => {
+          bar.style.transition = 'width 1s ease-in-out';
+          bar.style.width = width;
+        }, 500);
+      });
+
+      // Simulate chart animations
+      const bars = document.querySelectorAll('.bar, .chart-line, .comparison-line');
+      bars.forEach(bar => {
+        const height = bar.style.height;
+        bar.style.height = '0';
+        setTimeout(() => {
+          bar.style.transition = 'height 1s ease-in-out';
+          bar.style.height = height;
+        }, 800);
+      });
+
+      // Toggle switch functionality
+      const toggleSwitches = document.querySelectorAll('.toggle-switch input');
+      toggleSwitches.forEach(toggle => {
+        toggle.addEventListener('change', function() {
+          // Handle toggle change events here
+          console.log('Toggle switched:', this.checked);
+        });
+      });
+
+      // Handle button clicks
+      const buttons = document.querySelectorAll('button:not(.toggle-switch input)');
+      buttons.forEach(button => {
+        button.addEventListener('click', function(e) {
+          e.preventDefault();
+          // Handle button clicks here
+          console.log('Button clicked:', this.textContent.trim());
+        });
+      });
+
+      // Handle form submissions
+      const forms = document.querySelectorAll('.settings-card');
+      forms.forEach(form => {
+        const saveBtn = form.querySelector('.save-btn');
+        if (saveBtn) {
+          saveBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Handle form submission here
+            console.log('Form saved');
+            alert('Settings saved successfully!');
+          });
         }
       });
     });
-    
-    // Animate elements on scroll
-    function animateOnScroll() {
-      const elements = document.querySelectorAll('.animated');
-      
-      elements.forEach(element => {
-        const position = element.getBoundingClientRect();
-        
-        // If element is in viewport
-        if(position.top < window.innerHeight && position.bottom >= 0) {
-          element.style.opacity = 1;
-          element.style.transform = 'translateY(0)';
-        }
-      });
-    }
-    
-    // Initial call and on scroll
-    animateOnScroll();
-    window.addEventListener('scroll', animateOnScroll);
   </script>
 </body>
 </html>
