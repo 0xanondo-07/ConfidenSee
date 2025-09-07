@@ -1393,7 +1393,7 @@
     .form-group textarea {
       width: 100%;
       padding: 12px 16px;
-      background: rgb(0, 0, 0);
+      background: rgba(0, 0, 255, 0.5);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 8px;
       font-size: 14px;
@@ -1691,6 +1691,71 @@
    
     color: var(--text-light);
   }
+   
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+    }
+
+    .modal-content {
+      background:var(--darker-bg);
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 12px;
+      width: 350px;
+      text-align: center;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 20px;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+
+    .modal-icon {
+      font-size: 40px;
+      margin-bottom: 15px;
+      color: linear-gradient(135deg, var(--primary), var(--secondary));
+    }
+
+    .modal-title {
+      margin: 10px 0;
+      font-size: 22px;
+    }
+
+    .modal-message {
+      font-size: 14px;
+      color: #ffffff;
+      margin-bottom: 20px;
+    }
+
+    .modal-btn {
+      padding: 10px 20px;
+      border: none;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .modal-btn:hover {
+     transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 240, 255, 0.3);
+    color: #ffffff;
+  }
   </style>
 </head>
 <body>
@@ -1759,10 +1824,26 @@
           <input type="text" placeholder="Search...">
         </div>
         <div class="header-actions">
-          <button class="notification-btn">
-            <i class="fas fa-bell"></i>
-            <span class="notification-badge">3</span>
-          </button>
+         <!-- Notification Button -->
+  <button class="notification-btn" id="notifBtn">
+    <i class="fas fa-bell"></i>
+    <span class="notificati on-badge"></span>
+  </button>
+
+  <!-- Notification Modal -->
+  <div class="modal" id="notificationModal">
+    <div class="modal-content">
+      <button class="modal-close" id="closeModal">&times;</button>
+      <div class="modal-icon">
+        <i class="fas fa-bell"></i>
+      </div>
+      <h2 class="modal-title">Notifications</h2>
+      <p class="modal-message">
+        Notifications will appear here.
+      </p>
+      <button class="modal-btn" id="modalCloseBtn">Close</button>
+    </div>
+  </div>
           <button class="profile-btn">
             <img src="https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg" alt="Profile">
           </button>
@@ -3091,6 +3172,30 @@ settingsNavItems.forEach(item => {
     });
   });
 });
+const notifBtn = document.getElementById("notifBtn");
+    const notificationModal = document.getElementById("notificationModal");
+    const closeModal = document.getElementById("closeModal");
+    const modalCloseBtn = document.getElementById("modalCloseBtn");
+
+    // Open modal
+    notifBtn.addEventListener("click", () => {
+      notificationModal.style.display = "block";
+    });
+
+    // Close modal (X button + Close button)
+    closeModal.addEventListener("click", () => {
+      notificationModal.style.display = "none";
+    });
+    modalCloseBtn.addEventListener("click", () => {
+      notificationModal.style.display = "none";
+    });
+
+    // Close modal when clicking outside content
+    window.addEventListener("click", (e) => {
+      if (e.target === notificationModal) {
+        notificationModal.style.display = "none";
+      }
+    });
   </script>
 </body>
 </html>
