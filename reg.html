@@ -286,40 +286,41 @@
     box-shadow: 0 5px 15px rgba(0, 119, 181, 0.2);
   }
 
-    /* Divider */
-    .divider {
-      position: relative;
-      text-align: center;
-      margin: 1.5rem 0;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      justify-content: center;
-    }
-    
-    .divider::before,
-    .divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, 
+  /* Divider */
+  .divider {
+    position: relative;
+    text-align: center;
+    margin: 1.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    justify-content: center;
+  }
+
+  .divider::before,
+  .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg,
         rgba(255, 255, 255, 0.02),
         rgba(255, 255, 255, 0.15),
-        rgba(255, 255, 255, 0.02)
-      );
-    }
-    
-    .divider span {
-      color: var(--text-gray);
-      font-size: 0.85rem;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-weight: 500;
-    }  /* Input fields */
+        rgba(255, 255, 255, 0.02));
+  }
+
+  .divider span {
+    color: var(--text-gray);
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+  }
+
+  /* Input fields */
   .input-row {
     display: flex;
     gap: 1rem;
@@ -716,35 +717,35 @@
         </div>
 
         <div class="input-group">
-            <label for="experience">Experience Level</label>
-            <div class="input-wrapper">
-              <i class="fas fa-briefcase"></i>
-              <select id="experience" required class="custom-select">
-                <option value="">Select Experience Level</option>
-                <option value="entry-level">Entry Level</option>
-                <option value="mid-level">Mid Level</option>
-                <option value="senior">Senior</option>
-                <option value="executive">Executive</option>
-              </select>
-            </div>
+          <label for="experience">Experience Level</label>
+          <div class="input-wrapper">
+            <i class="fas fa-briefcase"></i>
+            <select id="experience" required class="custom-select">
+              <option value="">Select Experience Level</option>
+              <option value="entry-level">Entry Level</option>
+              <option value="mid-level">Mid Level</option>
+              <option value="senior">Senior</option>
+              <option value="executive">Executive</option>
+            </select>
           </div>
+        </div>
 
-          <div class="input-group">
-            <label for="domain">Domain</label>
-            <div class="input-wrapper">
-              <i class="fas fa-code-branch"></i>
-              <select id="domain" required class="custom-select">
-                <option value="">Select Domain</option>
-                <option value="software-engineering">Software Engineering</option>
-                <option value="data-science">Data Science</option>
-                <option value="product-management">Product Management</option>
-                <option value="design">Design (UI/UX)</option>
-                <option value="marketing">Marketing</option>
-                <option value="sales">Sales</option>
-                <option value="finance">Finance</option>
-              </select>
-            </div>
+        <div class="input-group">
+          <label for="domain">Domain</label>
+          <div class="input-wrapper">
+            <i class="fas fa-code-branch"></i>
+            <select id="domain" required class="custom-select">
+              <option value="">Select Domain</option>
+              <option value="software-engineering">Software Engineering</option>
+              <option value="data-science">Data Science</option>
+              <option value="product-management">Product Management</option>
+              <option value="design">Design (UI/UX)</option>
+              <option value="marketing">Marketing</option>
+              <option value="sales">Sales</option>
+              <option value="finance">Finance</option>
+            </select>
           </div>
+        </div>
 
         <div class="input-group">
           <label for="register-password">Password</label>
