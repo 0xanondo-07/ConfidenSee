@@ -1615,7 +1615,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Ripple effect for buttons
-    const buttons = document.querySelectorAll('.btn-hero, .btn-pricing');
+    const buttons = document.querySelectorAll('.btn-hero');
     buttons.forEach(btn => {
         ['mouseenter', 'mousedown', 'click'].forEach(evt => {
             btn.addEventListener(evt, createRipple);
