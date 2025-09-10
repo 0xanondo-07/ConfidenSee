@@ -7,65 +7,552 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* same CSS (omitted here for brevity in snippets) */
-    :root{--primary:#00f0ff;--secondary:#7928ca;--dark-bg:#0f0f1f;--darker-bg:#0a0a17;--text-light:#fff;--text-gray:#a0a0b0;--blur:blur(20px);--transition:all .3s}
-    *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',sans-serif;background:var(--darker-bg);color:var(--text-light);line-height:1.6}
-    /* ... include the same CSS from dashboard.html or link to a shared CSS file */
-    :root{--primary:#00f0ff;--secondary:#7928ca;--dark-bg:#0f0f1f;--darker-bg:#0a0a17;--text-light:#fff;--text-gray:#a0a0b0;--blur:blur(20px);--transition:all .3s cubic-bezier(.25,.8,.25,1)}
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Inter',sans-serif;background:var(--darker-bg);color:var(--text-light);line-height:1.6;overflow-x:hidden}
-    ::-webkit-scrollbar{width:8px}
-    ::-webkit-scrollbar-track{background:var(--darker-bg)}
-    ::-webkit-scrollbar-thumb{background:linear-gradient(to bottom,var(--primary),var(--secondary));border-radius:10px}
-    .dashboard-container{display:flex;min-height:100vh}
-    .sidebar{width:280px;background:rgba(15,15,31,.8);backdrop-filter:var(--blur);display:flex;flex-direction:column;border-right:1px solid rgba(255,255,255,.1)}
-    .sidebar-header{display:flex;justify-content:space-between;align-items:center;padding:20px;border-bottom:1px solid rgba(255,255,255,.1)}
-    .logo{display:flex;align-items:center;gap:12px;font-weight:700;font-size:18px;color:var(--primary)}
-    .user-profile{padding:24px 20px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:16px}
-    .avatar img{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.1)}
-    .status-indicator{position:absolute;bottom:6px;right:6px;width:14px;height:14px;background:var(--primary);border-radius:50%}
-    .sidebar-nav{flex:1;padding:20px 0;overflow-y:auto}
-    .nav-item{list-style:none;margin-bottom:4px}
-    .nav-item a{display:flex;align-items:center;padding:12px 20px;text-decoration:none;color:var(--text-light);font-weight:500;transition:var(--transition)}
-    .nav-item a i{margin-right:12px;color:var(--text-gray)}
-    .nav-item.active a,.nav-item a:hover{background:rgba(0,240,255,.08);color:var(--primary)}
-    .upgrade-card{margin:20px;padding:20px;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:12px;color:#fff}
-    .main-content{flex:1;display:flex;flex-direction:column;background:var(--dark-bg)}
-    .dashboard-header{background:rgba(15,15,31,.8);backdrop-filter:var(--blur);padding:19px 24px;display:flex;align-items:center;gap:24px;border-bottom:1px solid rgba(255,255,255,.1)}
-    .search-bar{flex:1;position:relative;max-width:400px}
-    .search-bar i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-gray)}
-    .search-bar input{width:100%;padding:12px 16px 12px 44px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text-light)}
-    .header-actions{display:flex;align-items:center;gap:16px}
-    .notification-btn,.profile-btn{background:none;border:none;color:var(--text-gray);cursor:pointer}
-    .dashboard-content{flex:1;padding:24px;overflow-y:auto}
-    .welcome-section{background:rgba(255,255,255,.03);backdrop-filter:var(--blur);border-radius:16px;padding:24px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:16px;border:1px solid rgba(255,255,255,.05)}
-    .cta-button{padding:12px 20px;background:linear-gradient(135deg,var(--primary),var(--secondary));border:none;border-radius:8px;color:white;font-weight:600;cursor:pointer;display:flex;gap:8px;align-items:center}
-    .stats-section{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:24px}
-    .stat-card{background:rgba(255,255,255,.03);border-radius:16px;padding:20px;display:flex;align-items:center;gap:16px;border:1px solid rgba(255,255,255,.05)}
-    .analytics-section{display:grid;grid-template-columns:2fr 1fr;gap:24px}
-    .interviews-section,.sessions-section{background:rgba(255,255,255,.03);border-radius:16px;padding:24px;margin-bottom:24px;border:1px solid rgba(255,255,255,.05)}
-    /* small responsive tweaks */
-    .dashboard-container{display:flex;min-height:100vh}
-    .sidebar{width:280px;background:rgba(15,15,31,.8);backdrop-filter:var(--blur);display:flex;flex-direction:column;border-right:1px solid rgba(255,255,255,.1)}
-    .sidebar-header{display:flex;justify-content:space-between;align-items:center;padding:20px;border-bottom:1px solid rgba(255,255,255,.1)}
-    .logo{display:flex;align-items:center;gap:12px;font-weight:700;font-size:18px;color:var(--primary)}
-    .sidebar-nav{flex:1;padding:20px 0;overflow-y:auto}
-    .nav-item{list-style:none;margin-bottom:4px}
-    .nav-item a{display:flex;align-items:center;padding:12px 20px;text-decoration:none;color:var(--text-light);font-weight:500}
-    .nav-item.active a,.nav-item a:hover{background:rgba(0,240,255,.08);color:var(--primary)}
-    .main-content{flex:1;display:flex;flex-direction:column;background:var(--dark-bg)}
-    .dashboard-header{background:rgba(15,15,31,.8);backdrop-filter:var(--blur);padding:19px 24px;display:flex;gap:24px;align-items:center}
-    .dashboard-content{flex:1;padding:24px;overflow-y:auto}
-    .welcome-section{background:rgba(255,255,255,.03);backdrop-filter:var(--blur);border-radius:16px;padding:24px;margin-bottom:24px;border:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;align-items:center}
-    .session-item{display:flex;align-items:center;gap:16px;padding:20px;background:rgba(255,255,255,.03);border-radius:12px;margin-bottom:12px;border:1px solid rgba(255,255,255,.05)}
-    .btn-outline{padding:8px 16px;background:transparent;border:1px solid rgba(255,255,255,.1);border-radius:6px;color:var(--text-light);cursor:pointer}
+    /* CSS Variables */
+    :root {
+      --primary: #00f0ff;
+      --secondary: #7928ca;
+      --dark-bg: #0f0f1f;
+      --darker-bg: #0a0a17;
+      --text-light: #fff;
+      --text-gray: #a0a0b0;
+      --blur: blur(20px);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --border-color: rgba(255, 255, 255, 0.05);
+    }
+    
+    /* Reset & Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--darker-bg);
+      color: var(--text-light);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: var(--darker-bg);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(to bottom, var(--primary), var(--secondary));
+      border-radius: 10px;
+    }
+    
+    /* Layout */
+    .dashboard-container {
+      display: flex;
+      min-height: 100vh;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: rgba(15, 15, 31, 0.8);
+      backdrop-filter: var(--blur);
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      transition: var(--transition);
+      z-index: 100;
+    }
+    
+    .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--primary);
+    }
+    
+    .logo img {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+    }
+    
+    /* User Profile */
+    .user-profile {
+      padding: 24px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    .avatar {
+      position: relative;
+    }
+    
+    .avatar img {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .status-indicator {
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      width: 14px;
+      height: 14px;
+      background: var(--primary);
+      border-radius: 50%;
+    }
+    
+    .user-info h3 {
+      margin-bottom: 4px;
+    }
+    
+    .user-info p {
+      color: var(--text-gray);
+    }
+    
+    /* Navigation */
+    .sidebar-nav {
+      flex: 1;
+      padding: 20px 0;
+      overflow-y: auto;
+    }
+    
+    .nav-item {
+      list-style: none;
+      margin-bottom: 4px;
+    }
+    
+    .nav-item a {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      text-decoration: none;
+      color: var(--text-light);
+      font-weight: 500;
+      transition: var(--transition);
+    }
+    
+    .nav-item a i {
+      margin-right: 12px;
+      color: var(--text-gray);
+      transition: var(--transition);
+    }
+    
+    .nav-item.active a,
+    .nav-item a:hover {
+      background: rgba(0, 240, 255, 0.08);
+      color: var(--primary);
+    }
+    
+    .nav-item.active a i,
+    .nav-item a:hover i {
+      color: var(--primary);
+    }
+    
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: var(--dark-bg);
+    }
+    
+    /* Header */
+    .dashboard-header {
+      background: rgba(15, 15, 31, 0.8);
+      backdrop-filter: var(--blur);
+      padding: 19px 24px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .search-bar {
+      flex: 1;
+      position: relative;
+      max-width: 400px;
+    }
+    
+    .search-bar i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-gray);
+    }
+    
+    .search-bar input {
+      width: 100%;
+      padding: 12px 16px 12px 44px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: var(--text-light);
+    }
+    
+    /* Dashboard Content */
+    .dashboard-content {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+    }
+    
+    /* Welcome Section */
+    .welcome-section {
+      background: var(--card-bg);
+      backdrop-filter: var(--blur);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      border: 1px solid var(--border-color);
+    }
+    
+    .welcome-section h1 {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+    
+    .welcome-section p {
+      color: var(--text-gray);
+    }
+    
+    /* CTA Button */
+    .cta-button {
+      padding: 12px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: 0.5s;
+    }
+    
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .cta-button:hover::before {
+      left: 100%;
+    }
+    
+    /* Filters Section */
+    .filters-section {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    
+    .filter-group {
+      min-width: 160px;
+    }
+    
+    .filter-group label {
+      color: var(--text-gray);
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    
+    .filter-group select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.5);
+      color: var(--text-light);
+      border: 1px solid var(--border-color);
+      transition: var(--transition);
+    }
+    
+    .filter-group select:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .search-filter {
+      margin-left: auto;
+      position: relative;
+    }
+    
+    .search-filter i {
+      position: absolute;
+      left: 12px;
+      top: 20px;
+      transform: translateY(-50%);
+      color: var(--text-gray);
+    }
+    
+    .search-filter input {
+      padding: 10px 12px 10px 40px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      color: var(--text-light);
+      width: 260px;
+      transition: var(--transition);
+    }
+    
+    .search-filter input:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    /* Session Items */
+    .session-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border-color);
+      transition: var(--transition);
+    }
+    
+    .session-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .session-icon {
+      min-width: 60px;
+      text-align: center;
+    }
+    
+    .session-icon i {
+      font-size: 24px;
+      color: var(--primary);
+    }
+    
+    .session-icon div {
+      color: var(--text-gray);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+    
+    .session-details {
+      flex: 1;
+    }
+    
+    .session-details h3 {
+      margin-bottom: 8px;
+    }
+    
+    .session-meta {
+      color: var(--text-gray);
+      display: flex;
+      gap: 12px;
+      font-size: 14px;
+    }
+    
+    .session-meta span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .session-actions {
+      display: flex;
+      gap: 8px;
+    }
+    
+    /* Buttons */
+    .btn-outline {
+      padding: 8px 16px;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-outline::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+      transition: 0.5s;
+    }
+    
+    .btn-outline:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+    
+    .btn-outline:hover::before {
+      left: 100%;
+    }
+    
+    /* Pagination */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 24px;
+      color: var(--text-gray);
+    }
+    
+    .pagination button {
+      padding: 8px 12px;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .pagination button:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+    
+    .pagination span {
+      padding: 0 12px;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .sidebar {
+        position: fixed;
+        left: -280px;
+        height: 100%;
+      }
+      
+      .sidebar.active {
+        left: 0;
+      }
+      
+      .dashboard-container {
+        overflow-x: hidden;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .welcome-section {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .filters-section {
+        flex-direction: column;
+      }
+      
+      .search-filter {
+        margin-left: 0;
+        width: 100%;
+      }
+      
+      .search-filter input {
+        width: 100%;
+      }
+      
+      .session-item {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .session-meta {
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .dashboard-header {
+        flex-wrap: wrap;
+      }
+      
+      .search-bar {
+        max-width: 100%;
+        order: 3;
+        margin-top: 16px;
+      }
+      
+      .session-actions {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="dashboard-container">
-    <div class="sidebar">
-      <div class="sidebar-header"><div class="logo"><img src="img/logo.png" alt="logo" style="width:32px;height:32px;border-radius:8px"><span>ConfidenSee</span></div></div>
-      <div style="padding:24px 20px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;gap:16px"><div style="position:relative"><img src="https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg" style="width:56px;height:56px;border-radius:50%"><div style="position:absolute;bottom:6px;right:6px;width:14px;height:14px;background:var(--primary);border-radius:50%"></div></div><div><h3>User</h3><p style="color:var(--text-gray)">Premium Member</p></div></div>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <img src="img/logo.png" alt="Logo">
+          <span>ConfidenSee</span>
+        </div>
+      </div>
+
+      <div class="user-profile">
+        <div class="avatar">
+          <img src="https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg" alt="User">
+          <div class="status-indicator"></div>
+        </div>
+        <div class="user-info">
+          <h3>User</h3>
+          <p>Premium Member</p>
+        </div>
+      </div>
+
       <ul class="sidebar-nav">
         <li class="nav-item"><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
         <li class="nav-item active"><a href="question-packs.html"><i class="fas fa-folder"></i> Question Packs</a></li>
@@ -78,68 +565,124 @@
       </ul>
     </div>
 
+    <!-- Main Content -->
     <div class="main-content">
-      <div class="dashboard-header"><div class="search-bar" style="flex:1;position:relative"><i class="fas fa-search" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-gray)"></i><input style="padding:12px 16px 12px 44px;width:100%;background:rgba(255,255,255,.05);border-radius:8px;border:1px solid rgba(255,255,255,.1);color:var(--text-light)" placeholder="Search..."></div></div>
+      <div class="dashboard-header">
+        <button id="openSidebar" style="display:none;background:none;border:none;color:var(--text-gray)"><i class="fas fa-bars"></i></button>
+        <div class="search-bar">
+          <i class="fas fa-search"></i>
+          <input placeholder="Search..." />
+        </div>
+      </div>
 
       <div class="dashboard-content">
         <div class="welcome-section">
-          <div><h1 style="background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Question Packs</h1><p style="color:var(--text-gray)">Browse and practice with our curated question packs</p></div>
-          <button class="cta-button" style="padding:12px 20px;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:8px;color:#fff;border:none"><i class="fas fa-download"></i> Download All</button>
+          <div>
+            <h1>Question Packs</h1>
+            <p>Browse and practice with our curated question packs</p>
+          </div>
+          <button class="cta-button">
+            <i class="fas fa-download"></i> Download All
+          </button>
         </div>
 
-        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px">
-          <div style="min-width:160px"><label style="color:var(--text-gray);display:block;margin-bottom:8px">Category</label><select style="padding:10px;border-radius:8px;background:rgba(255,255,255,.03);color:var(--text-light)"><option>All Categories</option><option>Technical</option><option>Behavioral</option></select></div>
-          <div style="min-width:160px"><label style="color:var(--text-gray);display:block;margin-bottom:8px">Difficulty</label><select style="padding:10px;border-radius:8px;background:rgba(255,255,255,.03);color:var(--text-light)"><option>All Levels</option><option>Beginner</option><option>Intermediate</option></select></div>
-          <div style="min-width:160px"><label style="color:var(--text-gray);display:block;margin-bottom:8px">Sort By</label><select style="padding:10px;border-radius:8px;background:rgba(255,255,255,.03);color:var(--text-light)"><option>Most Popular</option><option>Newest</option></select></div>
-          <div style="margin-left:auto"><div style="position:relative"><i class="fas fa-search" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-gray)"></i><input placeholder="Search question packs..." style="padding:10px 12px 10px 40px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);color:var(--text-light);width:260px"></div></div>
+        <div class="filters-section">
+          <div class="filter-group">
+            <label>Category</label>
+            <select>
+              <option>All Categories</option>
+              <option>Technical</option>
+              <option>Behavioral</option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <label>Difficulty</label>
+            <select>
+              <option>All Levels</option>
+              <option>Beginner</option>
+              <option>Intermediate</option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <label>Sort By</label>
+            <select>
+              <option>Most Popular</option>
+              <option>Newest</option>
+            </select>
+          </div>
+          
+          <div class="filter-group search-filter">
+            <i class="fas fa-search"></i>
+            <input placeholder="Search question packs...">
+          </div>
         </div>
 
         <div>
+          <!-- Question Pack 1 -->
           <div class="session-item">
-            <div style="min-width:60px;text-align:center"><i class="fas fa-code" style="font-size:24px;color:var(--primary)"></i><div style="color:var(--text-gray);font-size:12px">Technical</div></div>
-            <div style="flex:1">
+            <div class="session-icon">
+              <i class="fas fa-code"></i>
+              <div>Technical</div>
+            </div>
+            
+            <div class="session-details">
               <h3>Data Structures & Algorithms</h3>
-              <div style="color:var(--text-gray);display:flex;gap:12px">
+              <div class="session-meta">
                 <span><i class="fas fa-question-circle"></i> 120 questions</span>
                 <span><i class="fas fa-clock"></i> 5 hours</span>
                 <span><i class="fas fa-star"></i> 4.8 (245)</span>
               </div>
             </div>
-            <div style="display:flex;gap:8px">
+            
+            <div class="session-actions">
               <button class="btn-outline"><i class="fas fa-eye"></i> Preview</button>
               <button class="btn-outline"><i class="fas fa-download"></i></button>
               <button class="btn-outline"><i class="fas fa-play"></i></button>
             </div>
           </div>
 
+          <!-- Question Pack 2 -->
           <div class="session-item">
-            <div style="min-width:60px;text-align:center"><i class="fas fa-users" style="font-size:24px;color:var(--primary)"></i><div style="color:var(--text-gray);font-size:12px">Behavioral</div></div>
-            <div style="flex:1">
+            <div class="session-icon">
+              <i class="fas fa-users"></i>
+              <div>Behavioral</div>
+            </div>
+            
+            <div class="session-details">
               <h3>Leadership & Team Management</h3>
-              <div style="color:var(--text-gray);display:flex;gap:12px">
+              <div class="session-meta">
                 <span><i class="fas fa-question-circle"></i> 85 questions</span>
                 <span><i class="fas fa-clock"></i> 3.5 hours</span>
                 <span><i class="fas fa-star"></i> 4.7 (180)</span>
               </div>
             </div>
-            <div style="display:flex;gap:8px">
+            
+            <div class="session-actions">
               <button class="btn-outline"><i class="fas fa-eye"></i> Preview</button>
               <button class="btn-outline"><i class="fas fa-download"></i></button>
               <button class="btn-outline"><i class="fas fa-play"></i></button>
             </div>
           </div>
 
+          <!-- Question Pack 3 -->
           <div class="session-item">
-            <div style="min-width:60px;text-align:center"><i class="fas fa-sitemap" style="font-size:24px;color:var(--primary)"></i><div style="color:var(--text-gray);font-size:12px">System Design</div></div>
-            <div style="flex:1">
+            <div class="session-icon">
+              <i class="fas fa-sitemap"></i>
+              <div>System Design</div>
+            </div>
+            
+            <div class="session-details">
               <h3>Scalable Architecture Patterns</h3>
-              <div style="color:var(--text-gray);display:flex;gap:12px">
+              <div class="session-meta">
                 <span><i class="fas fa-question-circle"></i> 65 questions</span>
                 <span><i class="fas fa-clock"></i> 4 hours</span>
                 <span><i class="fas fa-star"></i> 4.9 (210)</span>
               </div>
             </div>
-            <div style="display:flex;gap:8px">
+            
+            <div class="session-actions">
               <button class="btn-outline"><i class="fas fa-eye"></i> Preview</button>
               <button class="btn-outline"><i class="fas fa-download"></i></button>
               <button class="btn-outline"><i class="fas fa-play"></i></button>
@@ -147,9 +690,38 @@
           </div>
         </div>
 
-        <div style="display:flex;justify-content:center;margin-top:16px;color:var(--text-gray)"><button class="btn-outline"><i class="fa fa-chevron-left fas"></i></button><span style="padding:0 12px">Page 1 of 4</span><button class="btn-outline"><i class="fa fa-chevron-right fas"></i></button></div>
+        <div class="pagination">
+          <button class="btn-outline"><i class="fas fa-chevron-left"></i></button>
+          <span>Page 1 of 4</span>
+          <button class="btn-outline"><i class="fas fa-chevron-right"></i></button>
+        </div>
       </div>
     </div>
   </div>
+
+  <script>
+    // Script to toggle sidebar on small screens
+    (function(){
+      const sidebar = document.getElementById('sidebar');
+      const openBtn = document.getElementById('openSidebar');
+      
+      // Show mobile open button if screen is small
+      function check() { 
+        if (window.innerWidth < 992) {
+          openBtn.style.display = 'inline-block';
+        } else {
+          openBtn.style.display = 'none';
+          sidebar.classList.remove('active');
+        }
+      }
+      
+      window.addEventListener('resize', check);
+      check();
+      
+      openBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+      });
+    })();
+  </script>
 </body>
 </html>
