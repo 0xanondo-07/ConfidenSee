@@ -529,6 +529,66 @@
         justify-content: center;
       }
     }
+    /* Pricing Cards */
+    .pricing-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    
+    .plan-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 16px;
+      transition: var(--transition);
+    }
+    
+    .plan-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .pricing-header {
+      margin-bottom: 16px;
+    }
+    
+    .pricing-header h4 {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+    
+    .pricing-header div {
+      font-size: 24px;
+      color: var(--primary);
+    }
+    
+    .pricing-header small {
+      color: var(--text-gray);
+      font-size: 12px;
+    }
+    
+    .features-list {
+      list-style: none;
+      margin-bottom: 16px;
+    }
+    
+    .features-list li {
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-gray);
+      font-size: 14px;
+    }
+    
+    .features-list li i {
+      color: var(--primary);
+    }
+    
   </style>
 </head>
 <body>
@@ -578,12 +638,11 @@
       <div class="dashboard-content">
         <div class="welcome-section">
           <div>
-            <h1>Question Packs</h1>
-            <p>Browse and practice with our curated question packs</p>
+            <h1>Interview Question Packs</h1>
+            <p>Choose from our curated collection of domain-specific interview questions. Each pack is<br>
+              designed by industry experts and powered by AI for personalized feedback.
+            </p>
           </div>
-          <button class="cta-button">
-            <i class="fas fa-download"></i> Download All
-          </button>
         </div>
 
         <div class="filters-section">
@@ -665,7 +724,7 @@
               <button class="btn-outline"><i class="fas fa-play"></i></button>
             </div>
           </div>
-<div class="session-item">
+           <div class="session-item">
             <div class="session-icon">
               <i class="fas fa-shopping-bag"></i>
               <div>intermediate</div>
@@ -751,12 +810,24 @@
             </div>
           </div>
         </div>
-
-        <div class="pagination">
-          <button class="btn-outline"><i class="fas fa-chevron-left"></i></button>
-          <span>Page 1 of 4</span>
-          <button class="btn-outline"><i class="fas fa-chevron-right"></i></button>
-        </div>
+ <div class="sessions-section">
+        
+          
+          <div class="stats-section">
+            <div class="pricing-cards">
+              <div class="plan-card pricing-card">
+                <div class="pricing-header">
+                  <div>Create Custom Pack</div>
+                </div>
+                <ul class="features-list">
+                  <li><i class="fas fa-check"></i> Can't find what you're looking for? Create a custom interview pack tailored to your needs.</li>
+                  <button class="btn-outline">Create Custom Pack</button>
+                </ul>
+              </div>
+            </div>
+          </div>
+       </div>
+     </div>
       </div>
     </div>
   </div>
