@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Performance | ConfidenSee</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root{--primary:#00f0ff;--secondary:#7928ca;--dark-bg:#0f0f1f;--darker-bg:#0a0a17;--text-light:#fff;--text-gray:#a0a0b0;--blur:blur(20px);--transition:all .3s cubic-bezier(.25,.8,.25,1)}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',sans-serif;background:var(--darker-bg);color:var(--text-light);line-height:1.6;overflow-x:hidden}
+    ::-webkit-scrollbar{width:8px}
+    ::-webkit-scrollbar-track{background:var(--darker-bg)}
+    ::-webkit-scrollbar-thumb{background:linear-gradient(to bottom,var(--primary),var(--secondary));border-radius:10px}
+    .dashboard-container{display:flex;min-height:100vh}
+    .sidebar{width:280px;background:rgba(15,15,31,.8);backdrop-filter:var(--blur);display:flex;flex-direction:column;border-right:1px solid rgba(255,255,255,.1)}
+    .sidebar-header{display:flex;justify-content:space-between;align-items:center;padding:20px;border-bottom:1px solid rgba(255,255,255,.1)}
+    .logo{display:flex;align-items:center;gap:12px;font-weight:700;font-size:18px;color:var(--primary)}
+    .user-profile{padding:24px 20px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:16px}
+    .avatar img{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.1)}
+    .status-indicator{position:absolute;bottom:6px;right:6px;width:14px;height:14px;background:var(--primary);border-radius:50%}
+    .sidebar-nav{flex:1;padding:20px 0;overflow-y:auto}
+    .nav-item{list-style:none;margin-bottom:4px}
+    .nav-item a{display:flex;align-items:center;padding:12px 20px;text-decoration:none;color:var(--text-light);font-weight:500;transition:var(--transition)}
+    .nav-item a i{margin-right:12px;color:var(--text-gray)}
+    .nav-item.active a,.nav-item a:hover{background:rgba(0,240,255,.08);color:var(--primary)}
+    .upgrade-card{margin:20px;padding:20px;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:12px;color:#fff}
+    .main-content{flex:1;display:flex;flex-direction:column;background:var(--dark-bg)}
+    .dashboard-header{background:rgba(15,15,31,.8);backdrop-filter:var(--blur);padding:19px 24px;display:flex;align-items:center;gap:24px;border-bottom:1px solid rgba(255,255,255,.1)}
+    .search-bar{flex:1;position:relative;max-width:400px}
+    .search-bar i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-gray)}
+    .search-bar input{width:100%;padding:12px 16px 12px 44px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text-light)}
+    .header-actions{display:flex;align-items:center;gap:16px}
+    .notification-btn,.profile-btn{background:none;border:none;color:var(--text-gray);cursor:pointer}
+    .dashboard-content{flex:1;padding:24px;overflow-y:auto}
+    .welcome-section{background:rgba(255,255,255,.03);backdrop-filter:var(--blur);border-radius:16px;padding:24px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:16px;border:1px solid rgba(255,255,255,.05)}
+    .cta-button{padding:12px 20px;background:linear-gradient(135deg,var(--primary),var(--secondary));border:none;border-radius:8px;color:white;font-weight:600;cursor:pointer;display:flex;gap:8px;align-items:center}
+    .stats-section{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:24px}
+    .stat-card{background:rgba(255,255,255,.03);border-radius:16px;padding:20px;display:flex;align-items:center;gap:16px;border:1px solid rgba(255,255,255,.05)}
+    .analytics-section{display:grid;grid-template-columns:2fr 1fr;gap:24px}
+    .interviews-section,.sessions-section{background:rgba(255,255,255,.03);border-radius:16px;padding:24px;margin-bottom:24px;border:1px solid rgba(255,255,255,.05)}
+    /* small responsive tweaks */
+    /* same CSS used above — include full CSS when saving file */
+    :root{--primary:#00f0ff;--secondary:#7928ca;--dark-bg:#0f0f1f;--darker-bg:#0a0a17;--text-light:#fff;--text-gray:#a0a0b0}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',sans-serif;background:var(--darker-bg);color:var(--text-light);line-height:1.6}
+    .dashboard-container{display:flex;min-height:100vh}
+    .sidebar{width:280px;background:rgba(15,15,31,.8);backdrop-filter:blur(20px);display:flex;flex-direction:column;border-right:1px solid rgba(255,255,255,.1)}
+    .sidebar-nav a{display:flex;align-items:center;padding:12px 20px;text-decoration:none;color:var(--text-light)}
+    .main-content{flex:1;display:flex;flex-direction:column}
+    .dashboard-header{padding:19px 24px;display:flex;gap:24px;align-items:center;background:rgba(15,15,31,.8)}
+    .dashboard-content{padding:24px}
+    .analytics-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+    .analytics-card{background:rgba(255,255,255,.03);padding:24px;border-radius:16px;border:1px solid rgba(255,255,255,.05)}
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <div class="sidebar">
+      <div class="sidebar-header"><div class="logo" style="padding:12px"><img src="img/logo.png" alt="logo" style="width:32px;height:32px;border-radius:8px"><span style="margin-left:8px">ConfidenSee</span></div></div>
+      <div style="padding:24px 20px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;gap:16px"><img src="https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg" style="width:56px;height:56px;border-radius:50%"><div><h3>User</h3><p style="color:var(--text-gray)">Premium Member</p></div></div>
+      <ul class="sidebar-nav">
+        <li class="nav-item"><a href="dashboard.html"><i class="fas fa-home"></i>&nbsp;Dashboard</a></li>
+        <li class="nav-item"><a href="question-packs.html"><i class="fas fa-folder"></i>&nbsp;Question Packs</a></li>
+        <li class="nav-item active"><a href="performance.html"><i class="fas fa-chart-line"></i>&nbsp;Performance</a></li>
+        <li class="nav-item"><a href="pricing.html"><i class="fas fa-tag"></i>&nbsp;Pricing</a></li>
+        <li class="nav-item"><a href="ai-setup.html"><i class="fas fa-robot"></i>&nbsp;AI Setup</a></li>
+        <li class="nav-item"><a href="profile.html"><i class="fas fa-user"></i>&nbsp;Profile</a></li>
+        <li class="nav-item"><a href="ai-training.html"><i class="fas fa-graduation-cap"></i>&nbsp;AI Training</a></li>
+        <li class="nav-item"><a href="language.html"><i class="fas fa-globe"></i>&nbsp;Language</a></li>
+      </ul>
+    </div>
+
+    <div class="main-content">
+      <div class="dashboard-header"><div style="flex:1"><input placeholder="Search..." style="width:100%;padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:var(--text-light)"></div></div>
+      <div class="dashboard-content">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <div><h1 style="background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Performance Analytics</h1><p style="color:var(--text-gray)">Track your progress and identify areas for improvement</p></div>
+          <button style="padding:12px 20px;background:linear-gradient(135deg,var(--primary),var(--secondary));border:none;border-radius:8px;color:#fff">Export Report</button>
+        </div>
+
+        <div class="analytics-grid">
+          <div class="analytics-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h3 style="background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Weekly Performance</h3><a href="#" style="color:var(--primary)">See Details</a></div>
+            <div style="background:rgba(255,255,255,.05);border-radius:8px;padding:16px"><div style="display:flex;align-items:flex-end;gap:8px;height:140px"><div style="flex:1;height:60%;background:linear-gradient(to top,var(--primary),var(--secondary));border-radius:4px"></div><div style="flex:1;height:75%;background:linear-gradient(to top,var(--primary),var(--secondary));border-radius:4px"></div><div style="flex:1;height:65%;background:linear-gradient(to top,var(--primary),var(--secondary));border-radius:4px"></div><div style="flex:1;height:85%;background:linear-gradient(to top,var(--primary),var(--secondary));border-radius:4px"></div></div></div>
+          </div>
+
+          <div class="analytics-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h3 style="background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Skill Distribution</h3><a href="#" style="color:var(--primary)">See Details</a></div>
+            <div style="display:flex;gap:20px;align-items:center">
+              <div style="width:160px;height:160px;border-radius:50%;background:conic-gradient(var(--primary) 0% 60%, var(--secondary) 60% 85%, #ffa502 85% 95%, #ff4757 95% 100%);position:relative">
+                <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80px;height:80px;background:var(--dark-bg);border-radius:50%"></div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:12px">
+                <div style="display:flex;gap:8px;align-items:center"><span style="width:12px;height:12px;background:var(--primary);border-radius:50%;display:inline-block"></span><span>Technical: 60%</span></div>
+                <div style="display:flex;gap:8px;align-items:center"><span style="width:12px;height:12px;background:var(--secondary);border-radius:50%;display:inline-block"></span><span>Communication: 25%</span></div>
+                <div style="display:flex;gap:8px;align-items:center"><span style="width:12px;height:12px;background:#ffa502;border-radius:50%;display:inline-block"></span><span>Problem Solving: 10%</span></div>
+                <div style="display:flex;gap:8px;align-items:center"><span style="width:12px;height:12px;background:#ff4757;border-radius:50%;display:inline-block"></span><span>Other: 5%</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="grid-column:1/ -1" class="analytics-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h3 style="background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Performance Overview</h3><a href="#" style="color:var(--primary)">See Details</a></div>
+            <div style="display:flex;justify-content:space-around;text-align:center">
+              <div><div style="font-size:20px;font-weight:700;color:var(--primary)">87%</div><div style="color:var(--text-gray)">Avg. Score</div></div>
+              <div><div style="font-size:20px;font-weight:700;color:var(--primary)">24h</div><div style="color:var(--text-gray)">Total Practice</div></div>
+              <div><div style="font-size:20px;font-weight:700;color:var(--primary)">15</div><div style="color:var(--text-gray)">Skills Mastered</div></div>
+              <div><div style="font-size:20px;font-weight:700;color:var(--primary)">92%</div><div style="color:var(--text-gray)">Completion</div></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

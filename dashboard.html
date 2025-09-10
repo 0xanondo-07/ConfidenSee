@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboard | ConfidenSee</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* (Same CSS used across pages — copied from dash.html) */
+    :root{--primary:#00f0ff;--secondary:#7928ca;--dark-bg:#0f0f1f;--darker-bg:#0a0a17;--text-light:#fff;--text-gray:#a0a0b0;--blur:blur(20px);--transition:all .3s cubic-bezier(.25,.8,.25,1)}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',sans-serif;background:var(--darker-bg);color:var(--text-light);line-height:1.6;overflow-x:hidden}
+    ::-webkit-scrollbar{width:8px}
+    ::-webkit-scrollbar-track{background:var(--darker-bg)}
+    ::-webkit-scrollbar-thumb{background:linear-gradient(to bottom,var(--primary),var(--secondary));border-radius:10px}
+    .dashboard-container{display:flex;min-height:100vh}
+    .sidebar{width:280px;background:rgba(15,15,31,.8);backdrop-filter:var(--blur);display:flex;flex-direction:column;border-right:1px solid rgba(255,255,255,.1)}
+    .sidebar-header{display:flex;justify-content:space-between;align-items:center;padding:20px;border-bottom:1px solid rgba(255,255,255,.1)}
+    .logo{display:flex;align-items:center;gap:12px;font-weight:700;font-size:18px;color:var(--primary)}
+    .user-profile{padding:24px 20px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:16px}
+    .avatar img{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.1)}
+    .status-indicator{position:absolute;bottom:6px;right:6px;width:14px;height:14px;background:var(--primary);border-radius:50%}
+    .sidebar-nav{flex:1;padding:20px 0;overflow-y:auto}
+    .nav-item{list-style:none;margin-bottom:4px}
+    .nav-item a{display:flex;align-items:center;padding:12px 20px;text-decoration:none;color:var(--text-light);font-weight:500;transition:var(--transition)}
+    .nav-item a i{margin-right:12px;color:var(--text-gray)}
+    .nav-item.active a,.nav-item a:hover{background:rgba(0,240,255,.08);color:var(--primary)}
+    .upgrade-card{margin:20px;padding:20px;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:12px;color:#fff}
+    .main-content{flex:1;display:flex;flex-direction:column;background:var(--dark-bg)}
+    .dashboard-header{background:rgba(15,15,31,.8);backdrop-filter:var(--blur);padding:19px 24px;display:flex;align-items:center;gap:24px;border-bottom:1px solid rgba(255,255,255,.1)}
+    .search-bar{flex:1;position:relative;max-width:400px}
+    .search-bar i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-gray)}
+    .search-bar input{width:100%;padding:12px 16px 12px 44px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text-light)}
+    .header-actions{display:flex;align-items:center;gap:16px}
+    .notification-btn,.profile-btn{background:none;border:none;color:var(--text-gray);cursor:pointer}
+    .dashboard-content{flex:1;padding:24px;overflow-y:auto}
+    .welcome-section{background:rgba(255,255,255,.03);backdrop-filter:var(--blur);border-radius:16px;padding:24px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:16px;border:1px solid rgba(255,255,255,.05)}
+    .cta-button{padding:12px 20px;background:linear-gradient(135deg,var(--primary),var(--secondary));border:none;border-radius:8px;color:white;font-weight:600;cursor:pointer;display:flex;gap:8px;align-items:center}
+    .stats-section{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:24px}
+    .stat-card{background:rgba(255,255,255,.03);border-radius:16px;padding:20px;display:flex;align-items:center;gap:16px;border:1px solid rgba(255,255,255,.05)}
+    .analytics-section{display:grid;grid-template-columns:2fr 1fr;gap:24px}
+    .interviews-section,.sessions-section{background:rgba(255,255,255,.03);border-radius:16px;padding:24px;margin-bottom:24px;border:1px solid rgba(255,255,255,.05)}
+    /* small responsive tweaks */
+    @media (max-width:992px){.sidebar{position:fixed;left:-280px;height:100%}.sidebar.active{left:0}.dashboard-container{overflow-x:hidden}}
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo"><div class="logo-iacon"><img src="img/logo.png" alt="Logo" style="width:32px;height:32px;border-radius:8px"></div><span>ConfidenSee</span></div>
+      </div>
+
+      <div class="user-profile">
+        <div style="position:relative">
+          <div class="avatar"><img src="https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg" alt="User"></div>
+          <div class="status-indicator"></div>
+        </div>
+        <div class="user-info"><h3>User</h3><p style="color:var(--text-gray)">Premium Member</p></div>
+      </div>
+
+      <ul class="sidebar-nav">
+        <li class="nav-item active"><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li class="nav-item"><a href="question-packs.html"><i class="fas fa-folder"></i> Question Packs</a></li>
+        <li class="nav-item"><a href="performance.html"><i class="fas fa-chart-line"></i> Performance</a></li>
+        <li class="nav-item"><a href="pricing.html"><i class="fas fa-tag"></i> Pricing</a></li>
+        <li class="nav-item"><a href="ai-setup.html"><i class="fas fa-robot"></i> AI Setup</a></li>
+        <li class="nav-item"><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+        <li class="nav-item"><a href="ai-training.html"><i class="fas fa-graduation-cap"></i> AI Training</a></li>
+        <li class="nav-item"><a href="language.html"><i class="fas fa-globe"></i> Language</a></li>
+      </ul>
+    </div>
+
+    <!-- Main -->
+    <div class="main-content">
+      <div class="dashboard-header">
+        <button id="openSidebar" style="display:none;background:none;border:none;color:var(--text-gray)"><i class="fas fa-bars"></i></button>
+        <div class="search-bar"><i class="fas fa-search"></i><input placeholder="Search..." /></div>
+        <div class="header-actions">
+          <button class="notification-btn" id="notifBtn"><i class="fas fa-bell"></i></button>
+          <button class="profile-btn"><img src="https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg" style="width:36px;height:36px;border-radius:50%"></button>
+        </div>
+      </div>
+
+      <div class="dashboard-content">
+        <div class="welcome-section">
+          <div>
+            <h1 style="background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Welcome back, User!</h1>
+            <p style="color:var(--text-gray)">You've completed 12 practice sessions this week. Keep up the good work!</p>
+          </div>
+          <button class="cta-button"><i class="fas fa-plus"></i> New Practice Session</button>
+        </div>
+
+        <div class="stats-section">
+          <div class="stat-card"><div class="stat-icon"><i class="fas fa-brain"></i></div><div><h3>0</h3><p style="color:var(--text-gray)">Total Interviews</p></div></div>
+          <div class="stat-card"><div class="stat-icon"><i class="fas fa-bullseye"></i></div><div><h3>0/10</h3><p style="color:var(--text-gray)">Average Score</p></div></div>
+          <div class="stat-card"><div class="stat-icon"><i class="fas fa-trophy"></i></div><div><h3>0 Days</h3><p style="color:var(--text-gray)">Current Streak</p></div></div>
+          <div class="stat-card"><div class="stat-icon"><i class="fas fa-clock"></i></div><div><h3>0h</h3><p style="color:var(--text-gray)">Hours Remaining</p></div></div>
+        </div>
+
+        <div class="sessions-section">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+            <h2 style="background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Your Interview Skills</h2>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px">
+            <div class="session-card" style="background:rgba(255,255,255,.02);padding:20px;border-radius:12px">
+              <div style="display:flex;justify-content:space-between;align-items:center"><h3>Communication</h3><div style="background:linear-gradient(135deg,var(--primary),var(--secondary));padding:4px 10px;border-radius:20px;color:#fff">75%</div></div>
+              <p style="color:var(--text-gray)">Clarity and articulation</p>
+              <div style="margin:12px 0"><div style="height:8px;background:rgba(255,255,255,.1);border-radius:4px"><div style="width:75%;height:100%;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:4px"></div></div></div>
+              <button class="session-action-btn" style="width:100%;padding:10px;border:1px solid var(--primary);border-radius:8px;background:transparent;color:var(--primary);cursor:pointer">Review Session</button>
+            </div>
+
+            <div class="session-card" style="background:rgba(255,255,255,.02);padding:20px;border-radius:12px">
+              <div style="display:flex;justify-content:space-between;align-items:center"><h3>Technical Knowledge</h3><div style="background:linear-gradient(135deg,var(--primary),var(--secondary));padding:4px 10px;border-radius:20px;color:#fff">85%</div></div>
+              <p style="color:var(--text-gray)">Programming and algorithms</p>
+              <div style="margin:12px 0"><div style="height:8px;background:rgba(255,255,255,.1);border-radius:4px"><div style="width:85%;height:100%;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:4px"></div></div></div>
+              <button class="session-action-btn" style="width:100%;padding:10px;border:1px solid var(--primary);border-radius:8px;background:transparent;color:var(--primary);cursor:pointer">Review Session</button>
+            </div>
+
+            <div class="session-card" style="background:rgba(255,255,255,.02);padding:20px;border-radius:12px">
+              <div style="display:flex;justify-content:space-between;align-items:center"><h3>Problem Solving</h3><div style="background:linear-gradient(135deg,var(--primary),var(--secondary));padding:4px 10px;border-radius:20px;color:#fff">78%</div></div>
+              <p style="color:var(--text-gray)">Analytical thinking</p>
+              <div style="margin:12px 0"><div style="height:8px;background:rgba(255,255,255,.1);border-radius:4px"><div style="width:78%;height:100%;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:4px"></div></div></div>
+              <button class="session-action-btn" style="width:100%;padding:10px;border:1px solid var(--primary);border-radius:8px;background:transparent;color:var(--primary);cursor:pointer">Review Session</button>
+            </div>
+            <div class="session-card" style="background:rgba(255,255,255,.02);padding:20px;border-radius:12px">
+              <div style="display:flex;justify-content:space-between;align-items:center"><h3>Leadership</h3><div style="background:linear-gradient(135deg,var(--primary),var(--secondary));padding:4px 10px;border-radius:20px;color:#fff">78%</div></div>
+              <p style="color:var(--text-gray)">Team management skills</p>
+              <div style="margin:12px 0"><div style="height:8px;background:rgba(255,255,255,.1);border-radius:4px"><div style="width:78%;height:100%;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:4px"></div></div></div>
+              <button class="session-action-btn" style="width:100%;padding:10px;border:1px solid var(--primary);border-radius:8px;background:transparent;color:var(--primary);cursor:pointer">Review Session</button>
+            </div>
+            <div class="session-card" style="background:rgba(255,255,255,.02);padding:20px;border-radius:12px">
+              <div style="display:flex;justify-content:space-between;align-items:center"><h3>Time Management</h3><div style="background:linear-gradient(135deg,var(--primary),var(--secondary));padding:4px 10px;border-radius:20px;color:#fff">78%</div></div>
+              <p style="color:var(--text-gray)">Efficiency and planning</p>
+              <div style="margin:12px 0"><div style="height:8px;background:rgba(255,255,255,.1);border-radius:4px"><div style="width:78%;height:100%;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:4px"></div></div></div>
+              <button class="session-action-btn" style="width:100%;padding:10px;border:1px solid var(--primary);border-radius:8px;background:transparent;color:var(--primary);cursor:pointer">Review Session</button>
+            </div>
+            <div class="session-card" style="background:rgba(255,255,255,.02);padding:20px;border-radius:12px">
+              <div style="display:flex;justify-content:space-between;align-items:center"><h3>Cultural Fit</h3><div style="background:linear-gradient(135deg,var(--primary),var(--secondary));padding:4px 10px;border-radius:20px;color:#fff">78%</div></div>
+              <p style="color:var(--text-gray)">Company alignment</p>
+              <div style="margin:12px 0"><div style="height:8px;background:rgba(255,255,255,.1);border-radius:4px"><div style="width:78%;height:100%;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:4px"></div></div></div>
+              <button class="session-action-btn" style="width:100%;padding:10px;border:1px solid var(--primary);border-radius:8px;background:transparent;color:var(--primary);cursor:pointer">Review Session</button>
+            </div>
+          </div>
+        </div>
+        <div class="sessions-section">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+            <h2 style="background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Your Interview Skills</h2>
+          </div>
+ <div class="stats-section">
+  
+          <div class="stat-card"><div class="stat-icon"><i class="fas fa-brain"></i></div><div><h3>Technical Skills</h3><p style="color:var(--text-gray)">20-30 min • 5-8 questions</p><p style="color:var(--text-gray)">Programming, algorithms, and system design questions</p></div></div>
+          <div class="stat-card"><div class="stat-icon"><i class="fas fa-bullseye"></i></div><div><h3>0/10</h3><p style="color:var(--text-gray)">Average Score</p></div></div>
+          <div class="stat-card"><div class="stat-icon"><i class="fas fa-trophy"></i></div><div><h3>0 Days</h3><p style="color:var(--text-gray)">Current Streak</p></div></div>
+          <div class="stat-card"><div class="stat-icon"><i class="fas fa-clock"></i></div><div><h3>0h</h3><p style="color:var(--text-gray)">Hours Remaining</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // small script to toggle sidebar on small screens and keep active nav
+  (function(){
+    const body=document.body;
+    const sidebar=document.getElementById('sidebar');
+    const openBtn=document.getElementById('openSidebar');
+    const navLinks=document.querySelectorAll('.sidebar-nav a');
+    navLinks.forEach(a=>{
+      a.addEventListener('click',()=>{document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active')); a.parentElement.classList.add('active')});
+    });
+    // show mobile open button if screen small
+    function check(){ if(window.innerWidth<992) openBtn.style.display='inline-block'; else openBtn.style.display='none'; }
+    window.addEventListener('resize',check); check();
+    openBtn.addEventListener('click',()=>sidebar.classList.toggle('active'));
+  })();
+</script>
+</body>
+</html>
