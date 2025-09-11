@@ -387,12 +387,14 @@
       display: flex;
       gap: 12px;
       font-size: 14px;
+     
     }
     
     .session-meta span {
       display: flex;
       align-items: center;
       gap: 4px;
+       
     }
     
     .session-actions {
@@ -408,11 +410,11 @@
       border-radius: 6px;
       color: var(--text-light);
       cursor: pointer;
+      gap: 2px;
       transition: var(--transition);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      position: relative;
+    
+    
+      
       overflow: hidden;
     }
     
@@ -574,19 +576,20 @@
     .features-list {
       list-style: none;
       margin-bottom: 16px;
+      text-align: center;
     }
     
     .features-list li {
       margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      
       color: var(--text-gray);
       font-size: 14px;
+      text-align: center;
     }
     
     .features-list li i {
       color: var(--primary);
+      text-align: center;
     }
     
   </style>
@@ -683,7 +686,6 @@
           <div class="session-item">
             <div class="session-icon">
               <i class="fas fa-code"></i>
-              <div>intermediate</div>
             </div>
             
             <div class="session-details">
@@ -692,6 +694,7 @@
                 <span><i class="fas fa-question-circle"></i> 45 questions</span>
                 <span><i class="fas fa-clock"></i> 30-45 min</span>
                 <span><i class="fas fa-star"></i> 4.8</span>
+                <span style="color: rgb(255, 208, 0);border: 1px solid rgba(255, 255, 255, 0.1);border-radius: 7px;padding: 2px; background: rgba(255, 208, 0, 0.1);"> intermediate </span>
               </div>
             </div>
             
@@ -706,7 +709,7 @@
           <div class="session-item">
             <div class="session-icon">
               <i class="fas fa-users"></i>
-              <div>beginner</div>
+              
             </div>
             
             <div class="session-details">
@@ -715,6 +718,7 @@
                 <span><i class="fas fa-question-circle"></i>30 questions</span>
                 <span><i class="fas fa-clock"></i> 20-30 min</span>
                 <span><i class="fas fa-star"></i> 4.7</span>
+                <span style="color: rgb(3, 248, 3);border: 1px solid rgba(255, 255, 255, 0.1);border-radius: 7px;padding: 2px; background: rgba(1, 192, 1, 0.1);"> beginner</span>
               </div>
             </div>
             
@@ -727,7 +731,7 @@
            <div class="session-item">
             <div class="session-icon">
               <i class="fas fa-shopping-bag"></i>
-              <div>intermediate</div>
+              
             </div>
             
             <div class="session-details">
@@ -736,6 +740,7 @@
                 <span><i class="fas fa-question-circle"></i>30 questions</span>
                 <span><i class="fas fa-clock"></i> 20-30 min</span>
                 <span><i class="fas fa-star"></i> 4.7</span>
+                <span style="color: rgb(255, 208, 0);border: 1px solid rgba(255, 255, 255, 0.1);border-radius: 7px;padding: 2px; background: rgba(255, 208, 0, 0.1);"> intermediate </span>
               </div>
             </div>
             
@@ -748,7 +753,7 @@
           <div class="session-item">
             <div class="session-icon">
               <i class="fas fa-project-diagram"></i>
-              <div>advanced</div>
+              
             </div>
             
             <div class="session-details">
@@ -757,6 +762,7 @@
                 <span><i class="fas fa-question-circle"></i>30 questions</span>
                 <span><i class="fas fa-clock"></i> 20-30 min</span>
                 <span><i class="fas fa-star"></i> 4.7</span>
+                <span style="color: red;border: 1px solid rgba(255, 255, 255, 0.1);border-radius: 7px;padding: 2px; background: rgba(255, 0, 0, 0.1);"> advanced </span>
               </div>
             </div>
             
@@ -769,7 +775,7 @@
           <div class="session-item">
             <div class="session-icon">
               <i class="fas fa-medal"></i>
-              <div>intermediate</div>
+            
             </div>
             
             <div class="session-details">
@@ -778,6 +784,7 @@
                 <span><i class="fas fa-question-circle"></i>30 questions</span>
                 <span><i class="fas fa-clock"></i> 20-30 min</span>
                 <span><i class="fas fa-star"></i> 4.7</span>
+                <span style="color: rgb(255, 208, 0);border: 1px solid rgba(255, 255, 255, 0.1);border-radius: 7px;padding: 2px; background: rgba(255, 208, 0, 0.1);"> intermediate </span>
               </div>
             </div>
             
@@ -791,7 +798,7 @@
           <div class="session-item">
             <div class="session-icon">
               <i class="fas fa-sitemap"></i>
-              <div>advanced</div>
+              
             </div>
             
             <div class="session-details">
@@ -800,6 +807,7 @@
                 <span><i class="fas fa-question-circle"></i> 25 questions</span>
                 <span><i class="fas fa-clock"></i> 45-60 min</span>
                 <span><i class="fas fa-star"></i> 4.9  </span>
+                <span style="color: red;border: 1px solid rgba(255, 255, 255, 0.1);border-radius: 7px;padding: 2px; background: rgba(255, 0, 0, 0.1);"> advanced </span>
               </div>
             </div>
             
@@ -813,15 +821,15 @@
  <div class="sessions-section">
         
           
-          <div class="stats-section">
-            <div class="pricing-cards">
-              <div class="plan-card pricing-card">
-                <div class="pricing-header">
+          <div class="stats-section" style="text-align: center;">
+            <div class="pricing-cards" style="text-align: center;">
+              <div class="plan-card pricing-card"><i style="font-size: 30px; color: var(--secondary);" class="fas fa-brain"></i>
+                <div class="pricing-header" style="text-align: center;">
                   <div>Create Custom Pack</div>
                 </div>
-                <ul class="features-list">
-                  <li><i class="fas fa-check"></i> Can't find what you're looking for? Create a custom interview pack tailored to your needs.</li>
-                  <button class="btn-outline">Create Custom Pack</button>
+                <ul class="features-list" style="text-align: center;">
+                  <li style="text-align: center;">Can't find what you're looking for? Create a custom interview pack tailored to your needs.</li>
+                  <button class="btn-outline" style="text-align: center;">Create Custom Pack</button>
                 </ul>
               </div>
             </div>
