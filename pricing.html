@@ -7,57 +7,543 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* same CSS */
-    :root{--primary:#00f0ff;--secondary:#7928ca;--dark-bg:#0f0f1f;--darker-bg:#0a0a17;--text-light:#fff;--text-gray:#a0a0b0;--blur:blur(20px);--transition:all .3s cubic-bezier(.25,.8,.25,1)}
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Inter',sans-serif;background:var(--darker-bg);color:var(--text-light);line-height:1.6;overflow-x:hidden}
-    ::-webkit-scrollbar{width:8px}
-    ::-webkit-scrollbar-track{background:var(--darker-bg)}
-    ::-webkit-scrollbar-thumb{background:linear-gradient(to bottom,var(--primary),var(--secondary));border-radius:10px}
-    .dashboard-container{display:flex;min-height:100vh}
-    .sidebar{width:280px;background:rgba(15,15,31,.8);backdrop-filter:var(--blur);display:flex;flex-direction:column;border-right:1px solid rgba(255,255,255,.1)}
-    .sidebar-header{display:flex;justify-content:space-between;align-items:center;padding:20px;border-bottom:1px solid rgba(255,255,255,.1)}
-    .logo{display:flex;align-items:center;gap:12px;font-weight:700;font-size:18px;color:var(--primary)}
-    .user-profile{padding:24px 20px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:16px}
-    .avatar img{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.1)}
-    .status-indicator{position:absolute;bottom:6px;right:6px;width:14px;height:14px;background:var(--primary);border-radius:50%}
-    .sidebar-nav{flex:1;padding:20px 0;overflow-y:auto}
-    .nav-item{list-style:none;margin-bottom:4px}
-    .nav-item a{display:flex;align-items:center;padding:12px 20px;text-decoration:none;color:var(--text-light);font-weight:500;transition:var(--transition)}
-    .nav-item a i{margin-right:12px;color:var(--text-gray)}
-    .nav-item.active a,.nav-item a:hover{background:rgba(0,240,255,.08);color:var(--primary)}
-    .upgrade-card{margin:20px;padding:20px;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:12px;color:#fff}
-    .main-content{flex:1;display:flex;flex-direction:column;background:var(--dark-bg)}
-    .dashboard-header{background:rgba(15,15,31,.8);backdrop-filter:var(--blur);padding:19px 24px;display:flex;align-items:center;gap:24px;border-bottom:1px solid rgba(255,255,255,.1)}
-    .search-bar{flex:1;position:relative;max-width:400px}
-    .search-bar i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-gray)}
-    .search-bar input{width:100%;padding:12px 16px 12px 44px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text-light)}
-    .header-actions{display:flex;align-items:center;gap:16px}
-    .notification-btn,.profile-btn{background:none;border:none;color:var(--text-gray);cursor:pointer}
-    .dashboard-content{flex:1;padding:24px;overflow-y:auto}
-    .welcome-section{background:rgba(255,255,255,.03);backdrop-filter:var(--blur);border-radius:16px;padding:24px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:16px;border:1px solid rgba(255,255,255,.05)}
-    .cta-button{padding:12px 20px;background:linear-gradient(135deg,var(--primary),var(--secondary));border:none;border-radius:8px;color:white;font-weight:600;cursor:pointer;display:flex;gap:8px;align-items:center}
-    .stats-section{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:24px}
-    .stat-card{background:rgba(255,255,255,.03);border-radius:16px;padding:20px;display:flex;align-items:center;gap:16px;border:1px solid rgba(255,255,255,.05)}
-    .analytics-section{display:grid;grid-template-columns:2fr 1fr;gap:24px}
-    .interviews-section,.sessions-section{background:rgba(255,255,255,.03);border-radius:16px;padding:24px;margin-bottom:24px;border:1px solid rgba(255,255,255,.05)}
-    /* small responsive tweaks */
-    :root{--primary:#00f0ff;--secondary:#7928ca;--dark-bg:#0f0f1f;--darker-bg:#0a0a17;--text-light:#fff;--text-gray:#a0a0b0}
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Inter',sans-serif;background:var(--darker-bg);color:var(--text-light);line-height:1.6}
-    .dashboard-container{display:flex;min-height:100vh}
-    .sidebar{width:280px;background:rgba(15,15,31,.8);backdrop-filter:blur(20px);display:flex;flex-direction:column;border-right:1px solid rgba(255,255,255,.1)}
-    .main-content{flex:1}
-    .dashboard-header{padding:19px 24px;background:rgba(15,15,31,.8);display:flex;align-items:center}
-    .dashboard-content{padding:24px}
-    .plan-card{background:rgba(255,255,255,.03);border-radius:16px;padding:24px;border:1px solid rgba(255,255,255,.05);margin-bottom:16px}
+    /* CSS Variables */
+    :root {
+      --primary: #00f0ff;
+      --secondary: #7928ca;
+      --dark-bg: #0f0f1f;
+      --darker-bg: #0a0a17;
+      --text-light: #fff;
+      --text-gray: #a0a0b0;
+      --blur: blur(20px);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --border-color: rgba(255, 255, 255, 0.05);
+      --featured-glow: 0 0 15px rgba(121, 40, 202, 0.5);
+    }
+    
+    /* Reset & Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--darker-bg);
+      color: var(--text-light);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: var(--darker-bg);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(to bottom, var(--primary), var(--secondary));
+      border-radius: 10px;
+    }
+    
+    /* Layout */
+    .dashboard-container {
+      display: flex;
+      min-height: 100vh;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: rgba(15, 15, 31, 0.8);
+      backdrop-filter: var(--blur);
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      transition: var(--transition);
+      z-index: 100;
+    }
+    
+    .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--primary);
+    }
+    
+    .logo img {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+    }
+    
+    /* User Profile */
+    .user-profile {
+      padding: 24px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    .avatar {
+      position: relative;
+    }
+    
+    .avatar img {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .status-indicator {
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      width: 14px;
+      height: 14px;
+      background: var(--primary);
+      border-radius: 50%;
+    }
+    
+    .user-info h3 {
+      margin-bottom: 4px;
+    }
+    
+    .user-info p {
+      color: var(--text-gray);
+    }
+    
+    /* Navigation */
+    .sidebar-nav {
+      flex: 1;
+      padding: 20px 0;
+      overflow-y: auto;
+    }
+    
+    .nav-item {
+      list-style: none;
+      margin-bottom: 4px;
+    }
+    
+    .nav-item a {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      text-decoration: none;
+      color: var(--text-light);
+      font-weight: 500;
+      transition: var(--transition);
+    }
+    
+    .nav-item a i {
+      margin-right: 12px;
+      color: var(--text-gray);
+      transition: var(--transition);
+    }
+    
+    .nav-item.active a,
+    .nav-item a:hover {
+      background: rgba(0, 240, 255, 0.08);
+      color: var(--primary);
+    }
+    
+    .nav-item.active a i,
+    .nav-item a:hover i {
+      color: var(--primary);
+    }
+    
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: var(--dark-bg);
+    }
+    
+    /* Header */
+    .dashboard-header {
+      background: rgba(15, 15, 31, 0.8);
+      backdrop-filter: var(--blur);
+      padding: 19px 24px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .search-bar {
+      flex: 1;
+      position: relative;
+      max-width: 400px;
+    }
+    
+    .search-bar i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-gray);
+    }
+    
+    .search-bar input {
+      width: 100%;
+      padding: 12px 16px 12px 44px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: var(--text-light);
+    }
+    
+    /* Dashboard Content */
+    .dashboard-content {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+    }
+    
+    /* Page Header */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    
+    .page-header h1 {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+    
+    .page-header p {
+      color: var(--text-gray);
+    }
+    
+    /* Toggle Switch */
+    .toggle-switch {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-gray);
+    }
+    
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 24px;
+    }
+    
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(255, 255, 255, 0.1);
+      transition: var(--transition);
+      border-radius: 24px;
+    }
+    
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: var(--primary);
+      transition: var(--transition);
+      border-radius: 50%;
+    }
+    
+    input:checked + .slider {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+    }
+    
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+    
+    /* Pricing Cards */
+    .pricing-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    
+    .pricing-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid var(--border-color);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .pricing-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+      transition: 0.5s;
+    }
+    
+    .pricing-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+    
+    .pricing-card:hover::before {
+      left: 100%;
+    }
+    
+    .pricing-card.featured {
+      border: 1px solid var(--primary);
+      box-shadow: var(--featured-glow);
+    }
+    
+    .popular-badge {
+      position: absolute;
+      top: 16px;
+      right: -30px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 4px 32px;
+      font-size: 12px;
+      font-weight: 600;
+      transform: rotate(45deg);
+    }
+    
+    .pricing-header {
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    
+    .pricing-header h4 {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+      font-size: 20px;
+    }
+    
+    .pricing-header div {
+      font-size: 24px;
+      color: var(--primary);
+      font-weight: 700;
+    }
+    
+    .pricing-header small {
+      color: var(--text-gray);
+      font-size: 14px;
+      font-weight: 400;
+    }
+    
+    .features-list {
+      list-style: none;
+      margin-bottom: 24px;
+    }
+    
+    .features-list li {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-light);
+      font-size: 14px;
+    }
+    
+    .features-list li i {
+      color: var(--primary);
+    }
+    
+    /* CTA Button */
+    .cta-button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: 0.5s;
+    }
+    
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .cta-button:hover::before {
+      left: 100%;
+    }
+    
+    /* FAQ Section */
+    .faq-section {
+      background: var(--card-bg);
+      padding: 24px;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      margin-top: 24px;
+    }
+    
+    .faq-section h3 {
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .faq-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+    }
+    
+    .faq-item {
+      background: rgba(255, 255, 255, 0.02);
+      padding: 16px;
+      border-radius: 8px;
+      transition: var(--transition);
+    }
+    
+    .faq-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .faq-item h4 {
+      margin-bottom: 8px;
+      color: var(--text-light);
+    }
+    
+    .faq-item p {
+      color: var(--text-gray);
+      font-size: 14px;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .sidebar {
+        position: fixed;
+        left: -280px;
+        height: 100%;
+      }
+      
+      .sidebar.active {
+        left: 0;
+      }
+      
+      .dashboard-container {
+        overflow-x: hidden;
+      }
+      
+      .pricing-cards {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .page-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+      }
+      
+      .toggle-switch {
+        justify-content: center;
+      }
+      
+      .faq-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .dashboard-header {
+        flex-wrap: wrap;
+      }
+      
+      .search-bar {
+        max-width: 100%;
+        order: 3;
+        margin-top: 16px;
+      }
+      
+      .pricing-card {
+        padding: 20px;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="dashboard-container">
-    <div class="sidebar">
-      <div class="sidebar-header"><div class="logo" style="padding:12px"><img src="img/logo.png" style="width:32px;height:32px;border-radius:8px"><span style="margin-left:8px">ConfidenSee</span></div></div>
-      <div style="padding:24px 20px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;gap:16px"><img src="https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg" style="width:56px;height:56px;border-radius:50%"><div><h3>User</h3><p style="color:var(--text-gray)">Premium Member</p></div></div>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <img src="img/logo.png" alt="Logo">
+          <span>ConfidenSee</span>
+        </div>
+      </div>
+
+      <div class="user-profile">
+        <div class="avatar">
+          <img src="https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg" alt="User">
+          <div class="status-indicator"></div>
+        </div>
+        <div class="user-info">
+          <h3>User</h3>
+          <p>Premium Member</p>
+        </div>
+      </div>
+
       <ul class="sidebar-nav">
         <li class="nav-item"><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
         <li class="nav-item"><a href="question-packs.html"><i class="fas fa-folder"></i> Question Packs</a></li>
@@ -70,94 +556,141 @@
       </ul>
     </div>
 
+    <!-- Main Content -->
     <div class="main-content">
-      <div class="dashboard-header"><div style="flex:1"><input placeholder="Search..." style="width:100%;padding:12px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:var(--text-light)"></div></div>
-      <div class="dashboard-content">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-          <div><h1 style="background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Choose Your Plan</h1><p style="color:var(--text-gray)">Select the plan that works best for your interview preparation needs</p></div>
-          <div style="display:flex;align-items:center;gap:8px;color:var(--text-gray)"><span>Monthly</span><label style="display:inline-block"><input type="checkbox" checked> <span style="transform:translateY(-2px)"></span></label><span>Annual (Save 20%)</span></div>
+      <div class="dashboard-header">
+        <button id="openSidebar" style="display:none;background:none;border:none;color:var(--text-gray)"><i class="fas fa-bars"></i></button>
+        <div class="search-bar">
+          <i class="fas fa-search"></i>
+          <input placeholder="Search..." />
         </div>
-<!-- Pricing Section -->
-<section id="pricing" class="section pricing">
-  <div class="section-header">
-    <h2>Choose Your Plan</h2>
-    <p>Flexible options designed for every stage of your career journey</p>
-  </div>
-  <div class="pricing-cards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">
-    
-    <div class="plan-card pricing-card">
-      <div class="pricing-header">
-        <h4 style="background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Basic Pack</h4>
-        <div style="font-size:24px;color:var(--primary)">৳200 <small style="color:var(--text-gray);font-size:12px">/month</small></div>
       </div>
-      <ul class="features-list">
-        <li><i class="fas fa-check"></i> 10 hours of interview practice</li>
-        <li><i class="fas fa-check"></i> AI generated questions</li>
-        <li><i class="fas fa-check"></i> Basic AI feedback and scoring</li>
-        <li><i class="fas fa-check"></i> Voice + text hybrid mode</li>
-        <li><i class="fas fa-check"></i> Basic performance tracking</li>
-        <li><i class="fas fa-check"></i> Use anytime within 30 days</li>
-        <li><i class="fas fa-check"></i> Email support</li>
-      </ul>
-      <button style="width:100%;padding:12px;border-radius:8px;background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;border:none">Current Plan</button>
-    </div>
 
-    <div class="plan-card pricing-card featured">
-      <div class="popular-badge">Most Popular</div>
-      <div class="pricing-header">
-        <h4 style="background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Standard Pack</h4>
-        <div style="font-size:24px;color:var(--primary)">৳400 <small style="color:var(--text-gray);font-size:12px">/month</small></div>
-      </div>
-      <ul class="features-list">
-        <li><i class="fas fa-check"></i> 20 hours of interview practice</li>
-        <li><i class="fas fa-check"></i> AI generated questions</li>
-        <li><i class="fas fa-check"></i> Advanced AI feedback with insights</li>
-        <li><i class="fas fa-check"></i> Voice + text hybrid mode</li>
-        <li><i class="fas fa-check"></i> Detailed performance analytics</li>
-        <li><i class="fas fa-check"></i> Progress tracking & recommendations</li>
-        <li><i class="fas fa-check"></i> Use anytime within 30 days</li>
-        <li><i class="fas fa-check"></i> Priority email support</li>
-        <li><i class="fas fa-check"></i> Offline simulation mode</li>
-      </ul>
-      <button style="width:100%;padding:12px;border-radius:8px;background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;border:none">Get Started</button>
-    </div>
-
-    <div class="plan-card pricing-card">
-      <div class="pricing-header">
-        <h4 style="background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Premium Pack</h4>
-        <div style="font-size:24px;color:var(--primary)">৳600 <small style="color:var(--text-gray);font-size:12px">/month</small></div>
-      </div>
-      <ul class="features-list">
-        <li><i class="fas fa-check"></i> 30 hours of interview practice</li>
-        <li><i class="fas fa-check"></i> AI generated questions</li>
-        <li><i class="fas fa-check"></i> Advanced AI with personalized learning</li>
-        <li><i class="fas fa-check"></i> Voice + text hybrid mode</li>
-        <li><i class="fas fa-check"></i> Comprehensive analytics dashboard</li>
-        <li><i class="fas fa-check"></i> Custom question creation</li>
-        <li><i class="fas fa-check"></i> Use anytime within 30 days</li>
-        <li><i class="fas fa-check"></i> Priority support + live chat</li>
-        <li><i class="fas fa-check"></i> Offline simulation mode</li>
-        <li><i class="fas fa-check"></i> Interview scheduling assistant</li>
-        <li><i class="fas fa-check"></i> Export performance reports</li>
-      </ul>
-      <button style="width:100%;padding:12px;border-radius:8px;background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;border:none">Get Started</button>
-    </div>
-
-  </div>
-</section>
-
-
-        <div style="margin-top:24px;background:rgba(255,255,255,.03);padding:20px;border-radius:12px;border:1px solid rgba(255,255,255,.05)">
-          <h3>Frequently Asked Questions</h3>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px">
-            <div style="background:rgba(255,255,255,.02);padding:12px;border-radius:8px"><h4>Can I change plans anytime?</h4><p style="color:var(--text-gray)">Yes — upgrades/downgrades apply on the next billing cycle.</p></div>
-            <div style="background:rgba(255,255,255,.02);padding:12px;border-radius:8px"><h4>Is there a free trial?</h4><p style="color:var(--text-gray)">We offer a 7-day free trial for Pro — no card required.</p></div>
-            <div style="background:rgba(255,255,255,.02);padding:12px;border-radius:8px"><h4>Payment methods</h4><p style="color:var(--text-gray)">Cards, PayPal, bank transfer for annual plans.</p></div>
+      <div class="dashboard-content">
+        <div class="page-header">
+          <div>
+            <h1>Choose Your Plan</h1>
+            <p>Select the plan that works best for your interview preparation needs</p>
+          </div>
+          <div class="toggle-switch">
+            <span>Monthly</span>
+            <label class="switch">
+              <input type="checkbox" checked>
+              <span class="slider"></span>
+            </label>
+            <span>Annual (Save 20%)</span>
           </div>
         </div>
 
+        <!-- Pricing Cards -->
+        <div class="pricing-cards">
+          <!-- Basic Plan -->
+          <div class="pricing-card">
+            <div class="pricing-header">
+              <h4>Basic Pack</h4>
+              <div>৳200 <small>/month</small></div>
+            </div>
+            <ul class="features-list">
+              <li><i class="fas fa-check"></i> 10 hours of interview practice</li>
+              <li><i class="fas fa-check"></i> AI generated questions</li>
+              <li><i class="fas fa-check"></i> Basic AI feedback and scoring</li>
+              <li><i class="fas fa-check"></i> Voice + text hybrid mode</li>
+              <li><i class="fas fa-check"></i> Basic performance tracking</li>
+              <li><i class="fas fa-check"></i> Use anytime within 30 days</li>
+              <li><i class="fas fa-check"></i> Email support</li>
+            </ul>
+            <button class="cta-button">Current Plan</button>
+          </div>
+
+          <!-- Standard Plan (Featured) -->
+          <div class="pricing-card featured">
+            <div class="popular-badge">Most Popular</div>
+            <div class="pricing-header">
+              <h4>Standard Pack</h4>
+              <div>৳400 <small>/month</small></div>
+            </div>
+            <ul class="features-list">
+              <li><i class="fas fa-check"></i> 20 hours of interview practice</li>
+              <li><i class="fas fa-check"></i> AI generated questions</li>
+              <li><i class="fas fa-check"></i> Advanced AI feedback with insights</li>
+              <li><i class="fas fa-check"></i> Voice + text hybrid mode</li>
+              <li><i class="fas fa-check"></i> Detailed performance analytics</li>
+              <li><i class="fas fa-check"></i> Progress tracking & recommendations</li>
+              <li><i class="fas fa-check"></i> Use anytime within 30 days</li>
+              <li><i class="fas fa-check"></i> Priority email support</li>
+              <li><i class="fas fa-check"></i> Offline simulation mode</li>
+            </ul>
+            <button class="cta-button">Get Started</button>
+          </div>
+
+          <!-- Premium Plan -->
+          <div class="pricing-card">
+            <div class="pricing-header">
+              <h4>Premium Pack</h4>
+              <div>৳600 <small>/month</small></div>
+            </div>
+            <ul class="features-list">
+              <li><i class="fas fa-check"></i> 30 hours of interview practice</li>
+              <li><i class="fas fa-check"></i> AI generated questions</li>
+              <li><i class="fas fa-check"></i> Advanced AI with personalized learning</li>
+              <li><i class="fas fa-check"></i> Voice + text hybrid mode</li>
+              <li><i class="fas fa-check"></i> Comprehensive analytics dashboard</li>
+              <li><i class="fas fa-check"></i> Custom question creation</li>
+              <li><i class="fas fa-check"></i> Use anytime within 30 days</li>
+              <li><i class="fas fa-check"></i> Priority support + live chat</li>
+              <li><i class="fas fa-check"></i> Offline simulation mode</li>
+              <li><i class="fas fa-check"></i> Interview scheduling assistant</li>
+              <li><i class="fas fa-check"></i> Export performance reports</li>
+            </ul>
+            <button class="cta-button">Get Started</button>
+          </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-section">
+          <h3>Frequently Asked Questions</h3>
+          <div class="faq-grid">
+            <div class="faq-item">
+              <h4>Can I change plans anytime?</h4>
+              <p>Yes — upgrades/downgrades apply on the next billing cycle.</p>
+            </div>
+            <div class="faq-item">
+              <h4>Is there a free trial?</h4>
+              <p>We offer a 7-day free trial for Pro — no card required.</p>
+            </div>
+            <div class="faq-item">
+              <h4>Payment methods</h4>
+              <p>Cards, PayPal, bank transfer for annual plans.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+
+  <script>
+    // Script to toggle sidebar on small screens
+    (function(){
+      const sidebar = document.getElementById('sidebar');
+      const openBtn = document.getElementById('openSidebar');
+      
+      // Show mobile open button if screen is small
+      function check() { 
+        if (window.innerWidth < 992) {
+          openBtn.style.display = 'inline-block';
+        } else {
+          openBtn.style.display = 'none';
+          sidebar.classList.remove('active');
+        }
+      }
+      
+      window.addEventListener('resize', check);
+      check();
+      
+      openBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+      });
+    })();
+  </script>
 </body>
 </html>
