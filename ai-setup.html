@@ -7,56 +7,644 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    :root{--primary:#00f0ff;--secondary:#7928ca;--dark-bg:#0f0f1f;--darker-bg:#0a0a17;--text-light:#fff;--text-gray:#a0a0b0;--blur:blur(20px);--transition:all .3s cubic-bezier(.25,.8,.25,1)}
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Inter',sans-serif;background:var(--darker-bg);color:var(--text-light);line-height:1.6;overflow-x:hidden}
-    ::-webkit-scrollbar{width:8px}
-    ::-webkit-scrollbar-track{background:var(--darker-bg)}
-    ::-webkit-scrollbar-thumb{background:linear-gradient(to bottom,var(--primary),var(--secondary));border-radius:10px}
-    .dashboard-container{display:flex;min-height:100vh}
-    .sidebar{width:280px;background:rgba(15,15,31,.8);backdrop-filter:var(--blur);display:flex;flex-direction:column;border-right:1px solid rgba(255,255,255,.1)}
-    .sidebar-header{display:flex;justify-content:space-between;align-items:center;padding:20px;border-bottom:1px solid rgba(255,255,255,.1)}
-    .logo{display:flex;align-items:center;gap:12px;font-weight:700;font-size:18px;color:var(--primary)}
-    .user-profile{padding:24px 20px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:16px}
-    .avatar img{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.1)}
-    .status-indicator{position:absolute;bottom:6px;right:6px;width:14px;height:14px;background:var(--primary);border-radius:50%}
-    .sidebar-nav{flex:1;padding:20px 0;overflow-y:auto}
-    .nav-item{list-style:none;margin-bottom:4px}
-    .nav-item a{display:flex;align-items:center;padding:12px 20px;text-decoration:none;color:var(--text-light);font-weight:500;transition:var(--transition)}
-    .nav-item a i{margin-right:12px;color:var(--text-gray)}
-    .nav-item.active a,.nav-item a:hover{background:rgba(0,240,255,.08);color:var(--primary)}
-    .upgrade-card{margin:20px;padding:20px;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:12px;color:#fff}
-    .main-content{flex:1;display:flex;flex-direction:column;background:var(--dark-bg)}
-    .dashboard-header{background:rgba(15,15,31,.8);backdrop-filter:var(--blur);padding:19px 24px;display:flex;align-items:center;gap:24px;border-bottom:1px solid rgba(255,255,255,.1)}
-    .search-bar{flex:1;position:relative;max-width:400px}
-    .search-bar i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-gray)}
-    .search-bar input{width:100%;padding:12px 16px 12px 44px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text-light)}
-    .header-actions{display:flex;align-items:center;gap:16px}
-    .notification-btn,.profile-btn{background:none;border:none;color:var(--text-gray);cursor:pointer}
-    .dashboard-content{flex:1;padding:24px;overflow-y:auto}
-    .welcome-section{background:rgba(255,255,255,.03);backdrop-filter:var(--blur);border-radius:16px;padding:24px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:16px;border:1px solid rgba(255,255,255,.05)}
-    .cta-button{padding:12px 20px;background:linear-gradient(135deg,var(--primary),var(--secondary));border:none;border-radius:8px;color:white;font-weight:600;cursor:pointer;display:flex;gap:8px;align-items:center}
-    .stats-section{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:24px}
-    .stat-card{background:rgba(255,255,255,.03);border-radius:16px;padding:20px;display:flex;align-items:center;gap:16px;border:1px solid rgba(255,255,255,.05)}
-    .analytics-section{display:grid;grid-template-columns:2fr 1fr;gap:24px}
-    .interviews-section,.sessions-section{background:rgba(255,255,255,.03);border-radius:16px;padding:24px;margin-bottom:24px;border:1px solid rgba(255,255,255,.05)}
-    /* small responsive tweaks */
-    /* same CSS */
-    :root{--primary:#00f0ff;--secondary:#7928ca;--dark-bg:#0f0f1f;--darker-bg:#0a0a17;--text-light:#fff;--text-gray:#a0a0b0}
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Inter',sans-serif;background:var(--darker-bg);color:var(--text-light);line-height:1.6}
-    .dashboard-container{display:flex;min-height:100vh}
-    .sidebar{width:280px;background:rgba(15,15,31,.8)}
-    .main-content{flex:1}
-    .dashboard-content{padding:24px}
-    .settings-card{background:rgba(255,255,255,.03);padding:24px;border-radius:16px;border:1px solid rgba(255,255,255,.05);margin-bottom:16px}
+    /* CSS Variables */
+    :root {
+      --primary: #00f0ff;
+      --secondary: #7928ca;
+      --dark-bg: #0f0f1f;
+      --darker-bg: #0a0a17;
+      --text-light: #fff;
+      --text-gray: #a0a0b0;
+      --blur: blur(20px);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --border-color: rgba(255, 255, 255, 0.05);
+      --success: #00cc88;
+      --warning: #ffaa00;
+      --info: #00aaff;
+    }
+    
+    /* Reset & Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--darker-bg);
+      color: var(--text-light);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: var(--darker-bg);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(to bottom, var(--primary), var(--secondary));
+      border-radius: 10px;
+    }
+    
+    /* Layout */
+    .dashboard-container {
+      display: flex;
+      min-height: 100vh;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: rgba(15, 15, 31, 0.8);
+      backdrop-filter: var(--blur);
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      transition: var(--transition);
+      z-index: 100;
+    }
+    
+    .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--primary);
+    }
+    
+    .logo img {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+    }
+    
+    /* User Profile */
+    .user-profile {
+      padding: 24px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    .avatar {
+      position: relative;
+    }
+    
+    .avatar img {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .status-indicator {
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      width: 14px;
+      height: 14px;
+      background: var(--primary);
+      border-radius: 50%;
+    }
+    
+    .user-info h3 {
+      margin-bottom: 4px;
+    }
+    
+    .user-info p {
+      color: var(--text-gray);
+    }
+    
+    /* Navigation */
+    .sidebar-nav {
+      flex: 1;
+      padding: 20px 0;
+      overflow-y: auto;
+    }
+    
+    .nav-item {
+      list-style: none;
+      margin-bottom: 4px;
+    }
+    
+    .nav-item a {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      text-decoration: none;
+      color: var(--text-light);
+      font-weight: 500;
+      transition: var(--transition);
+    }
+    
+    .nav-item a i {
+      margin-right: 12px;
+      color: var(--text-gray);
+      transition: var(--transition);
+    }
+    
+    .nav-item.active a,
+    .nav-item a:hover {
+      background: rgba(0, 240, 255, 0.08);
+      color: var(--primary);
+    }
+    
+    .nav-item.active a i,
+    .nav-item a:hover i {
+      color: var(--primary);
+    }
+    
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: var(--dark-bg);
+    }
+    
+    /* Header */
+    .dashboard-header {
+      background: rgba(15, 15, 31, 0.8);
+      backdrop-filter: var(--blur);
+      padding: 19px 24px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .search-bar {
+      flex: 1;
+      position: relative;
+      max-width: 400px;
+    }
+    
+    .search-bar i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-gray);
+    }
+    
+    .search-bar input {
+      width: 100%;
+      padding: 12px 16px 12px 44px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: var(--text-light);
+    }
+    
+    /* Dashboard Content */
+    .dashboard-content {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+    }
+    
+    /* Page Header */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    
+    .page-header h1 {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+    
+    .page-header p {
+      color: var(--text-gray);
+    }
+    
+    /* CTA Button */
+    .cta-button {
+      padding: 12px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: 0.5s;
+    }
+    
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .cta-button:hover::before {
+      left: 100%;
+    }
+    
+    /* Settings Cards */
+    .settings-card {
+      background: var(--card-bg);
+      padding: 24px;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 24px;
+      transition: var(--transition);
+    }
+    
+    .settings-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .settings-card h3 {
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .settings-card p {
+      color: var(--text-gray);
+      margin-bottom: 16px;
+    }
+    
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 16px;
+    }
+    
+    .form-group label {
+      display: block;
+      color: var(--text-gray);
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      color: var(--text-light);
+      transition: var(--transition);
+    }
+    
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(0, 240, 255, 0.2);
+    }
+    
+    /* Buttons */
+    .btn-outline {
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: transparent;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .btn-outline:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+    
+    .btn-outline.active {
+      border-color: var(--primary);
+      background: rgba(0, 240, 255, 0.1);
+      color: var(--primary);
+    }
+    
+    /* Checkbox Groups */
+    .checkbox-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    
+    .checkbox-item {
+      background: rgba(255, 255, 255, 0.02);
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .checkbox-item:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+    
+    .checkbox-item input {
+      margin: 0;
+    }
+    
+    /* API Configuration Section */
+    .api-config {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 24px;
+    }
+    
+    .api-header {
+      margin-bottom: 24px;
+    }
+    
+    .api-header h2 {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+    
+    .api-header p {
+      color: var(--text-gray);
+    }
+    
+    .steps-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    
+    .step-card {
+      background: rgba(255, 255, 255, 0.02);
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      transition: var(--transition);
+    }
+    
+    .step-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .step-number {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    
+    .step-card h4 {
+      margin-bottom: 8px;
+      color: var(--text-light);
+    }
+    
+    .step-card p {
+      color: var(--text-gray);
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    
+    .step-action {
+      margin-top: auto;
+    }
+    
+    .api-key-form {
+      margin-bottom: 24px;
+    }
+    
+    .api-status {
+      padding: 12px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      margin-bottom: 16px;
+    }
+    
+    .api-status.error {
+      border-color: var(--warning);
+      background: rgba(255, 170, 0, 0.05);
+    }
+    
+    .api-status.success {
+      border-color: var(--success);
+      background: rgba(0, 204, 136, 0.05);
+    }
+    
+    /* Model Information */
+    .model-info {
+      background: rgba(255, 255, 255, 0.02);
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 16px;
+    }
+    
+    .model-info h4 {
+      margin-bottom: 12px;
+      color: var(--text-light);
+    }
+    
+    .feature-list {
+      list-style: none;
+      margin-bottom: 16px;
+    }
+    
+    .feature-list li {
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-gray);
+      font-size: 14px;
+    }
+    
+    .feature-list li i {
+      color: var(--success);
+    }
+    
+    .info-list {
+      list-style: none;
+    }
+    
+    .info-list li {
+      margin-bottom: 8px;
+      color: var(--text-gray);
+      font-size: 14px;
+    }
+    
+    .info-list li i {
+      color: var(--info);
+      margin-right: 8px;
+    }
+    
+    /* Notes Section */
+    .notes-section {
+      background: rgba(255, 255, 255, 0.02);
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+    
+    .notes-section h4 {
+      margin-bottom: 12px;
+      color: var(--text-light);
+    }
+    
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+    }
+    
+    .note-item {
+      padding: 12px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    
+    .note-item.positive {
+      border-left: 3px solid var(--success);
+    }
+    
+    .note-item.warning {
+      border-left: 3px solid var(--warning);
+    }
+    
+    .note-item h5 {
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .note-item p {
+      color: var(--text-gray);
+      font-size: 14px;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .sidebar {
+        position: fixed;
+        left: -280px;
+        height: 100%;
+      }
+      
+      .sidebar.active {
+        left: 0;
+      }
+      
+      .dashboard-container {
+        overflow-x: hidden;
+      }
+      
+      .steps-container {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .page-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+      }
+      
+      .checkbox-group {
+        flex-direction: column;
+      }
+      
+      .notes-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .dashboard-header {
+        flex-wrap: wrap;
+      }
+      
+      .search-bar {
+        max-width: 100%;
+        order: 3;
+        margin-top: 16px;
+      }
+      
+      .settings-card {
+        padding: 16px;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="dashboard-container">
-    <div class="sidebar">
-      <div class="sidebar-header"><div class="logo" style="padding:12px"><img src="img/logo.png" style="width:32px;height:32px;border-radius:8px"><span style="margin-left:8px">ConfidenSee</span></div></div>
-      <div style="padding:24px 20px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;gap:16px"><img src="https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg" style="width:56px;height:56px;border-radius:50%"><div><h3>User</h3><p style="color:var(--text-gray)">Premium Member</p></div></div>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <img src="img/logo.png" alt="Logo">
+          <span>ConfidenSee</span>
+        </div>
+      </div>
+
+      <div class="user-profile">
+        <div class="avatar">
+          <img src="https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg" alt="User">
+          <div class="status-indicator"></div>
+        </div>
+        <div class="user-info">
+          <h3>User</h3>
+          <p>Premium Member</p>
+        </div>
+      </div>
+
       <ul class="sidebar-nav">
         <li class="nav-item"><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
         <li class="nav-item"><a href="question-packs.html"><i class="fas fa-folder"></i> Question Packs</a></li>
@@ -70,48 +658,157 @@
       </ul>
     </div>
 
+    <!-- Main Content -->
     <div class="main-content">
-      <div class="dashboard-header" style="padding:20px;background:rgba(15,15,31,.8)"><input placeholder="Search..." style="width:100%;padding:12px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:var(--text-light)"></div>
+      <div class="dashboard-header">
+        <button id="openSidebar" style="display:none;background:none;border:none;color:var(--text-gray)"><i class="fas fa-bars"></i></button>
+        <div class="search-bar">
+          <i class="fas fa-search"></i>
+          <input placeholder="Search..." />
+        </div>
+      </div>
 
       <div class="dashboard-content">
-        <div class="welcome-section" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-          <div><h1 style="background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent">AI Interviewer Setup</h1><p style="color:var(--text-gray)">Customize your AI interviewer to match your target role and company</p></div>
-          <button class="cta-button" style="padding:12px 20px;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:8px;border:none;color:#fff"><i class="fas fa-robot"></i> Configure</button>
+        <!-- Page Header -->
+        <div class="page-header">
+          <div>
+            <h1>AI Interviewer Setup</h1>
+            <p>Customize your AI interviewer to match your target role and company</p>
+          </div>
+          <button class="cta-button">
+            <i class="fas fa-robot"></i> Configure
+          </button>
         </div>
 
-        <div class="settings-card">
-          <h3>Role & Company</h3>
-          <div style="display:flex;gap:12px;flex-wrap:wrap">
-            <div style="flex:1;min-width:200px"><label style="display:block;color:var(--text-gray);margin-bottom:6px">Target Role</label><input placeholder="e.g. Senior Backend Engineer" style="width:100%;padding:10px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:var(--text-light)"></div>
-            <div style="flex:1;min-width:200px"><label style="display:block;color:var(--text-gray);margin-bottom:6px">Company</label><input placeholder="e.g. TechCorp" style="width:100%;padding:10px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:var(--text-light)"></div>
+        <!-- Gemini API Configuration Section -->
+        <div class="api-config">
+          <div class="api-header">
+            <h2>Gemini API Configuration</h2>
+            <p>Configure Your AI Interview Assistant</p>
+            <p>Set up your Google Gemini API key to enable AI-powered question generation and real-time feedback during interviews.</p>
+          </div>
+
+          <!-- Getting Started Steps -->
+          <div class="steps-container">
+            <div class="step-card">
+              <div class="step-number">1</div>
+              <h4>Get API Key</h4>
+              <p>Visit Google AI Studio to create your free Gemini API key</p>
+              <div class="step-action">
+  <a href="https://aistudio.google.com/app/apikey" target="_blank" class="btn-outline">
+    <i class="fas fa-key"></i> Get API Key
+  </a>
+</div>
+
+            </div>
+
+            <div class="step-card">
+              <div class="step-number">2</div>
+              <h4>Configure</h4>
+              <p>Paste your API key in the form below and save it securely</p>
+            </div>
+
+            <div class="step-card">
+              <div class="step-number">3</div>
+              <h4>Test & Use</h4>
+              <p>Test your connection and start using AI-powered interviews</p>
+            </div>
+          </div>
+
+          <!-- API Key Form -->
+          <div class="api-key-form">
+            <h3>API Key Configuration</h3>
+            <p>Your API key is stored locally in your browser and is never sent to our servers</p>
+            
+            <div class="api-status error">
+              <p>No API key configured. Please add your Gemini API key to enable AI features.</p>
+            </div>
+            
+            <div class="form-group">
+              <label for="api-key">Gemini API Key</label>
+              <input type="password" id="api-key" placeholder="Enter your Gemini API key...">
+              <p style="color: var(--text-gray); font-size: 14px; margin-top: 8px;">
+                Your API key should start with "AIza" and be approximately 39 characters long.
+              </p>
+            </div>
+            
+            <button class="cta-button">
+              <i class="fas fa-save"></i> Save Key
+            </button>
+          </div>
+
+          <!-- Model Information -->
+          <div class="model-info">
+            <h4>Model Information</h4>
+            <p>Currently using Gemini 1.5 Flash for optimal performance</p>
+            
+            <ul class="feature-list">
+              <li><i class="fas fa-check"></i> Fast response times for real-time feedback</li>
+              <li><i class="fas fa-check"></i> Advanced reasoning for complex questions</li>
+              <li><i class="fas fa-check"></i> Context-aware question generation</li>
+              <li><i class="fas fa-check"></i> Detailed answer evaluation</li>
+              <li><i class="fas fa-check"></i> Multi-language support</li>
+            </ul>
+            
+            <h4>How we use your API:</h4>
+            <ul class="info-list">
+              <li><i class="fas fa-info-circle"></i> Generate personalized interview questions</li>
+              <li><i class="fas fa-info-circle"></i> Evaluate your answers with detailed feedback</li>
+              <li><i class="fas fa-info-circle"></i> Create follow-up questions based on responses</li>
+              <li><i class="fas fa-info-circle"></i> Adapt difficulty to your experience level</li>
+            </ul>
+          </div>
+
+          <!-- Important Notes -->
+          <div class="notes-section">
+            <h4>Important Notes</h4>
+            <div class="notes-grid">
+              <div class="note-item positive">
+                <h5><i class="fas fa-shield-alt"></i> Privacy & Security</h5>
+                <p>API key stored locally in your browser. Never sent to our servers. Used only for generating interview content. No personal data stored with Google.</p>
+              </div>
+              
+              <div class="note-item warning">
+                <h5><i class="fas fa-exclamation-triangle"></i> Best Practices</h5>
+                <p>Keep your API key confidential. Monitor usage in Google AI Studio. Set usage limits if needed. Remove the key when not in use.</p>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="settings-card">
-          <h3>Interview Tone</h3>
-          <p style="color:var(--text-gray)">Choose the tone of the AI interviewer</p>
-          <div style="display:flex;gap:12px">
-            <button class="btn-outline" style="padding:10px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.08)">Friendly</button>
-            <button class="btn-outline" style="padding:10px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.08)">Neutral</button>
-            <button class="btn-outline" style="padding:10px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.08)">Challenging</button>
-          </div>
-        </div>
+        
+  <script>
+    // Script to toggle sidebar on small screens
+    (function(){
+      const sidebar = document.getElementById('sidebar');
+      const openBtn = document.getElementById('openSidebar');
+      
+      // Show mobile open button if screen is small
+      function check() { 
+        if (window.innerWidth < 992) {
+          openBtn.style.display = 'inline-block';
+        } else {
+          openBtn.style.display = 'none';
+          sidebar.classList.remove('active');
+        }
+      }
+      
+      window.addEventListener('resize', check);
+      check();
+      
+      openBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+      });
 
-        <div class="settings-card">
-          <h3>Question Focus</h3>
-          <p style="color:var(--text-gray)">Select which areas the AI should emphasize</p>
-          <div style="display:flex;gap:12px;flex-wrap:wrap">
-            <label style="background:rgba(255,255,255,.02);padding:8px;border-radius:8px"><input type="checkbox" checked> Technical</label>
-            <label style="background:rgba(255,255,255,.02);padding:8px;border-radius:8px"><input type="checkbox"> System Design</label>
-            <label style="background:rgba(255,255,255,.02);padding:8px;border-radius:8px"><input type="checkbox"> Behavioral</label>
-            <label style="background:rgba(255,255,255,.02);padding:8px;border-radius:8px"><input type="checkbox"> Leadership</label>
-          </div>
-        </div>
-
-        <div style="text-align:right"><button style="padding:12px 20px;background:linear-gradient(135deg,var(--primary),var(--secondary));border:none;border-radius:8px;color:#fff">Save AI Setup</button></div>
-
-      </div>
-    </div>
-  </div>
+      // Tone selection
+      const toneButtons = document.querySelectorAll('.btn-outline');
+      toneButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          toneButtons.forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
