@@ -86,8 +86,7 @@
     }
     
     .logo img {
-      width: 32px;
-      height: 32px;
+      width: 70px;
       border-radius: 8px;
     }
     
@@ -485,6 +484,39 @@
         gap: 24px;
       }
     }
+    /* Upgrade Card */
+    .upgrade-card {
+      margin: 20px;
+      padding: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 16px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .upgrade-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.05)
+      );
+      transform: rotate(-45deg);
+      animation: shine 3s infinite;
+    }
+    
+    @keyframes shine {
+      0% { left: -100%; }
+      20% { left: 100%; }
+      100% { left: 100%; }
+    }
   </style>
 </head>
 <body>
@@ -493,8 +525,7 @@
     <div class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <div class="logo">
-          <img src="img/logo.png" alt="Logo">
-          <span>ConfidenSee</span>
+          <img src="img/logo2.png" alt="Logo">
         </div>
       </div>
 
@@ -520,6 +551,11 @@
         <li class="nav-item"><a href="ai-training.html"><i class="fas fa-graduation-cap"></i> AI Training</a></li>
         <li class="nav-item"><a href="language.html"><i class="fas fa-globe"></i> Language</a></li>
       </ul>
+      <div class="upgrade-card">
+        <h3>Upgrade to Premium</h3>
+        <p>Unlock all features and get personalized feedback</p>
+        <button class="cta-button">Upgrade Now</button>
+      </div>
     </div>
 
     <!-- Main Content -->

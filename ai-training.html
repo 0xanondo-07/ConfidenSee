@@ -49,12 +49,45 @@
     .sidebar{width:280px;background:rgba(15,15,31,.8)}
     .main-content{flex:1}
     .settings-card{background:rgba(255,255,255,.03);padding:24px;border-radius:16px;border:1px solid rgba(255,255,255,.05);margin-bottom:16px}
+    /* Upgrade Card */
+    .upgrade-card {
+      margin: 20px;
+      padding: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 16px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .upgrade-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.05)
+      );
+      transform: rotate(-45deg);
+      animation: shine 3s infinite;
+    }
+    
+    @keyframes shine {
+      0% { left: -100%; }
+      20% { left: 100%; }
+      100% { left: 100%; }
+    }
   </style>
 </head>
 <body>
   <div class="dashboard-container">
     <div class="sidebar">
-      <div class="sidebar-header"><div class="logo" style="padding:12px"><img src="img/logo.png" style="width:32px;height:32px;border-radius:8px"><span style="margin-left:8px">ConfidenSee</span></div></div>
+      <div class="sidebar-header"><div class="logo" style="padding:12px"><img src="img/logo2.png" style="width:70px;"></div></div>
       <div style="padding:24px 20px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;gap:16px"><img src="https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg" style="width:56px;height:56px;border-radius:50%"><div><h3>User</h3><p style="color:var(--text-gray)">Premium Member</p></div></div>
       <ul class="sidebar-nav">
         <li class="nav-item"><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
