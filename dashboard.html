@@ -66,6 +66,7 @@
       border-right: 1px solid rgba(255, 255, 255, 0.1);
       transition: var(--transition);
       z-index: 100;
+      position:static;
     }
     
     .sidebar-header {
@@ -85,7 +86,7 @@
       color: var(--primary);
     }
     
-    .logo-iacon img {
+    .logo-icon img {
       width: 70px;
     
       border-radius: 8px;
@@ -224,6 +225,7 @@
       display: flex;
       align-items: center;
       gap: 16px;
+      position: relative;
     }
     
     /* Buttons */
@@ -259,27 +261,30 @@
       flex: 1;
       padding: 24px;
       overflow-y: auto;
+      position: relative;
     }
     
     /* Welcome Section */
     .welcome-section {
-      background: var(--card-bg);
-      backdrop-filter: var(--blur);
-      border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      border: 1px solid var(--border-color);
-    }
+  background: var(--card-bg);
+  backdrop-filter: var(--blur);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  position: relative;   
+  border: 1px solid var(--border-color);/
+}
+
     
     .welcome-section h1 {
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin-bottom: 8px;
+      position: relative;
     }
     
     .welcome-section p {
@@ -618,16 +623,113 @@
       20% { left: 100%; }
       100% { left: 100%; }
     }
+     /* Notification button */
+    .notification-btn {
+      position: relative;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: red;
+      color: white;
+      border-radius: 50%;
+      padding: 3px 6px;
+      font-size: 12px;
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+    }
+
+    .modal-content {
+      background: var(--darker-bg);
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 12px;
+      width: 350px;
+      text-align: center;
+      position: relative;
+      z-index: 9999;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 20px;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+
+    .modal-icon {
+      font-size: 40px;
+      margin-bottom: 15px;
+      color: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: block;
+    }
+
+    .modal-title {
+      margin: 10px 0;
+      font-size: 22px;
+    }
+
+    .modal-message {
+      font-size: 14px;
+      color: #ffffff;
+      margin-bottom: 20px;
+    }
+
+    .modal-btn {
+      padding: 10px 20px;
+      border: none;
+      background: var(--dark-bg);
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .modal-btn:hover {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+    }
   </style>
 </head>
 <body>
+  <!-- Notification Modal -->
+          <div class="modal" id="notificationModal">
+            <div class="modal-content">
+              <button class="modal-close" id="closeModal"></button>
+              <div class="modal-icon">
+                <i class="fas fa-bell"></i>
+              </div>
+              <h2 class="modal-title">Notifications</h2>
+              <p class="modal-message">
+                You do not have any notifications.
+              </p>
+              <button class="modal-btn" id="modalCloseBtn">Close</button>
+            </div>
+          </div>
   <div class="dashboard-container">
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <div class="logo">
-          <div class="logo-iacon"><img src="img/logo2.png" alt="Logo"></div>
-  
+          <div class="logo-icon"><img src="img/logo2.png" alt="Logo"></div>
         </div>
       </div>
 
@@ -649,10 +751,11 @@
         <li class="nav-item"><a href="pricing.html"><i class="fas fa-tag"></i> Pricing</a></li>
         <li class="nav-item"><a href="ai-setup.html"><i class="fas fa-robot"></i> AI Setup</a></li>
         <li class="nav-item"><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
-          <li class="nav-item"><a href="aivideo.html"><i class="fas fa-video"></i> AI Video Interview</a></li>
+        <li class="nav-item"><a href="aivideo.html"><i class="fas fa-video"></i> AI Video Interview</a></li>
         <li class="nav-item"><a href="ai-training.html"><i class="fas fa-graduation-cap"></i> AI Training</a></li>
         <li class="nav-item"><a href="language.html"><i class="fas fa-globe"></i> Language</a></li>
       </ul>
+
       <div class="upgrade-card">
         <h3>Upgrade to Premium</h3>
         <p>Unlock all features and get personalized feedback</p>
@@ -663,15 +766,30 @@
     <!-- Main -->
     <div class="main-content">
       <div class="dashboard-header">
-        <button id="openSidebar" style="display:none;background:none;border:none;color:var(--text-gray)"><i class="fas fa-bars"></i></button>
-        <div class="search-bar"><i class="fas fa-search"></i><input placeholder="Search..." /></div>
-        <div class="header-actions">
-          <button class="notification-btn" id="notifBtn"><i class="fas fa-bell"></i></button>
-          <button class="profile-btn"><img src="https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg" alt="Profile"></button>
+        <button id="openSidebar" style="display:none;background:none;border:none;color:var(--text-gray)">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="search-bar">
+          <i class="fas fa-search"></i>
+          <input placeholder="Search..." />
+        </div>
+
+        <div class="header-actions" style="position: relative;">
+          <!-- Notification Button -->
+          <button class="notification-btn" id="notifBtn">
+            <i class="fas fa-bell"></i>
+          </button>
+
+          
+
+          <button class="profile-btn">
+            <img src="https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg" alt="Profile">
+          </button>
         </div>
       </div>
 
       <div class="dashboard-content">
+        <!-- Welcome Section -->
         <div class="welcome-section">
           <div>
             <h1>Welcome back, User!</h1>
@@ -680,6 +798,7 @@
           <button class="cta-button"><i class="fas fa-plus"></i> New Practice Session</button>
         </div>
 
+        <!-- Stats Section -->
         <div class="stats-section">
           <div class="stat-card">
             <div class="stat-icon"><i class="fas fa-brain"></i></div>
@@ -711,6 +830,7 @@
           </div>
         </div>
 
+        <!-- Skills Section -->
         <div class="sessions-section">
           <div class="section-header">
             <h2>Your Interview Skills</h2>
@@ -752,7 +872,7 @@
               </div>
               <button class="session-action-btn">Review Session</button>
             </div>
-            
+
             <div class="session-card">
               <div class="session-header">
                 <h3>Leadership</h3>
@@ -764,7 +884,7 @@
               </div>
               <button class="session-action-btn">Review Session</button>
             </div>
-            
+
             <div class="session-card">
               <div class="session-header">
                 <h3>Time Management</h3>
@@ -776,7 +896,7 @@
               </div>
               <button class="session-action-btn">Review Session</button>
             </div>
-            
+
             <div class="session-card">
               <div class="session-header">
                 <h3>Cultural Fit</h3>
@@ -788,8 +908,8 @@
               </div>
               <button class="session-action-btn">Review Session</button>
             </div>
-          </div>
-           <div class="session-card">
+</div>
+            <div class="session-card">
               <div class="session-header">
                 <h3>Overall Interview Rating</h3>
                 <div class="session-score">75%</div>
@@ -800,19 +920,23 @@
               </div>
               <button class="session-action-btn">Review Session</button>
             </div>
+          
         </div>
-        
+
+        <!-- Quick Start Interview -->
         <div class="sessions-section">
           <div class="section-header">
             <h2>Quick Start Interview</h2>
           </div>
-          
+
           <div class="stats-section">
             <div class="pricing-cards">
               <div class="plan-card pricing-card">
                 <div class="pricing-header">
-                  
-                  <div>Technical Skills<small><br><p style="font-weight: bold;">20-30 min • 5-8 questions</p>Programming, algorithms, and system design questions</small></div>
+                  <div>
+                    Technical Skills
+                    <small><br><p style="font-weight: bold;">20-30 min • 5-8 questions</p>Programming, algorithms, and system design questions</small>
+                  </div>
                 </div>
                 <ul class="features-list">
                   <li><i class="fas fa-check"></i> Instant feedback</li>
@@ -820,10 +944,13 @@
                 </ul>
                 <button class="cta-button" style="width:100%">Need Hours</button>
               </div>
+
               <div class="plan-card pricing-card">
                 <div class="pricing-header">
-                 
-                  <div>Behavioral<small><br><p style="font-weight: bold;">15-25 min • 4-6 questions</p>Teamwork, leadership, and situational questions</small></div>
+                  <div>
+                    Behavioral
+                    <small><br><p style="font-weight: bold;">15-25 min • 4-6 questions</p>Teamwork, leadership, and situational questions</small>
+                  </div>
                 </div>
                 <ul class="features-list">
                   <li><i class="fas fa-check"></i> Instant feedback</li>
@@ -831,10 +958,13 @@
                 </ul>
                 <button class="cta-button" style="width:100%">Need Hours</button>
               </div>
+
               <div class="plan-card pricing-card">
                 <div class="pricing-header">
-                
-                  <div>System Design<small><br><p style="font-weight:900;">30-45 min • 2-4 questions</p>Architecture and scalability challenges</small></div>
+                  <div>
+                    System Design
+                    <small><br><p style="font-weight:900;">30-45 min • 2-4 questions</p>Architecture and scalability challenges</small>
+                  </div>
                 </div>
                 <ul class="features-list">
                   <li><i class="fas fa-check"></i> Instant feedback</li>
@@ -845,27 +975,27 @@
             </div>
           </div>
         </div>
-      
-       <div class="sessions-section">
+
+        <!-- Recent Activity -->
+        <div class="sessions-section">
           <div class="section-header">
             <h2>Recent Activity</h2>
-             <div class="session-grid">
-              <div class="session-card">
+          </div>
+          <div class="session-grid">
+            <div class="session-card">
               <div class="session-header">
                 <h3>No recent interview sessions</h3>
               </div>
               <p>Start your first interview to see your progress here</p>
+            </div>
           </div>
         </div>
-        
-      </div>
-      
-     </div>
-     <div class="sessions-section">
+
+        <!-- Pro Tips -->
+        <div class="sessions-section">
           <div class="section-header">
             <h2>💡 Pro Tips</h2>
           </div>
-          
           <div class="stats-section">
             <div class="pricing-cards">
               <div class="plan-card pricing-card">
@@ -881,11 +1011,12 @@
               </div>
             </div>
           </div>
-       </div>
-     </div>
-     </div> 
-    </div>
-  </div> 
+        </div>
+
+      </div> <!-- end dashboard-content -->
+    </div> <!-- end main-content -->
+  </div> <!-- end dashboard-container -->
+
 <script>
     // small script to toggle sidebar on small screens and keep active nav
     (function(){
@@ -918,6 +1049,30 @@
         sidebar.classList.toggle('active');
       });
     })();
+     const notifBtn = document.getElementById("notifBtn");
+    const notificationModal = document.getElementById("notificationModal");
+    const closeModal = document.getElementById("closeModal");
+    const modalCloseBtn = document.getElementById("modalCloseBtn");
+
+    // Open modal
+    notifBtn.addEventListener("click", () => {
+      notificationModal.style.display = "block";
+    });
+
+    // Close modal (X button + Close button)
+    closeModal.addEventListener("click", () => {
+      notificationModal.style.display = "none";
+    });
+    modalCloseBtn.addEventListener("click", () => {
+      notificationModal.style.display = "none";
+    });
+
+    // Close modal when clicking outside content
+    window.addEventListener("click", (e) => {
+      if (e.target === notificationModal) {
+        notificationModal.style.display = "none";
+      }
+    });
   </script>
 </body>
 </html>
