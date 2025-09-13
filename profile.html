@@ -7,55 +7,630 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* same css */
-    :root{--primary:#00f0ff;--secondary:#7928ca;--dark-bg:#0f0f1f;--darker-bg:#0a0a17;--text-light:#fff;--text-gray:#a0a0b0;--blur:blur(20px);--transition:all .3s cubic-bezier(.25,.8,.25,1)}
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Inter',sans-serif;background:var(--darker-bg);color:var(--text-light);line-height:1.6;overflow-x:hidden}
-    ::-webkit-scrollbar{width:8px}
-    ::-webkit-scrollbar-track{background:var(--darker-bg)}
-    ::-webkit-scrollbar-thumb{background:linear-gradient(to bottom,var(--primary),var(--secondary));border-radius:10px}
-    .dashboard-container{display:flex;min-height:100vh}
-    .sidebar{width:280px;background:rgba(15,15,31,.8);backdrop-filter:var(--blur);display:flex;flex-direction:column;border-right:1px solid rgba(255,255,255,.1)}
-    .sidebar-header{display:flex;justify-content:space-between;align-items:center;padding:20px;border-bottom:1px solid rgba(255,255,255,.1)}
-    .logo{display:flex;align-items:center;gap:12px;font-weight:700;font-size:18px;color:var(--primary)}
-    .user-profile{padding:24px 20px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:16px}
-    .avatar img{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.1)}
-    .status-indicator{position:absolute;bottom:6px;right:6px;width:14px;height:14px;background:var(--primary);border-radius:50%}
-    .sidebar-nav{flex:1;padding:20px 0;overflow-y:auto}
-    .nav-item{list-style:none;margin-bottom:4px}
-    .nav-item a{display:flex;align-items:center;padding:12px 20px;text-decoration:none;color:var(--text-light);font-weight:500;transition:var(--transition)}
-    .nav-item a i{margin-right:12px;color:var(--text-gray)}
-    .nav-item.active a,.nav-item a:hover{background:rgba(0,240,255,.08);color:var(--primary)}
-    .upgrade-card{margin:20px;padding:20px;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:12px;color:#fff}
-    .main-content{flex:1;display:flex;flex-direction:column;background:var(--dark-bg)}
-    .dashboard-header{background:rgba(15,15,31,.8);backdrop-filter:var(--blur);padding:19px 24px;display:flex;align-items:center;gap:24px;border-bottom:1px solid rgba(255,255,255,.1)}
-    .search-bar{flex:1;position:relative;max-width:400px}
-    .search-bar i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-gray)}
-    .search-bar input{width:100%;padding:12px 16px 12px 44px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text-light)}
-    .header-actions{display:flex;align-items:center;gap:16px}
-    .notification-btn,.profile-btn{background:none;border:none;color:var(--text-gray);cursor:pointer}
-    .dashboard-content{flex:1;padding:24px;overflow-y:auto}
-    .welcome-section{background:rgba(255,255,255,.03);backdrop-filter:var(--blur);border-radius:16px;padding:24px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:16px;border:1px solid rgba(255,255,255,.05)}
-    .cta-button{padding:12px 20px;background:linear-gradient(135deg,var(--primary),var(--secondary));border:none;border-radius:8px;color:white;font-weight:600;cursor:pointer;display:flex;gap:8px;align-items:center}
-    .stats-section{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:24px}
-    .stat-card{background:rgba(255,255,255,.03);border-radius:16px;padding:20px;display:flex;align-items:center;gap:16px;border:1px solid rgba(255,255,255,.05)}
-    .analytics-section{display:grid;grid-template-columns:2fr 1fr;gap:24px}
-    .interviews-section,.sessions-section{background:rgba(255,255,255,.03);border-radius:16px;padding:24px;margin-bottom:24px;border:1px solid rgba(255,255,255,.05)}
-    /* small responsive tweaks */
-    :root{--primary:#00f0ff;--secondary:#7928ca;--dark-bg:#0f0f1f;--darker-bg:#0a0a17;--text-light:#fff;--text-gray:#a0a0b0}
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Inter',sans-serif;background:var(--darker-bg);color:var(--text-light)}
-    .dashboard-container{display:flex;min-height:100vh}
-    .sidebar{width:280px;background:rgba(15,15,31,.8)}
-    .main-content{flex:1}
-    .settings-card{background:rgba(255,255,255,.03);padding:24px;border-radius:16px;margin-bottom:16px;border:1px solid rgba(255,255,255,.05)}
+    /* CSS Variables */
+    :root {
+      --primary: #00f0ff;
+      --secondary: #7928ca;
+      --dark-bg: #0f0f1f;
+      --darker-bg: #0a0a17;
+      --text-light: #fff;
+      --text-gray: #a0a0b0;
+      --blur: blur(20px);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --border-color: rgba(255, 255, 255, 0.05);
+      --success: #00cc88;
+      --warning: #ffaa00;
+      --danger: #ff4757;
+      --info: #00aaff;
+    }
+    
+    /* Reset & Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--darker-bg);
+      color: var(--text-light);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: var(--darker-bg);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(to bottom, var(--primary), var(--secondary));
+      border-radius: 10px;
+    }
+    
+    /* Layout */
+    .dashboard-container {
+      display: flex;
+      min-height: 100vh;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: rgba(15, 15, 31, 0.8);
+      backdrop-filter: var(--blur);
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      transition: var(--transition);
+      z-index: 100;
+    }
+    
+    .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--primary);
+    }
+    
+    .logo img {
+      width: 70px;
+      height: auto;
+    }
+    
+    /* User Profile */
+    .user-profile {
+      padding: 24px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    .avatar {
+      position: relative;
+    }
+    
+    .avatar img {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .status-indicator {
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      width: 14px;
+      height: 14px;
+      background: var(--primary);
+      border-radius: 50%;
+    }
+    
+    .user-info h3 {
+      margin-bottom: 4px;
+    }
+    
+    .user-info p {
+      color: var(--text-gray);
+    }
+    
+    /* Navigation */
+    .sidebar-nav {
+      flex: 1;
+      padding: 20px 0;
+      overflow-y: auto;
+    }
+    
+    .nav-item {
+      list-style: none;
+      margin-bottom: 4px;
+    }
+    
+    .nav-item a {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      text-decoration: none;
+      color: var(--text-light);
+      font-weight: 500;
+      transition: var(--transition);
+    }
+    
+    .nav-item a i {
+      margin-right: 12px;
+      color: var(--text-gray);
+      transition: var(--transition);
+    }
+    
+    .nav-item.active a,
+    .nav-item a:hover {
+      background: rgba(0, 240, 255, 0.08);
+      color: var(--primary);
+    }
+    
+    .nav-item.active a i,
+    .nav-item a:hover i {
+      color: var(--primary);
+    }
+    
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: var(--dark-bg);
+    }
+    
+    /* Header */
+    .dashboard-header {
+      background: rgba(15, 15, 31, 0.8);
+      backdrop-filter: var(--blur);
+      padding: 19px 24px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .search-bar {
+      flex: 1;
+      position: relative;
+      max-width: 400px;
+    }
+    
+    .search-bar i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-gray);
+    }
+    
+    .search-bar input {
+      width: 100%;
+      padding: 12px 16px 12px 44px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: var(--text-light);
+    }
+    
+    /* Dashboard Content */
+    .dashboard-content {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+    }
+    
+    /* Page Header */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    
+    .page-header h1 {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+    
+    .page-header p {
+      color: var(--text-gray);
+    }
+    
+    /* Profile Layout */
+    .profile-layout {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    
+    .profile-column {
+      min-width: 260px;
+      flex: 1;
+    }
+    
+    /* Settings Cards */
+    .settings-card {
+      background: var(--card-bg);
+      padding: 24px;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 24px;
+      transition: var(--transition);
+    }
+    
+    .settings-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .settings-card h3 {
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .settings-card p {
+      color: var(--text-gray);
+      margin-bottom: 16px;
+    }
+    
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 16px;
+    }
+    
+    .form-group label {
+      display: block;
+      color: var(--text-gray);
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    
+    .form-group input, 
+    .form-group select, 
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      color: var(--text-light);
+      transition: var(--transition);
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(0, 240, 255, 0.2);
+    }
+    
+    /* Buttons */
+    .btn-primary {
+      padding: 10px 16px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border: none;
+      color: #fff;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: 0.5s;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .btn-primary:hover::before {
+      left: 100%;
+    }
+    
+    .btn-outline {
+      padding: 10px 16px;
+      border-radius: 8px;
+      background: transparent;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .btn-outline:hover {
+      background: rgba(0, 240, 255, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    .btn-danger {
+      padding: 10px 16px;
+      border-radius: 8px;
+      background: transparent;
+      border: 1px solid var(--danger);
+      color: var(--danger);
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .btn-danger:hover {
+      background: rgba(255, 71, 87, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    /* Checkbox and Toggle Styles */
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      cursor: pointer;
+    }
+    
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 24px;
+      margin-right: 8px;
+    }
+    
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(255, 255, 255, 0.1);
+      transition: var(--transition);
+      border-radius: 24px;
+    }
+    
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: var(--text-light);
+      transition: var(--transition);
+      border-radius: 50%;
+    }
+    
+    input:checked + .toggle-slider {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+    }
+    
+    input:checked + .toggle-slider:before {
+      transform: translateX(24px);
+    }
+    
+    /* Profile Avatar Section */
+    .avatar-section {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    
+    .avatar-large {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--primary);
+    }
+    
+    .avatar-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    /* Subscription Card */
+    .subscription-card {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 20px;
+      border-radius: 16px;
+      margin-bottom: 24px;
+    }
+    
+    .subscription-card h3 {
+      margin-bottom: 8px;
+      color: white;
+    }
+    
+    .subscription-card p {
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 16px;
+    }
+    
+    .subscription-features {
+      list-style: none;
+      margin-bottom: 16px;
+    }
+    
+    .subscription-features li {
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .subscription-features li i {
+      color: rgba(255, 255, 255, 0.9);
+    }
+    
+    /* Stats Card */
+    .stats-card {
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 24px;
+    }
+    
+    .stats-card h4 {
+      margin-bottom: 16px;
+      color: var(--text-light);
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    
+    .stat-item {
+      text-align: center;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 8px;
+    }
+    
+    .stat-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+    
+    .stat-label {
+      color: var(--text-gray);
+      font-size: 12px;
+    }
+    
+    /* Danger Zone */
+    .danger-zone {
+      border: 1px solid rgba(255, 71, 87, 0.3);
+      background: rgba(255, 71, 87, 0.05);
+    }
+    
+    .danger-zone h3 {
+      color: var(--danger);
+      background: none;
+      -webkit-text-fill-color: var(--danger);
+    }
+    
+    /* Card Actions */
+    .card-actions {
+      text-align: right;
+      margin-top: 16px;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .sidebar {
+        position: fixed;
+        left: -280px;
+        height: 100%;
+      }
+      
+      .sidebar.active {
+        left: 0;
+      }
+      
+      .dashboard-container {
+        overflow-x: hidden;
+      }
+      
+      .profile-layout {
+        flex-direction: column;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .page-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+      }
+      
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .avatar-section {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .dashboard-header {
+        flex-wrap: wrap;
+      }
+      
+      .search-bar {
+        max-width: 100%;
+        order: 3;
+        margin-top: 16px;
+      }
+      
+      .settings-card {
+        padding: 16px;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="dashboard-container">
-    <div class="sidebar">
-      <div class="sidebar-header"><div class="logo"><img src="img/logo2.png" style="width:70px;"></div></div>
-      <div style="padding:24px 20px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;gap:12px"><img src="https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg" style="width:56px;height:56px;border-radius:50%"><div><h3>User</h3><p style="color:var(--text-gray)">Premium Member</p></div></div>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <img src="img/logo2.png" alt="ConfidenSee Logo">
+        </div>
+      </div>
+
+      <div class="user-profile">
+        <div class="avatar">
+          <img src="https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg" alt="User Avatar">
+          <div class="status-indicator"></div>
+        </div>
+        <div class="user-info">
+          <h3>User</h3>
+          <p>Premium Member</p>
+        </div>
+      </div>
+
       <ul class="sidebar-nav">
         <li class="nav-item"><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
         <li class="nav-item"><a href="question-packs.html"><i class="fas fa-folder"></i> Question Packs</a></li>
@@ -63,56 +638,233 @@
         <li class="nav-item"><a href="pricing.html"><i class="fas fa-tag"></i> Pricing</a></li>
         <li class="nav-item"><a href="ai-setup.html"><i class="fas fa-robot"></i> AI Setup</a></li>
         <li class="nav-item active"><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
-          <li class="nav-item"><a href="aivideo.html"><i class="fas fa-video"></i> AI Video Interview</a></li>
+        <li class="nav-item"><a href="aivideo.html"><i class="fas fa-video"></i> AI Video Interview</a></li>
         <li class="nav-item"><a href="ai-training.html"><i class="fas fa-graduation-cap"></i> AI Training</a></li>
         <li class="nav-item"><a href="language.html"><i class="fas fa-globe"></i> Language</a></li>
       </ul>
     </div>
 
+    <!-- Main Content -->
     <div class="main-content">
-      <div class="dashboard-header" style="padding:20px;background:rgba(15,15,31,.8)"><input placeholder="Search..." style="width:100%;padding:12px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:var(--text-light)"></div>
+      <div class="dashboard-header">
+        <button id="openSidebar" style="display:none;background:none;border:none;color:var(--text-gray)"><i class="fas fa-bars"></i></button>
+        <div class="search-bar">
+          <i class="fas fa-search"></i>
+          <input placeholder="Search..." />
+        </div>
+      </div>
 
-      <div class="dashboard-content" style="padding:24px">
-        <div class="welcome-section" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-          <div><h1 style="background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Profile Settings</h1><p style="color:var(--text-gray)">Manage your account settings and preferences</p></div>
+      <div class="dashboard-content">
+        <!-- Page Header -->
+        <div class="page-header">
+          <div>
+            <h1>Profile Settings</h1>
+            <p>Manage your account settings and preferences</p>
+          </div>
         </div>
 
-        <div style="display:flex;gap:24px;flex-wrap:wrap">
-          <div style="min-width:260px;flex:1">
+        <div class="profile-layout">
+          <!-- Left Column -->
+          <div class="profile-column">
+            <!-- Profile Card -->
             <div class="settings-card">
-              <h3>Account</h3>
-              <div style="margin-bottom:12px"><label style="display:block;color:var(--text-gray);margin-bottom:6px">Full Name</label><input placeholder="User" style="width:100%;padding:10px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:var(--text-light)"></div>
-              <div style="margin-bottom:12px"><label style="display:block;color:var(--text-gray);margin-bottom:6px">Email</label><input placeholder="user@example.com" style="width:100%;padding:10px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:var(--text-light)"></div>
-              <div style="text-align:right"><button style="padding:10px 16px;border-radius:8px;background:linear-gradient(135deg,var(--primary),var(--secondary));border:none;color:#fff">Save</button></div>
+              <div class="avatar-section">
+                <img src="https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg" alt="User Avatar" class="avatar-large">
+                <div class="avatar-actions">
+                  <button class="btn-outline">
+                    <i class="fas fa-camera"></i> Change Avatar
+                  </button>
+                  <button class="btn-outline">
+                    <i class="fas fa-sync-alt"></i> Regenerate
+                  </button>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" placeholder="Your Name" value="User">
+              </div>
+              
+              <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" placeholder="your.email@example.com" value="user@example.com">
+              </div>
+              
+              <div class="form-group">
+                <label>Bio</label>
+                <textarea placeholder="Tell us about yourself..." rows="3">Passionate about technology and interview preparation</textarea>
+              </div>
+              
+              <div class="form-group">
+                <label>Job Title</label>
+                <input type="text" placeholder="e.g. Software Engineer" value="Software Developer">
+              </div>
+              
+              <div class="card-actions">
+                <button class="btn-primary">
+                  <i class="fas fa-save"></i> Save Changes
+                </button>
+              </div>
             </div>
 
+            <!-- Privacy Settings -->
             <div class="settings-card">
-              <h3>Privacy</h3>
-              <div style="margin-bottom:12px"><label style="display:flex;align-items:center;gap:8px"><input type="checkbox"> Make profile private</label></div>
-              <div style="margin-bottom:12px"><label style="display:flex;align-items:center;gap:8px"><input type="checkbox"> Enable two-factor authentication</label></div>
-              <div style="text-align:right"><button style="padding:10px 16px;border-radius:8px;background:transparent;border:1px solid var(--primary);color:var(--primary)">Update Privacy</button></div>
+              <h3>Privacy & Security</h3>
+              
+              <div class="checkbox-item">
+                <label class="toggle-switch">
+                  <input type="checkbox" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+                <span>Make profile private</span>
+              </div>
+              
+              <div class="checkbox-item">
+                <label class="toggle-switch">
+                  <input type="checkbox">
+                  <span class="toggle-slider"></span>
+                </label>
+                <span>Enable two-factor authentication</span>
+              </div>
+              
+              <div class="checkbox-item">
+                <label class="toggle-switch">
+                  <input type="checkbox" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+                <span>Email notifications</span>
+              </div>
+              
+              <div class="checkbox-item">
+                <label class="toggle-switch">
+                  <input type="checkbox" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+                <span>Practice reminders</span>
+              </div>
+              
+              <div class="card-actions">
+                <button class="btn-outline">
+                  <i class="fas fa-shield-alt"></i> Update Privacy
+                </button>
+              </div>
             </div>
           </div>
 
-          <div style="min-width:300px;flex:1">
-            <div class="settings-card">
-              <h3>Subscription</h3>
-              <p style="color:var(--text-gray)">You're currently on <strong>Pro</strong></p>
-              <div style="margin-top:12px"><button style="padding:10px 16px;border-radius:8px;background:linear-gradient(135deg,var(--primary),var(--secondary));border:none;color:#fff">Manage Subscription</button></div>
+          <!-- Right Column -->
+          <div class="profile-column">
+            <!-- Subscription Card -->
+            <div class="subscription-card">
+              <h3>Basic Subscription</h3>
+              <p>You're currently on our basic plan with full access to all features</p>
+              
+              <ul class="subscription-features">
+                <li><i class="fas fa-check"></i> 10 hours of interview practice</li>
+          <li><i class="fas fa-check"></i> AI generated questions</li>
+          <li><i class="fas fa-check"></i> Basic AI feedback and scoring</li>
+          <li><i class="fas fa-check"></i> Voice + text hybrid mode</li>
+          <li><i class="fas fa-check"></i> Basic performance tracking</li>
+          <li><i class="fas fa-check"></i> Use anytime within 30 days</li>
+          <li><i class="fas fa-check"></i> Email support</li>
+              </ul>
+              
+              <div class="card-actions">
+                <button class="btn-outline" style="border-color: rgba(255, 255, 255, 0.5); color: white;">
+                  <i class="fas fa-crown"></i> Manage Subscription
+                </button>
+              </div>
             </div>
 
-            <div class="settings-card">
+            <!-- Stats Card -->
+            <div class="stats-card">
+              <h4>Your Activity</h4>
+              <div class="stats-grid">
+                <div class="stat-item">
+                  <div class="stat-value">0</div>
+                  <div class="stat-label">Interviews Completed</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-value">0%</div>
+                  <div class="stat-label">Average Score</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-value">0h</div>
+                  <div class="stat-label">Total Practice</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-value">0</div>
+                  <div class="stat-label">Skills Improved</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Danger Zone -->
+            <div class="settings-card danger-zone">
               <h3>Danger Zone</h3>
-              <p style="color:var(--text-gray)">Delete your account (this action is permanent)</p>
-              <div style="text-align:right"><button style="padding:10px 16px;border-radius:8px;background:transparent;border:1px solid #ff4757;color:#ff4757">Delete Account</button></div>
-              <p style="color:var(--text-gray)">Sign out from this Account</p>
-              <div style="text-align:right"><button style="padding:10px 16px;border-radius:8px;background:transparent;border:1px solid #ff4757;color:#ff4757">Sign Out</button></div>
+              <p>Once you delete your account, there is no going back. Please be certain.</p>
+              
+              <div class="card-actions">
+                <button class="btn-danger">
+                  <i class="fas fa-sign-out-alt"></i> Sign Out
+                </button>
+                <button class="btn-danger">
+                  <i class="fas fa-trash-alt"></i> Delete Account
+                </button>
+              </div>
+            </div>
+
+            <!-- Download Data -->
+            <div class="settings-card">
+              <h3>Data Management</h3>
+              <p>Download a copy of your data or request account deletion</p>
+              
+              <div class="card-actions">
+                <button class="btn-outline">
+                  <i class="fas fa-download"></i> Export Data
+                </button>
+              </div>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
+
+  <script>
+    // Script to toggle sidebar on small screens
+    (function(){
+      const sidebar = document.getElementById('sidebar');
+      const openBtn = document.getElementById('openSidebar');
+      
+      // Show mobile open button if screen is small
+      function check() { 
+        if (window.innerWidth < 992) {
+          openBtn.style.display = 'inline-block';
+        } else {
+          openBtn.style.display = 'none';
+          sidebar.classList.remove('active');
+        }
+      }
+      
+      window.addEventListener('resize', check);
+      check();
+      
+      openBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+      });
+
+      // Add confirmation for dangerous actions
+      const dangerButtons = document.querySelectorAll('.btn-danger');
+      dangerButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+          const action = e.target.textContent.trim();
+          const confirmed = confirm(`Are you sure you want to ${action}? This action cannot be undone.`);
+          if (!confirmed) {
+            e.preventDefault();
+          }
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
